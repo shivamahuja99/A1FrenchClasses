@@ -1,0 +1,38 @@
+[
+  {
+    "id": "company-1",
+    "name": "Microsoft",
+    "logo": "/images/companies/microsoft-logo.png",
+    "description": "Global technology leader"
+  },
+  {
+    "id": "company-2",
+    "name": "Google",
+    "logo": "/images/companies/google-logo.png",
+    "description": "Search and cloud services"
+  },
+  {
+    "id": "company-3",
+    "name": "Amazon",
+    "logo": "/images/companies/amazon-logo.png",
+    "description": "E-commerce and cloud computing"
+  },
+  {
+    "id": "company-4",
+    "name": "IBM",
+    "logo": "/images/companies/ibm-logo.png",
+    "description": "Enterprise technology solutions"
+  },
+  {
+    "id": "company-5",
+    "name": "Airbus",
+    "logo": "/images/companies/airbus-logo.png",
+    "description": "Aerospace manufacturer"
+  },
+  {
+    "id": "company-6",
+    "name": "L'Oréal",
+    "logo": "/images/companies/loreal-logo.png",
+    "description": "Beauty and cosmetics leader"
+  }
+]
