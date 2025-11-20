@@ -1,0 +1,41 @@
+{
+    "hero": {
+        "title": "Master French with Confidence",
+        "subtitle": "Join thousands of students who have transformed their French language skills with our expert-led courses and proven methodology.",
+        "ctaText": "Start Learning Today",
+        "backgroundImage": "/images/hero-background.jpg"
+    },
+    "companyStory": {
+        "title": "Our Story",
+        "mission": "At A1frenchclasses, we believe that learning French should be engaging, effective, and accessible to everyone. Founded by native French speakers and experienced educators, we've helped over 10,000 students achieve their French language goals.",
+        "story": "What started as a small language school in Paris has grown into a global online platform trusted by professionals, students, and language enthusiasts worldwide. Our unique teaching methodology combines traditional French pedagogy with modern technology to create an immersive learning experience.",
+        "teamImage": "/images/team-photo.jpg",
+        "statistics": {
+            "studentsHelped": "10,000+",
+            "coursesOffered": "15+",
+            "successRate": "95%",
+            "yearsExperience": "8+"
+        }
+    },
+    "navigation": {
+        "logo": "/images/logo.png",
+        "items": [
+            {
+                "label": "Home",
+                "href": "/"
+            },
+            {
+                "label": "Courses",
+                "href": "/courses"
+            },
+            {
+                "label": "About",
+                "href": "/about"
+            },
+            {
+                "label": "Contact",
+                "href": "/contact"
+            }
+        ]
+    }
+}
