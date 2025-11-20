@@ -1,0 +1,34 @@
+[
+  {
+    "id": "testimonial-1",
+    "customerName": "Sarah Johnson",
+    "feedback": "A1frenchclasses transformed my French learning journey. The interactive lessons and personalized feedback helped me achieve fluency faster than I ever imagined.",
+    "rating": 5,
+    "customerPhoto": "/images/testimonials/sarah-johnson.jpg",
+    "courseCompleted": "French Basics - A1 Level"
+  },
+  {
+    "id": "testimonial-2",
+    "customerName": "Michael Chen",
+    "feedback": "The business French course was exactly what I needed for my career. Now I confidently conduct meetings and presentations in French.",
+    "rating": 5,
+    "customerPhoto": "/images/testimonials/michael-chen.jpg",
+    "courseCompleted": "Business French Professional"
+  },
+  {
+    "id": "testimonial-3",
+    "customerName": "Emma Rodriguez",
+    "feedback": "Excellent teaching methodology and supportive instructors. I went from zero French knowledge to having conversations with native speakers in just 3 months.",
+    "rating": 5,
+    "customerPhoto": "/images/testimonials/emma-rodriguez.jpg",
+    "courseCompleted": "Conversational French Mastery"
+  },
+  {
+    "id": "testimonial-4",
+    "customerName": "David Thompson",
+    "feedback": "The flexible payment plans made it affordable for me to invest in my education. The course quality exceeded my expectations.",
+    "rating": 4,
+    "customerPhoto": "/images/testimonials/david-thompson.jpg",
+    "courseCompleted": "French Basics - A1 Level"
+  }
+]

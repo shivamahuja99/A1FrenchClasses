@@ -1,0 +1,71 @@
+[
+  {
+    "id": "french-basics-a1",
+    "name": "French Basics - A1 Level",
+    "tutor": "Marie Dubois",
+    "duration": "8 weeks",
+    "description": "Master the fundamentals of French language with interactive lessons, practical exercises, and real-world conversations.",
+    "price": 199,
+    "originalPrice": 299,
+    "level": "Beginner",
+    "image": "/images/courses/french-basics.jpg",
+    "paymentPlans": [
+      {
+        "type": "Full Payment",
+        "amount": 199,
+        "duration": "One-time"
+      },
+      {
+        "type": "Monthly",
+        "amount": 67,
+        "duration": "3 months"
+      }
+    ]
+  },
+  {
+    "id": "conversational-french",
+    "name": "Conversational French Mastery",
+    "tutor": "Pierre Laurent",
+    "duration": "12 weeks",
+    "description": "Build confidence in speaking French through immersive conversation practice and cultural insights.",
+    "price": 349,
+    "originalPrice": 449,
+    "level": "Intermediate",
+    "image": "/images/courses/conversational-french.jpg",
+    "paymentPlans": [
+      {
+        "type": "Full Payment",
+        "amount": 349,
+        "duration": "One-time"
+      },
+      {
+        "type": "Monthly",
+        "amount": 87,
+        "duration": "4 months"
+      }
+    ]
+  },
+  {
+    "id": "business-french",
+    "name": "Business French Professional",
+    "tutor": "Sophie Martin",
+    "duration": "10 weeks",
+    "description": "Learn professional French for business contexts, presentations, and formal communications.",
+    "price": 449,
+    "originalPrice": 599,
+    "level": "Advanced",
+    "image": "/images/courses/business-french.jpg",
+    "paymentPlans": [
+      {
+        "type": "Full Payment",
+        "amount": 449,
+        "duration": "One-time"
+      },
+      {
+        "type": "Monthly",
+        "amount": 112,
+        "duration": "4 months"
+      }
+    ]
+  }
+]
