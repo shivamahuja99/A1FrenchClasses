@@ -1,0 +1,195 @@
+.skeletonWrapper {
+  width: 100%;
+}
+
+/* Base skeleton styles */
+.skeletonBase {
+  background: linear-gradient(
+    90deg,
+    var(--color-gray-100, #f3f4f6) 25%,
+    var(--color-gray-200, #e5e7eb) 50%,
+    var(--color-gray-100, #f3f4f6) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+/* Card skeleton */
+.skeletonCard {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+}
+
+.skeletonImage {
+  @extend .skeletonBase;
+  width: 100%;
+  height: 200px;
+  border-radius: 0;
+}
+
+.skeletonContent {
+  padding: 1.5rem;
+}
+
+.skeletonTitle {
+  @extend .skeletonBase;
+  height: 24px;
+  width: 80%;
+  margin-bottom: 12px;
+}
+
+.skeletonText {
+  @extend .skeletonBase;
+  height: 16px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.skeletonPrice {
+  @extend .skeletonBase;
+  height: 20px;
+  width: 40%;
+  margin-top: 16px;
+}
+
+/* Testimonial skeleton */
+.skeletonTestimonial {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+.skeletonAvatar {
+  @extend .skeletonBase;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+}
+
+.skeletonRating {
+  @extend .skeletonBase;
+  height: 16px;
+  width: 120px;
+  margin: 0 auto 1rem;
+}
+
+.skeletonName {
+  @extend .skeletonBase;
+  height: 18px;
+  width: 60%;
+  margin: 1rem auto 0;
+}
+
+/* Individual skeleton elements */
+.skeletonBox {
+  @extend .skeletonBase;
+}
+
+.skeletonCircle {
+  @extend .skeletonBase;
+  border-radius: 50%;
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Apply base styles using CSS custom properties */
+.skeletonImage,
+.skeletonTitle,
+.skeletonText,
+.skeletonPrice,
+.skeletonAvatar,
+.skeletonRating,
+.skeletonName,
+.skeletonBox,
+.skeletonCircle {
+  background: linear-gradient(
+    90deg,
+    var(--color-gray-100, #f3f4f6) 25%,
+    var(--color-gray-200, #e5e7eb) 50%,
+    var(--color-gray-100, #f3f4f6) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeletonImage {
+  border-radius: 0;
+}
+
+.skeletonAvatar,
+.skeletonCircle {
+  border-radius: 50%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .skeletonCard .skeletonContent {
+    padding: 1rem;
+  }
+  
+  .skeletonTestimonial {
+    padding: 1rem;
+  }
+  
+  .skeletonAvatar {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .skeletonImage {
+    height: 140px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .skeletonImage,
+  .skeletonTitle,
+  .skeletonText,
+  .skeletonPrice,
+  .skeletonAvatar,
+  .skeletonRating,
+  .skeletonName,
+  .skeletonBox,
+  .skeletonCircle {
+    animation: none;
+    background: var(--color-gray-200, #e5e7eb);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .skeletonImage,
+  .skeletonTitle,
+  .skeletonText,
+  .skeletonPrice,
+  .skeletonAvatar,
+  .skeletonRating,
+  .skeletonName,
+  .skeletonBox,
+  .skeletonCircle {
+    background: linear-gradient(
+      90deg,
+      #d1d5db 25%,
+      #9ca3af 50%,
+      #d1d5db 75%
+    );
+  }
+}

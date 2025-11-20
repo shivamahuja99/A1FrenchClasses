@@ -1,0 +1,382 @@
+.trustIndicators {
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-top: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1976d2;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+/* Statistics Section */
+.statistics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+.statNumber {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #1976d2;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.statLabel {
+  font-size: 1rem;
+  color: #6c757d;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Companies Section */
+.companiesSection {
+  margin-top: 3rem;
+}
+
+.companiesText {
+  font-size: 1.125rem;
+  color: #495057;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+.logoCarousel {
+  overflow: hidden;
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  padding: 2rem 0;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+}
+
+.logoTrack {
+  display: flex;
+  align-items: center;
+  animation: scroll 30s linear infinite;
+  width: fit-content;
+}
+
+.logoItem {
+  flex-shrink: 0;
+  margin: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  min-width: 120px;
+}
+
+.logo {
+  max-height: 60px;
+  max-width: 120px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(100%) opacity(0.7);
+  transition: all 0.3s ease;
+}
+
+.logo:hover {
+  filter: grayscale(0%) opacity(1);
+  transform: scale(1.05);
+}
+
+.logoSkeleton {
+  width: 120px;
+  height: 60px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+.logoFallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 60px;
+  background: #f8f9fa;
+  border: 2px dashed #dee2e6;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6c757d;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+/* Animations */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Pause animation on hover */
+.logoCarousel:hover .logoTrack {
+  animation-play-state: paused;
+}
+
+/* Small mobile styles (320px - 480px) */
+@media (max-width: 480px) {
+  .trustIndicators {
+    padding: 2rem 0;
+  }
+  
+  .container {
+    padding: 0 0.75rem;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .statistics {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+  }
+  
+  .statNumber {
+    font-size: 1.75rem;
+  }
+  
+  .statLabel {
+    font-size: 0.8125rem;
+  }
+  
+  .companiesText {
+    font-size: 0.9375rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .logoCarousel {
+    padding: 1.25rem 0;
+  }
+  
+  .logoItem {
+    margin: 0 0.75rem;
+    min-width: 70px;
+    height: 50px;
+  }
+  
+  .logo {
+    max-height: 35px;
+    max-width: 70px;
+  }
+  
+  .logoFallback {
+    width: 70px;
+    height: 35px;
+    font-size: 0.6875rem;
+  }
+}
+
+/* Mobile styles (481px - 767px) */
+@media (min-width: 481px) and (max-width: 767px) {
+  .trustIndicators {
+    padding: 2.5rem 0;
+  }
+  
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .statistics {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+    padding: 1.25rem;
+  }
+  
+  .statNumber {
+    font-size: 2rem;
+  }
+  
+  .statLabel {
+    font-size: 0.875rem;
+  }
+  
+  .companiesText {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .logoCarousel {
+    padding: 1.5rem 0;
+  }
+  
+  .logoItem {
+    margin: 0 1rem;
+    min-width: 80px;
+    height: 60px;
+  }
+  
+  .logo {
+    max-height: 40px;
+    max-width: 80px;
+  }
+  
+  .logoFallback {
+    width: 80px;
+    height: 40px;
+    font-size: 0.7rem;
+  }
+}
+
+/* Tablet styles (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .trustIndicators {
+    padding: 3rem 0;
+  }
+  
+  .container {
+    padding: 0 1.5rem;
+  }
+  
+  .title {
+    font-size: 2.25rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .statistics {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    padding: 1.5rem;
+  }
+  
+  .statNumber {
+    font-size: 2.25rem;
+  }
+  
+  .logoItem {
+    margin: 0 1.25rem;
+    min-width: 90px;
+  }
+  
+  .logo {
+    max-height: 45px;
+    max-width: 90px;
+  }
+  
+  .logoFallback {
+    width: 90px;
+    height: 45px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Desktop styles (1024px - 1199px) */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .container {
+    padding: 0 2rem;
+  }
+  
+  .statistics {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+  }
+  
+  .statNumber {
+    font-size: 2.75rem;
+  }
+  
+  .logoItem {
+    margin: 0 1.5rem;
+    min-width: 100px;
+  }
+  
+  .logo {
+    max-height: 50px;
+    max-width: 100px;
+  }
+  
+  .logoFallback {
+    width: 100px;
+    height: 50px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Large desktop styles (1200px+) */
+@media (min-width: 1200px) {
+  .container {
+    padding: 0 2.5rem;
+  }
+  
+  .title {
+    font-size: 2.75rem;
+  }
+  
+  .statistics {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5rem;
+    padding: 2.5rem;
+  }
+  
+  .statNumber {
+    font-size: 3.25rem;
+  }
+  
+  .statLabel {
+    font-size: 1.125rem;
+  }
+  
+  .companiesText {
+    font-size: 1.25rem;
+  }
+  
+  .logoItem {
+    margin: 0 2rem;
+    min-width: 120px;
+  }
+}

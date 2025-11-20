@@ -1,0 +1,290 @@
+/* TestimonialCard Component Styles */
+
+.testimonialCard {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  opacity: 0;
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.testimonialCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Photo Container */
+.photoContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.customerPhoto {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #1976d2;
+  background-color: #f5f5f5;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.testimonialCard:hover .customerPhoto {
+  transform: scale(1.1);
+  border-color: #ff9800;
+}
+
+/* Testimonial Content */
+.testimonialContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+/* Rating Section */
+.ratingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.starRating {
+  display: flex;
+  gap: 2px;
+  font-size: 1.2rem;
+}
+
+.star {
+  color: #ffc107;
+  transition: transform 0.2s ease;
+}
+
+.testimonialCard:hover .star {
+  transform: scale(1.1);
+}
+
+.starHalf {
+  color: #ffc107;
+  position: relative;
+}
+
+.starHalf::after {
+  content: '☆';
+  position: absolute;
+  left: 50%;
+  color: #e0e0e0;
+}
+
+.starEmpty {
+  color: #e0e0e0;
+}
+
+.ratingText {
+  font-size: 0.875rem;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Feedback Section */
+.feedback {
+  margin: 0 0 1.5rem 0;
+  flex: 1;
+}
+
+.feedbackText {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Customer Info */
+.customerInfo {
+  margin-top: auto;
+}
+
+.customerName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1976d2;
+  margin: 0 0 0.25rem 0;
+}
+
+.courseCompleted {
+  font-size: 0.875rem;
+  color: #666;
+  font-weight: 400;
+}
+
+/* Responsive Design */
+
+/* Small mobile (320px - 480px) */
+@media (max-width: 480px) {
+  .testimonialCard {
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 8px;
+  }
+  
+  .customerPhoto {
+    width: 45px;
+    height: 45px;
+    border-width: 2px;
+  }
+  
+  .feedbackText {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  
+  .customerName {
+    font-size: 0.9375rem;
+  }
+  
+  .courseCompleted {
+    font-size: 0.8125rem;
+  }
+  
+  .starRating {
+    font-size: 1rem;
+  }
+  
+  .ratingText {
+    font-size: 0.8125rem;
+  }
+}
+
+/* Mobile (481px - 767px) */
+@media (min-width: 481px) and (max-width: 767px) {
+  .testimonialCard {
+    padding: 1.125rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+  }
+  
+  .customerPhoto {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .feedbackText {
+    font-size: 0.9375rem;
+  }
+  
+  .customerName {
+    font-size: 1rem;
+  }
+  
+  .starRating {
+    font-size: 1.1rem;
+  }
+}
+
+/* Tablet (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .testimonialCard {
+    padding: 1.25rem;
+  }
+  
+  .customerPhoto {
+    width: 55px;
+    height: 55px;
+  }
+  
+  .feedbackText {
+    font-size: 0.9375rem;
+  }
+  
+  .customerName {
+    font-size: 1.0625rem;
+  }
+}
+
+/* Desktop (1024px - 1199px) */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .testimonialCard {
+    padding: 1.375rem;
+  }
+  
+  .testimonialCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  }
+  
+  .customerPhoto {
+    width: 58px;
+    height: 58px;
+  }
+}
+
+/* Large Desktop (1200px+) */
+@media (min-width: 1200px) {
+  .testimonialCard {
+    padding: 1.5rem;
+  }
+  
+  .testimonialCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  .feedbackText {
+    font-size: 1.0625rem;
+  }
+  
+  .customerName {
+    font-size: 1.1875rem;
+  }
+  
+  .courseCompleted {
+    font-size: 0.9375rem;
+  }
+  
+  .starRating {
+    font-size: 1.25rem;
+  }
+}
+
+/* Accessibility Enhancements */
+@media (prefers-reduced-motion: reduce) {
+  .testimonialCard {
+    transition: none;
+  }
+  
+  .testimonialCard:hover {
+    transform: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .testimonialCard {
+    border: 2px solid #000;
+  }
+  
+  .customerPhoto {
+    border-color: #000;
+  }
+  
+  .star {
+    color: #000;
+  }
+}
+
+/* Focus styles for accessibility */
+.testimonialCard:focus-within {
+  outline: 2px solid #1976d2;
+  outline-offset: 2px;
+}

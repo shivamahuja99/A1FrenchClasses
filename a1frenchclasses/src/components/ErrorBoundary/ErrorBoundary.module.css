@@ -1,0 +1,150 @@
+/* Error Boundary Styles */
+.errorBoundary {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #f8f9fa;
+}
+
+.errorContainer {
+  max-width: 600px;
+  text-align: center;
+  background: white;
+  padding: 3rem 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.errorTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #d32f2f;
+  margin-bottom: 1rem;
+}
+
+.errorMessage {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.errorActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.retryButton,
+.refreshButton {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retryButton {
+  background-color: #1976d2;
+  color: white;
+}
+
+.retryButton:hover,
+.retryButton:focus {
+  background-color: #1565c0;
+  transform: translateY(-1px);
+  outline: none;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+}
+
+.refreshButton {
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.refreshButton:hover,
+.refreshButton:focus {
+  background-color: #e0e0e0;
+  transform: translateY(-1px);
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.errorDetails {
+  margin-top: 2rem;
+  text-align: left;
+  background-color: #f5f5f5;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.errorDetails summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.errorStack {
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  color: #d32f2f;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid #ddd;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .errorContainer {
+    padding: 2rem 1rem;
+  }
+
+  .errorActions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .retryButton,
+  .refreshButton {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .errorContainer {
+    border: 2px solid #000;
+  }
+
+  .retryButton:focus,
+  .refreshButton:focus {
+    outline: 3px solid #000;
+    outline-offset: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .retryButton:hover,
+  .refreshButton:hover,
+  .retryButton:focus,
+  .refreshButton:focus {
+    transform: none;
+  }
+
+  .retryButton,
+  .refreshButton {
+    transition: none;
+  }
+}

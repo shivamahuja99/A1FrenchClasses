@@ -1,0 +1,451 @@
+.companyStory {
+  padding: 5rem 0;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.textContent {
+  order: 1;
+}
+
+.imageContent {
+  order: 2;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1976d2;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+}
+
+.missionSection {
+  margin-bottom: 2.5rem;
+}
+
+.missionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.missionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+  border-radius: 2px;
+}
+
+.mission {
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: #495057;
+  font-weight: 500;
+  font-style: italic;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-left: 4px solid #1976d2;
+  border-radius: 8px;
+  margin: 0;
+}
+
+.storySection {
+  margin-bottom: 2.5rem;
+}
+
+.story {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #495057;
+  margin: 0;
+}
+
+.highlightStats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.highlightStat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.highlightNumber {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #ff9800;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.highlightLabel {
+  font-size: 1rem;
+  color: #6c757d;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.imageContent {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.teamImage {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.teamImage:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+}
+
+.imageSkeleton {
+  width: 100%;
+  max-width: 500px;
+  height: 350px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 16px;
+}
+
+.imageFallback {
+  width: 100%;
+  max-width: 500px;
+  height: 350px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px dashed #dee2e6;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+.fallbackIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.6;
+}
+
+.fallbackText {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #6c757d;
+  margin: 0;
+}
+
+/* Animations */
+@keyframes loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Small mobile styles (320px - 480px) */
+@media (max-width: 480px) {
+  .companyStory {
+    padding: 2rem 0;
+  }
+  
+  .container {
+    padding: 0 0.75rem;
+  }
+  
+  .content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .textContent {
+    order: 2;
+  }
+  
+  .imageContent {
+    order: 1;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+  
+  .missionTitle {
+    font-size: 1.125rem;
+    text-align: center;
+  }
+  
+  .missionTitle::after {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+  }
+  
+  .mission {
+    font-size: 0.875rem;
+    padding: 0.875rem;
+    text-align: center;
+    line-height: 1.5;
+  }
+  
+  .story {
+    font-size: 0.875rem;
+    text-align: center;
+    line-height: 1.6;
+  }
+  
+  .highlightStats {
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: center;
+    margin-top: 1.5rem;
+  }
+  
+  .highlightNumber {
+    font-size: 1.625rem;
+  }
+  
+  .highlightLabel {
+    font-size: 0.8125rem;
+  }
+  
+  .imageSkeleton,
+  .imageFallback {
+    height: 220px;
+  }
+  
+  .fallbackIcon {
+    font-size: 2.5rem;
+  }
+  
+  .fallbackText {
+    font-size: 0.9375rem;
+  }
+}
+
+/* Mobile styles (481px - 767px) */
+@media (min-width: 481px) and (max-width: 767px) {
+  .companyStory {
+    padding: 2.5rem 0;
+  }
+  
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .content {
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+  }
+  
+  .textContent {
+    order: 2;
+  }
+  
+  .imageContent {
+    order: 1;
+  }
+  
+  .title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .missionTitle {
+    font-size: 1.25rem;
+    text-align: center;
+  }
+  
+  .missionTitle::after {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+  }
+  
+  .mission {
+    font-size: 1rem;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .story {
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .highlightStats {
+    justify-content: center;
+    gap: 1.75rem;
+    margin-top: 1.75rem;
+  }
+  
+  .highlightStat {
+    align-items: center;
+    text-align: center;
+  }
+  
+  .highlightNumber {
+    font-size: 1.875rem;
+  }
+  
+  .highlightLabel {
+    font-size: 0.875rem;
+  }
+  
+  .imageSkeleton,
+  .imageFallback {
+    height: 280px;
+  }
+}
+
+/* Tablet styles (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .companyStory {
+    padding: 3.5rem 0;
+  }
+  
+  .container {
+    padding: 0 1.5rem;
+  }
+  
+  .content {
+    gap: 3rem;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .missionTitle {
+    font-size: 1.375rem;
+  }
+  
+  .mission {
+    font-size: 1.125rem;
+    padding: 1.25rem;
+  }
+  
+  .story {
+    font-size: 1.0625rem;
+  }
+  
+  .highlightNumber {
+    font-size: 2.25rem;
+  }
+  
+  .highlightStats {
+    gap: 1.5rem;
+  }
+  
+  .imageSkeleton,
+  .imageFallback {
+    height: 320px;
+  }
+}
+
+/* Desktop styles (1024px - 1199px) */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .companyStory {
+    padding: 4.5rem 0;
+  }
+  
+  .container {
+    padding: 0 2rem;
+  }
+  
+  .content {
+    gap: 3.5rem;
+  }
+  
+  .title {
+    font-size: 2.75rem;
+  }
+  
+  .mission {
+    font-size: 1.1875rem;
+  }
+  
+  .story {
+    font-size: 1.125rem;
+  }
+  
+  .highlightNumber {
+    font-size: 2.5rem;
+  }
+}
+
+/* Large desktop styles (1200px+) */
+@media (min-width: 1200px) {
+  .container {
+    padding: 0 2.5rem;
+  }
+  
+  .content {
+    gap: 4.5rem;
+  }
+  
+  .title {
+    font-size: 3.25rem;
+  }
+  
+  .missionTitle {
+    font-size: 1.625rem;
+  }
+  
+  .mission {
+    font-size: 1.375rem;
+    padding: 1.75rem;
+  }
+  
+  .story {
+    font-size: 1.25rem;
+  }
+  
+  .highlightNumber {
+    font-size: 2.875rem;
+  }
+  
+  .highlightLabel {
+    font-size: 1.125rem;
+  }
+  
+  .highlightStats {
+    gap: 2.5rem;
+  }
+}

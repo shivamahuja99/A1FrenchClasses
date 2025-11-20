@@ -1,0 +1,2 @@
+// Export all views for easier importing
+export { default as HomePage } from './HomePage/HomePage';

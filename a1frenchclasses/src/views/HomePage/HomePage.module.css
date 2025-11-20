@@ -1,0 +1,565 @@
+/* HomePage Component Styles */
+.homePage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+}
+
+/* Loading and Error States */
+.loadingContainer,
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+}
+
+.spinner {
+  width: 3rem;
+  height: 3rem;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #1976d2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.errorContainer h1 {
+  color: #d32f2f;
+  margin-bottom: 1rem;
+}
+
+.errorContainer button {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.errorContainer button:hover {
+  background-color: #1565c0;
+}
+
+/* Common Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Section Spacing */
+.sectionSpacing {
+  margin: 0;
+}
+
+/* Add spacing between sections on larger screens */
+@media (min-width: 768px) {
+  .sectionSpacing {
+    margin: 1rem 0;
+  }
+}
+
+/* Hero Section */
+.heroSection {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 4rem 0;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+}
+
+.heroContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.heroContent {
+  text-align: center;
+}
+
+.heroTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.heroSubtitle {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ctaButton {
+  background-color: #ff6b35;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ctaButton:hover,
+.ctaButton:focus {
+  background-color: #e55a2b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  outline: none;
+}
+
+.heroImageContainer {
+  display: none;
+}
+
+.heroImage {
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Story Section */
+.storySection {
+  padding: 4rem 0;
+  background-color: #f8f9fa;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: #2c3e50;
+}
+
+.missionContainer {
+  margin-bottom: 3rem;
+}
+
+.missionText {
+  font-size: 1.3rem;
+  line-height: 1.7;
+  text-align: center;
+  color: #34495e;
+  font-weight: 500;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.storyContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.storyText {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #555;
+  text-align: center;
+}
+
+.teamImageContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.teamImage {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Statistics */
+.statisticsContainer {
+  margin-top: 3rem;
+}
+
+.statisticsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.statItem {
+  text-align: center;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.statItem:hover {
+  transform: translateY(-4px);
+}
+
+.statNumber {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #1976d2;
+  margin-bottom: 0.5rem;
+}
+
+.statLabel {
+  font-size: 0.9rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+/* Placeholder Section */
+.placeholderSection {
+  padding: 4rem 0;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.placeholderText {
+  font-size: 1.1rem;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Small mobile styles (320px - 480px) */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+
+  .heroSection {
+    padding: 2.5rem 0;
+    min-height: 50vh;
+  }
+
+  .heroContainer {
+    padding: 0 0.75rem;
+    gap: 1.5rem;
+  }
+
+  .heroTitle {
+    font-size: 1.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .ctaButton {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9375rem;
+  }
+
+  .storySection {
+    padding: 2.5rem 0;
+  }
+
+  .sectionTitle {
+    font-size: 1.875rem;
+    margin-bottom: 2rem;
+  }
+
+  .missionText {
+    font-size: 1.0625rem;
+  }
+
+  .storyText {
+    font-size: 0.9375rem;
+  }
+
+  .statisticsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .statNumber {
+    font-size: 2rem;
+  }
+
+  .statLabel {
+    font-size: 0.8125rem;
+  }
+
+  .placeholderSection {
+    padding: 2.5rem 0;
+  }
+
+  .placeholderText {
+    font-size: 1rem;
+  }
+}
+
+/* Mobile styles (481px - 767px) */
+@media (min-width: 481px) and (max-width: 767px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .heroSection {
+    padding: 3rem 0;
+    min-height: 55vh;
+  }
+
+  .heroContainer {
+    padding: 0 1rem;
+    gap: 2rem;
+  }
+
+  .heroTitle {
+    font-size: 2.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.0625rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .ctaButton {
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
+  }
+
+  .storySection {
+    padding: 3rem 0;
+  }
+
+  .sectionTitle {
+    font-size: 2.125rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .missionText {
+    font-size: 1.125rem;
+  }
+
+  .storyText {
+    font-size: 1rem;
+  }
+
+  .statisticsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .statNumber {
+    font-size: 2.25rem;
+  }
+}
+
+/* Tablet Styles (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+
+  .heroContainer {
+    padding: 0 1.5rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .heroContent {
+    text-align: left;
+  }
+
+  .heroTitle {
+    font-size: 2.75rem;
+  }
+
+  .heroSubtitle {
+    margin-left: 0;
+    margin-right: 0;
+    font-size: 1.125rem;
+  }
+
+  .heroImageContainer {
+    display: block;
+  }
+
+  .sectionTitle {
+    font-size: 2.5rem;
+  }
+
+  .missionText {
+    font-size: 1.25rem;
+  }
+
+  .storyContainer {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .storyText {
+    text-align: left;
+    font-size: 1.0625rem;
+  }
+
+  .statisticsGrid {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: none;
+  }
+}
+
+/* Desktop Styles (1024px - 1199px) */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .container {
+    padding: 0 2rem;
+  }
+
+  .heroSection {
+    padding: 5rem 0;
+  }
+
+  .heroContainer {
+    padding: 0 2rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.5rem;
+  }
+
+  .heroTitle {
+    font-size: 3.25rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.25rem;
+  }
+
+  .sectionTitle {
+    font-size: 2.75rem;
+  }
+
+  .missionText {
+    font-size: 1.3125rem;
+  }
+
+  .storyContainer {
+    gap: 3.5rem;
+  }
+
+  .storyText {
+    font-size: 1.125rem;
+  }
+}
+
+/* Large Desktop Styles (1200px+) */
+@media (min-width: 1200px) {
+  .container {
+    padding: 0 2.5rem;
+  }
+
+  .heroSection {
+    padding: 6rem 0;
+  }
+
+  .heroContainer {
+    padding: 0 2.5rem;
+    gap: 4.5rem;
+  }
+
+  .heroTitle {
+    font-size: 3.75rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.375rem;
+  }
+
+  .sectionTitle {
+    font-size: 3.25rem;
+  }
+
+  .missionText {
+    font-size: 1.5rem;
+  }
+
+  .storyContainer {
+    gap: 4.5rem;
+  }
+
+  .storyText {
+    font-size: 1.25rem;
+  }
+
+  .statNumber {
+    font-size: 2.75rem;
+  }
+
+  .placeholderText {
+    font-size: 1.1875rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .heroSection {
+    background: #000000;
+    color: #ffffff;
+  }
+
+  .ctaButton:focus {
+    outline: 3px solid #ffffff;
+    outline-offset: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+
+  .ctaButton:hover,
+  .statItem:hover {
+    transform: none;
+  }
+
+  .ctaButton,
+  .statItem {
+    transition: none;
+  }
+}
