@@ -1,3 +1,6 @@
+/* Import animations */
+@import './styles/animations.css';
+
 :root {
   /* Typography */
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
@@ -6,19 +9,40 @@
 
   /* Color Palette */
   --color-primary: #1976d2;
+  --color-primary-light: #42a5f5;
   --color-primary-dark: #1565c0;
   --color-secondary: #ff9800;
+  --color-secondary-light: #ffb74d;
   --color-secondary-dark: #f57c00;
   --color-success: #4caf50;
   --color-success-dark: #388e3c;
+  --color-error: #f44336;
+  --color-warning: #ff9800;
+  --color-info: #2196f3;
   --color-text-primary: #212121;
   --color-text-secondary: #757575;
   --color-text-light: #ffffff;
+  --color-text-muted: #9e9e9e;
   --color-background: #ffffff;
-  --color-background-light: #f5f5f5;
+  --color-background-light: #f8f9fa;
   --color-background-dark: #eeeeee;
   --color-border: #e0e0e0;
+  --color-border-light: #f0f0f0;
   --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-shadow-light: rgba(0, 0, 0, 0.05);
+  --color-shadow-dark: rgba(0, 0, 0, 0.15);
+  
+  /* Gray scale */
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #eeeeee;
+  --color-gray-300: #e0e0e0;
+  --color-gray-400: #bdbdbd;
+  --color-gray-500: #9e9e9e;
+  --color-gray-600: #757575;
+  --color-gray-700: #616161;
+  --color-gray-800: #424242;
+  --color-gray-900: #212121;
 
   /* Spacing */
   --spacing-xs: 0.25rem;
@@ -29,8 +53,12 @@
   --spacing-xxl: 3rem;
 
   /* Breakpoints */
-  --breakpoint-mobile: 768px;
-  --breakpoint-tablet: 1024px;
+  --breakpoint-xs: 320px;
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-xxl: 1440px;
 
   /* Border Radius */
   --border-radius-sm: 4px;
@@ -152,7 +180,25 @@ button:disabled {
 }
 
 /* Responsive Typography */
-@media (max-width: 768px) {
+@media (max-width: 480px) {
+  :root {
+    font-size: 14px;
+  }
+  
+  h1 {
+    font-size: 1.75rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  h3 {
+    font-size: 1.25rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
   h1 {
     font-size: 2rem;
   }
@@ -164,4 +210,190 @@ button:disabled {
   h3 {
     font-size: 1.25rem;
   }
+}
+
+@media (min-width: 1200px) {
+  h1 {
+    font-size: 3rem;
+  }
+  
+  h2 {
+    font-size: 2.25rem;
+  }
+  
+  h3 {
+    font-size: 1.75rem;
+  }
+}
+
+/* Container utilities for consistent responsive behavior */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 480px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 2rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    padding: 0 2.5rem;
+  }
+}
+
+/* Responsive grid utilities */
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.grid-cols-1 {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .grid-cols-md-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .grid-cols-md-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-cols-lg-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .grid-cols-lg-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Responsive spacing utilities */
+.section-padding {
+  padding: 2rem 0;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding: 3rem 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding: 4rem 0;
+  }
+}
+/* Acc
+essibility enhancements */
+
+/* Focus management */
+*:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Skip link for keyboard navigation */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--color-primary);
+  color: var(--color-text-light);
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 9999;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-primary: #000000;
+    --color-secondary: #000000;
+    --color-text-primary: #000000;
+    --color-text-secondary: #000000;
+    --color-background: #ffffff;
+    --color-border: #000000;
+  }
+
+  button {
+    border: 2px solid #000000;
+  }
+
+  button:focus {
+    outline: 3px solid #000000;
+    outline-offset: 2px;
+  }
+
+  a:focus {
+    outline: 3px solid #000000;
+    outline-offset: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Large text support */
+@media (min-resolution: 2dppx) {
+  body {
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+}
+
+/* Interactive element minimum size (44px touch target) */
+button,
+a,
+input,
+select,
+textarea {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Ensure text remains visible during webfont load */
+@font-face {
+  font-display: swap;
 }
