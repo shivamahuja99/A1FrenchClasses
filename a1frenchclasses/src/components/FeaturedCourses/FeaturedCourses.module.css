@@ -39,7 +39,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .courseItem {
@@ -66,8 +66,13 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loadingText {
@@ -132,7 +137,8 @@
 /* View All Button */
 .viewAllContainer {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   margin-top: 2rem;
 }
 
@@ -168,13 +174,20 @@
   transform: translateY(0);
 }
 
-.viewAllArrow {
+.buttonIcon {
   font-size: 1.25rem;
   transition: transform 0.3s ease;
 }
 
-.viewAllButton:hover .viewAllArrow {
+.viewAllButton:hover .buttonIcon {
   transform: translateX(4px);
+}
+
+.courseCount {
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin: 1rem 0 0 0;
 }
 
 /* Responsive Design */
@@ -184,24 +197,24 @@
   .featuredCourses {
     padding: 2rem 0;
   }
-  
+
   .container {
     padding: 0 0.75rem;
   }
-  
+
   .title {
     font-size: 1.75rem;
   }
-  
+
   .subtitle {
     font-size: 0.9375rem;
   }
-  
+
   .coursesGrid {
     gap: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
-  
+
   .viewAllButton {
     padding: 0.75rem 1.5rem;
     font-size: 0.9375rem;
@@ -213,24 +226,24 @@
   .featuredCourses {
     padding: 2.5rem 0;
   }
-  
+
   .container {
     padding: 0 1rem;
   }
-  
+
   .title {
     font-size: 2rem;
   }
-  
+
   .subtitle {
     font-size: 1rem;
   }
-  
+
   .coursesGrid {
     gap: 1.25rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
   }
-  
+
   .viewAllButton {
     padding: 0.875rem 1.75rem;
     font-size: 1rem;
@@ -242,20 +255,20 @@
   .featuredCourses {
     padding: 3rem 0;
   }
-  
+
   .container {
     padding: 0 1.5rem;
   }
-  
+
   .title {
     font-size: 2.25rem;
   }
-  
+
   .coursesGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
-  
+
   .header {
     margin-bottom: 2.5rem;
   }
@@ -267,7 +280,7 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 1.75rem;
   }
-  
+
   .container {
     padding: 0 2rem;
   }
@@ -279,15 +292,15 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
   }
-  
+
   .container {
     padding: 0 2.5rem;
   }
-  
+
   .title {
     font-size: 2.75rem;
   }
-  
+
   .subtitle {
     font-size: 1.25rem;
   }

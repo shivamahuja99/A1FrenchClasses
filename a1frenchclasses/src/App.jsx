@@ -1,8 +1,16 @@
-import { HomePage } from './views'
-import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HomePage, CoursesPage } from './views';
+import './App.css';
 
 function App() {
-  return <HomePage />
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/courses" element={<CoursesPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

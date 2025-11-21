@@ -9,21 +9,25 @@ const CourseCard = ({ course }) => {
 
   const {
     id,
-    name,
-    tutor,
+    title,
+    instructor,
     duration,
     description,
     price,
-    originalPrice,
-    level,
+    discount,
+    difficulty,
     image,
-    paymentPlans = []
+    rating,
+    course_url
   } = course;
 
-  const hasDiscount = originalPrice && originalPrice > price;
-  const discountPercentage = hasDiscount 
-    ? Math.round(((originalPrice - price) / originalPrice) * 100)
-    : 0;
+  const hasDiscount = discount && discount > 0;
+  // Assuming price is the base price and we calculate the discounted price
+  // Or if price is the final price, we calculate original.
+  // Let's assume price is the original price and we show the discounted price.
+  const discountedPrice = hasDiscount
+    ? (price * (1 - discount / 100)).toFixed(2)
+    : price;
 
   const getLevelBadgeClass = (level) => {
     switch (level?.toLowerCase()) {
@@ -39,8 +43,9 @@ const CourseCard = ({ course }) => {
   };
 
   const handleCardClick = () => {
-    // Navigate to course detail page
-    window.location.href = `/courses/${id}`;
+    if (course_url) {
+      window.location.href = course_url;
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -50,8 +55,25 @@ const CourseCard = ({ course }) => {
     }
   };
 
+  const renderStars = (rating) => {
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+
+    for (let i = 0; i < 5; i++) {
+      if (i < fullStars) {
+        stars.push(<span key={i} className={styles.star}>★</span>);
+      } else if (i === fullStars && hasHalfStar) {
+        stars.push(<span key={i} className={styles.star}>½</span>); // Simplified half star
+      } else {
+        stars.push(<span key={i} className={styles.star} style={{ opacity: 0.3 }}>★</span>);
+      }
+    }
+    return stars;
+  };
+
   return (
-    <article 
+    <article
       className={styles.courseCard}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
@@ -64,7 +86,7 @@ const CourseCard = ({ course }) => {
       <div className={styles.imageContainer}>
         <LazyImage
           src={image}
-          alt={`${name} course - ${description.substring(0, 100)}...`}
+          alt={`${title} course - ${description.substring(0, 100)}...`}
           className={styles.courseImage}
           width={300}
           height={200}
@@ -72,24 +94,24 @@ const CourseCard = ({ course }) => {
           {...generateOptimizedImagePaths(image)}
           placeholder="/images/placeholder-course.jpg"
         />
-        
+
         {/* Difficulty Level Badge */}
-        <div 
-          className={`${styles.levelBadge} ${getLevelBadgeClass(level)}`}
+        <div
+          className={`${styles.levelBadge} ${getLevelBadgeClass(difficulty)}`}
           role="img"
-          aria-label={`Course difficulty level: ${level}`}
+          aria-label={`Course difficulty level: ${difficulty}`}
         >
-          {level}
+          {difficulty}
         </div>
 
         {/* Discount Badge */}
         {hasDiscount && (
-          <div 
+          <div
             className={styles.discountBadge}
             role="img"
-            aria-label={`${discountPercentage}% discount available`}
+            aria-label={`${discount}% discount available`}
           >
-            -{discountPercentage}%
+            -{discount}%
           </div>
         )}
       </div>
@@ -97,12 +119,20 @@ const CourseCard = ({ course }) => {
       {/* Course Content */}
       <div className={styles.courseContent}>
         {/* Course Title */}
-        <h3 id={`course-title-${id}`} className={styles.courseTitle}>{name}</h3>
-        
+        <h3 id={`course-title-${id}`} className={styles.courseTitle}>{title}</h3>
+
+        {/* Rating */}
+        {rating && (
+          <div className={styles.rating} aria-label={`Rating: ${rating} out of 5 stars`}>
+            {renderStars(rating)}
+            <span>({rating})</span>
+          </div>
+        )}
+
         {/* Tutor and Duration */}
         <div className={styles.courseInfo} role="group" aria-label="Course details">
-          <span className={styles.tutor} aria-label={`Instructor: ${tutor}`}>
-            By {tutor}
+          <span className={styles.tutor} aria-label={`Instructor: ${instructor}`}>
+            By {instructor}
           </span>
           <span className={styles.duration} aria-label={`Course duration: ${duration}`}>
             {duration}
@@ -115,42 +145,21 @@ const CourseCard = ({ course }) => {
         {/* Pricing Section */}
         <div className={styles.pricingSection} role="group" aria-label="Pricing information">
           <div id={`course-price-${id}`} className={styles.priceContainer}>
-            <span 
+            <span
               className={styles.currentPrice}
-              aria-label={`Current price: $${price}`}
+              aria-label={`Current price: $${discountedPrice}`}
             >
-              ${price}
+              ${discountedPrice}
             </span>
             {hasDiscount && (
-              <span 
+              <span
                 className={styles.originalPrice}
-                aria-label={`Original price: $${originalPrice}`}
+                aria-label={`Original price: $${price}`}
               >
-                ${originalPrice}
+                ${price}
               </span>
             )}
           </div>
-
-          {/* Payment Plans */}
-          {paymentPlans.length > 0 && (
-            <div className={styles.paymentPlans} role="group" aria-label="Payment options">
-              <span className={styles.paymentLabel} id={`payment-options-${id}`}>
-                Payment options:
-              </span>
-              <div className={styles.plansList} aria-labelledby={`payment-options-${id}`}>
-                {paymentPlans.map((plan, index) => (
-                  <span 
-                    key={index} 
-                    className={styles.paymentPlan}
-                    aria-label={`${plan.type}: $${plan.amount}${plan.duration !== 'One-time' ? ` per ${plan.duration}` : ''}`}
-                  >
-                    {plan.type}: ${plan.amount}
-                    {plan.duration !== 'One-time' && ` / ${plan.duration}`}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </article>

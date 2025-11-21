@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
 
 const Header = ({ logo, navigationItems = [] }) => {
@@ -42,21 +43,26 @@ const Header = ({ logo, navigationItems = [] }) => {
     }
   };
 
+  // Helper to determine if link is internal (route) or external (anchor/hash)
+  const isInternalRoute = (href) => {
+    return href && !href.startsWith('#') && !href.startsWith('http');
+  };
+
   return (
     <header className={styles.header} role="banner">
       {/* Skip to main content link for keyboard users */}
       <a href="#main-content" className="skip-link">
         Skip to main content
       </a>
-      
+
       <div className={styles.container}>
         {/* Logo */}
         <div className={styles.logo}>
-          <a href="/" aria-label="A1frenchclasses - Return to homepage">
+          <Link to="/" aria-label="A1frenchclasses - Return to homepage">
             {logo ? (
-              <img 
-                src={logo} 
-                alt="A1frenchclasses logo" 
+              <img
+                src={logo}
+                alt="A1frenchclasses logo"
                 className={styles.logoImage}
                 width="120"
                 height="40"
@@ -64,7 +70,7 @@ const Header = ({ logo, navigationItems = [] }) => {
             ) : (
               <span className={styles.logoText}>A1frenchclasses</span>
             )}
-          </a>
+          </Link>
         </div>
 
         {/* Desktop Navigation */}
@@ -72,15 +78,27 @@ const Header = ({ logo, navigationItems = [] }) => {
           <ul className={styles.navList} role="menubar">
             {navigationItems.map((item, index) => (
               <li key={index} className={styles.navItem} role="none">
-                <a 
-                  href={item.href} 
-                  className={styles.navLink}
-                  role="menuitem"
-                  aria-current={item.href === '/' ? 'page' : undefined}
-                  tabIndex={0}
-                >
-                  {item.label}
-                </a>
+                {isInternalRoute(item.href) ? (
+                  <Link
+                    to={item.href}
+                    className={styles.navLink}
+                    role="menuitem"
+                    aria-current={item.href === '/' ? 'page' : undefined}
+                    tabIndex={0}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <a
+                    href={item.href}
+                    className={styles.navLink}
+                    role="menuitem"
+                    aria-current={item.href === '/' ? 'page' : undefined}
+                    tabIndex={0}
+                  >
+                    {item.label}
+                  </a>
+                )}
               </li>
             ))}
           </ul>
@@ -107,26 +125,39 @@ const Header = ({ logo, navigationItems = [] }) => {
         </button>
 
         {/* Mobile Navigation */}
-        <nav 
+        <nav
           id="mobile-menu"
           className={`${styles.mobileNav} ${isMobileMenuOpen ? styles.mobileNavOpen : ''}`}
-          role="navigation" 
+          role="navigation"
           aria-label="Mobile navigation"
           aria-hidden={!isMobileMenuOpen}
         >
           <ul className={styles.mobileNavList} role="menu">
             {navigationItems.map((item, index) => (
               <li key={index} className={styles.mobileNavItem} role="none">
-                <a 
-                  href={item.href} 
-                  className={styles.mobileNavLink}
-                  onClick={handleNavClick}
-                  role="menuitem"
-                  aria-current={item.href === '/' ? 'page' : undefined}
-                  tabIndex={isMobileMenuOpen ? 0 : -1}
-                >
-                  {item.label}
-                </a>
+                {isInternalRoute(item.href) ? (
+                  <Link
+                    to={item.href}
+                    className={styles.mobileNavLink}
+                    onClick={handleNavClick}
+                    role="menuitem"
+                    aria-current={item.href === '/' ? 'page' : undefined}
+                    tabIndex={isMobileMenuOpen ? 0 : -1}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <a
+                    href={item.href}
+                    className={styles.mobileNavLink}
+                    onClick={handleNavClick}
+                    role="menuitem"
+                    aria-current={item.href === '/' ? 'page' : undefined}
+                    tabIndex={isMobileMenuOpen ? 0 : -1}
+                  >
+                    {item.label}
+                  </a>
+                )}
               </li>
             ))}
           </ul>

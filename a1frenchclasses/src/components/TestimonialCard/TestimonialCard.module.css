@@ -15,6 +15,18 @@
   animation: fadeIn 0.6s ease-out forwards;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .testimonialCard:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
@@ -137,30 +149,30 @@
     margin-bottom: 0.75rem;
     border-radius: 8px;
   }
-  
+
   .customerPhoto {
     width: 45px;
     height: 45px;
     border-width: 2px;
   }
-  
+
   .feedbackText {
     font-size: 0.875rem;
     line-height: 1.5;
   }
-  
+
   .customerName {
     font-size: 0.9375rem;
   }
-  
+
   .courseCompleted {
     font-size: 0.8125rem;
   }
-  
+
   .starRating {
     font-size: 1rem;
   }
-  
+
   .ratingText {
     font-size: 0.8125rem;
   }
@@ -173,20 +185,20 @@
     margin-bottom: 1rem;
     border-radius: 10px;
   }
-  
+
   .customerPhoto {
     width: 50px;
     height: 50px;
   }
-  
+
   .feedbackText {
     font-size: 0.9375rem;
   }
-  
+
   .customerName {
     font-size: 1rem;
   }
-  
+
   .starRating {
     font-size: 1.1rem;
   }
@@ -197,16 +209,16 @@
   .testimonialCard {
     padding: 1.25rem;
   }
-  
+
   .customerPhoto {
     width: 55px;
     height: 55px;
   }
-  
+
   .feedbackText {
     font-size: 0.9375rem;
   }
-  
+
   .customerName {
     font-size: 1.0625rem;
   }
@@ -217,12 +229,12 @@
   .testimonialCard {
     padding: 1.375rem;
   }
-  
+
   .testimonialCard:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
   }
-  
+
   .customerPhoto {
     width: 58px;
     height: 58px;
@@ -234,24 +246,24 @@
   .testimonialCard {
     padding: 1.5rem;
   }
-  
+
   .testimonialCard:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
   }
-  
+
   .feedbackText {
     font-size: 1.0625rem;
   }
-  
+
   .customerName {
     font-size: 1.1875rem;
   }
-  
+
   .courseCompleted {
     font-size: 0.9375rem;
   }
-  
+
   .starRating {
     font-size: 1.25rem;
   }
@@ -260,11 +272,21 @@
 /* Accessibility Enhancements */
 @media (prefers-reduced-motion: reduce) {
   .testimonialCard {
+    animation: none;
+    opacity: 1;
     transition: none;
   }
-  
+
   .testimonialCard:hover {
     transform: none;
+  }
+
+  .star {
+    transition: none;
+  }
+
+  .customerPhoto {
+    transition: none;
   }
 }
 
@@ -273,11 +295,11 @@
   .testimonialCard {
     border: 2px solid #000;
   }
-  
+
   .customerPhoto {
     border-color: #000;
   }
-  
+
   .star {
     color: #000;
   }

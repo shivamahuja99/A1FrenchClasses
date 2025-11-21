@@ -1,4 +1,42 @@
-  .heroSection {
+/* Animations */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Hero Section Styles */
+.heroSection {
   position: relative;
   min-height: 100vh;
   display: flex;
@@ -16,12 +54,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(25, 118, 210, 0.8) 0%,
-    rgba(25, 118, 210, 0.6) 50%,
-    rgba(25, 118, 210, 0.4) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(25, 118, 210, 0.8) 0%,
+      rgba(25, 118, 210, 0.6) 50%,
+      rgba(25, 118, 210, 0.4) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -109,29 +145,44 @@
   transform: translateY(0);
 }
 
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+  .title,
+  .subtitle,
+  .ctaButton {
+    animation: none;
+    opacity: 1;
+  }
+
+  .ctaButton:hover {
+    transform: none;
+  }
+}
+
 /* Small mobile styles */
 @media (max-width: 480px) {
   .heroSection {
     min-height: 60vh;
     padding: 2rem 0;
   }
-  
+
   .container {
     padding: 0 0.75rem;
   }
-  
+
   .title {
     font-size: 1.75rem;
     margin-bottom: 0.75rem;
     line-height: 1.1;
   }
-  
+
   .subtitle {
     font-size: 0.875rem;
     margin-bottom: 1.5rem;
     line-height: 1.4;
   }
-  
+
   .ctaButton {
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
@@ -145,21 +196,21 @@
     min-height: 65vh;
     padding: 2.5rem 0;
   }
-  
+
   .container {
     padding: 0 1rem;
   }
-  
+
   .title {
     font-size: 2.25rem;
     margin-bottom: 1rem;
   }
-  
+
   .subtitle {
     font-size: 1rem;
     margin-bottom: 2rem;
   }
-  
+
   .ctaButton {
     padding: 0.875rem 2rem;
     font-size: 1rem;
@@ -172,19 +223,19 @@
     min-height: 75vh;
     background-attachment: scroll;
   }
-  
+
   .container {
     padding: 0 1.5rem;
   }
-  
+
   .title {
     font-size: 2.75rem;
   }
-  
+
   .subtitle {
     font-size: 1.125rem;
   }
-  
+
   .ctaButton {
     padding: 1rem 2.25rem;
     font-size: 1.125rem;
@@ -197,15 +248,15 @@
     min-height: 85vh;
     background-attachment: scroll;
   }
-  
+
   .container {
     padding: 0 2rem;
   }
-  
+
   .title {
     font-size: 3.25rem;
   }
-  
+
   .subtitle {
     font-size: 1.25rem;
   }
@@ -216,19 +267,19 @@
   .heroSection {
     min-height: 90vh;
   }
-  
+
   .container {
     padding: 0 2.5rem;
   }
-  
+
   .title {
     font-size: 3.75rem;
   }
-  
+
   .subtitle {
     font-size: 1.375rem;
   }
-  
+
   .ctaButton {
     padding: 1.125rem 2.75rem;
     font-size: 1.25rem;

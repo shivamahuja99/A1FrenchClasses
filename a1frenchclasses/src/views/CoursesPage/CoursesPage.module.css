@@ -1,0 +1,248 @@
+/* Courses Page Styles */
+.coursesPage {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+}
+
+.main {
+    flex: 1;
+    padding: 2rem 0 4rem;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Page Header */
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0 0 1rem 0;
+    line-height: 1.2;
+    background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    font-size: 1.125rem;
+    color: #4b5563;
+    max-width: 800px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.6;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.stat {
+    font-size: 1rem;
+    color: #6b7280;
+}
+
+.stat strong {
+    color: #1976d2;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+/* Courses Section */
+.coursesSection {
+    margin-bottom: 3rem;
+}
+
+.coursesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.courseItem {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Empty State */
+.emptyState {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.emptyMessage {
+    font-size: 1.25rem;
+    color: #1a202c;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+}
+
+.emptySubtext {
+    font-size: 1rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* Error State */
+.errorContainer {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    max-width: 600px;
+    margin: 2rem auto;
+}
+
+.errorTitle {
+    font-size: 1.5rem;
+    color: #1a202c;
+    margin: 0 0 1rem 0;
+}
+
+.errorMessage {
+    font-size: 1rem;
+    color: #6b7280;
+    margin: 0 0 2rem 0;
+}
+
+.retryButton {
+    background: #1976d2;
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.retryButton:hover {
+    background: #1565c0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+}
+
+.retryButton:focus {
+    outline: 2px solid #1976d2;
+    outline-offset: 2px;
+}
+
+/* Responsive Design */
+
+/* Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .main {
+        padding: 1rem 0 2rem;
+    }
+
+    .header {
+        margin-bottom: 2rem;
+        padding: 1rem 0;
+    }
+
+    .title {
+        font-size: 1.75rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .stats {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .coursesGrid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .emptyState,
+    .errorContainer {
+        padding: 2rem 1rem;
+    }
+}
+
+/* Tablet (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .coursesGrid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+/* Desktop (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .coursesGrid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+/* Large Desktop (1025px+) */
+@media (min-width: 1025px) {
+    .container {
+        padding: 0 2rem;
+    }
+
+    .title {
+        font-size: 3rem;
+    }
+
+    .subtitle {
+        font-size: 1.25rem;
+    }
+
+    .coursesGrid {
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 2.5rem;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .courseItem {
+        animation: none;
+        opacity: 1;
+    }
+
+    .retryButton:hover {
+        transform: none;
+    }
+}
