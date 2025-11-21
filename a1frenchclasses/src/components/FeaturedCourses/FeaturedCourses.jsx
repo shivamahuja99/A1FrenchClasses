@@ -1,26 +1,30 @@
-import { useFeaturedCourses } from '../../controllers/useCourses';
+import { useCoursesData } from '../../controllers/useCoursesData';
+import { Link } from 'react-router-dom';
 import CourseCard from '../CourseCard/CourseCard';
 import LoadingSkeleton from '../LoadingSkeleton/LoadingSkeleton';
 import styles from './FeaturedCourses.module.css';
 
-const FeaturedCourses = ({ limit = 3, showViewAllLink = true }) => {
-  const { courses, loading, error } = useFeaturedCourses(limit);
+const FeaturedCourses = ({ limit = 3 }) => {
+  const { courses, loading, error } = useCoursesData();
+
+  // Limit the courses displayed
+  const displayedCourses = courses.slice(0, limit);
 
   if (loading) {
     return (
-      <section 
-        className={styles.featuredCourses} 
+      <section
+        className={styles.featuredCourses}
         aria-labelledby="featured-courses-title"
         role="region"
       >
         <div className={styles.container}>
           <div className={styles.header}>
             <h2 id="featured-courses-title" className={styles.title}>Featured Courses</h2>
-            <p className={styles.subtitle}>Discover our most popular French courses</p>
+            <p className={styles.subtitle}>Explore our most popular French language courses</p>
           </div>
           <div className={styles.coursesGrid} role="status" aria-live="polite">
-            <LoadingSkeleton variant="card" count={limit} />
-            <span className="sr-only">Loading featured courses...</span>
+            <LoadingSkeleton variant="card" count={3} />
+            <span className="sr-only">Loading courses...</span>
           </div>
         </div>
       </section>
@@ -29,28 +33,28 @@ const FeaturedCourses = ({ limit = 3, showViewAllLink = true }) => {
 
   if (error) {
     return (
-      <section 
-        className={styles.featuredCourses} 
+      <section
+        className={styles.featuredCourses}
         aria-labelledby="featured-courses-title"
         role="region"
       >
         <div className={styles.container}>
           <div className={styles.header}>
             <h2 id="featured-courses-title" className={styles.title}>Featured Courses</h2>
-            <p className={styles.subtitle}>Discover our most popular French courses</p>
+            <p className={styles.subtitle}>Explore our most popular French language courses</p>
           </div>
           <div className={styles.errorContainer} role="alert" aria-live="assertive">
             <p className={styles.errorMessage}>
               Unable to load courses at the moment. Please try again later.
             </p>
-            <button 
+            <button
               className={styles.retryButton}
               onClick={() => window.location.reload()}
               aria-describedby="featured-courses-title"
               type="button"
             >
               Try Again
-              <span className="sr-only"> to load featured courses</span>
+              <span className="sr-only"> to load courses</span>
             </button>
           </div>
         </div>
@@ -64,7 +68,7 @@ const FeaturedCourses = ({ limit = 3, showViewAllLink = true }) => {
         <div className={styles.container}>
           <div className={styles.header}>
             <h2 className={styles.title}>Featured Courses</h2>
-            <p className={styles.subtitle}>Discover our most popular French courses</p>
+            <p className={styles.subtitle}>Explore our most popular French language courses</p>
           </div>
           <div className={styles.emptyState}>
             <p className={styles.emptyMessage}>No courses available at the moment.</p>
@@ -74,21 +78,10 @@ const FeaturedCourses = ({ limit = 3, showViewAllLink = true }) => {
     );
   }
 
-  const handleViewAllClick = () => {
-    window.location.href = '/courses';
-  };
-
-  const handleViewAllKeyDown = (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleViewAllClick();
-    }
-  };
-
   return (
-    <section 
+    <section
       id="featured-courses"
-      className={styles.featuredCourses} 
+      className={styles.featuredCourses}
       aria-labelledby="featured-courses-title"
       role="region"
     >
@@ -102,17 +95,17 @@ const FeaturedCourses = ({ limit = 3, showViewAllLink = true }) => {
         </div>
 
         {/* Courses Grid */}
-        <div 
-          className={styles.coursesGrid} 
+        <div
+          className={styles.coursesGrid}
           role="list"
-          aria-label={`${courses.length} featured courses available`}
+          aria-label={`${displayedCourses.length} featured courses`}
         >
-          {courses.map((course, index) => (
-            <div 
-              key={course.id} 
+          {displayedCourses.map((course, index) => (
+            <div
+              key={course.id}
               className={`${styles.courseItem} animate-fade-in animate-delay-${(index + 1) * 100}`}
               role="listitem"
-              aria-setsize={courses.length}
+              aria-setsize={displayedCourses.length}
               aria-posinset={index + 1}
               style={{ animationDelay: `${index * 0.1}s` }}
             >
@@ -121,20 +114,16 @@ const FeaturedCourses = ({ limit = 3, showViewAllLink = true }) => {
           ))}
         </div>
 
-        {/* View All Courses Link */}
-        {showViewAllLink && (
+        {/* View All Courses Button */}
+        {courses.length > limit && (
           <div className={styles.viewAllContainer}>
-            <button
-              className={styles.viewAllButton}
-              onClick={handleViewAllClick}
-              onKeyDown={handleViewAllKeyDown}
-              type="button"
-              aria-describedby="featured-courses-title"
-            >
+            <Link to="/courses" className={styles.viewAllButton}>
               View All Courses
-              <span className={styles.viewAllArrow} aria-hidden="true">→</span>
-              <span className="sr-only"> - Navigate to complete course catalog</span>
-            </button>
+              <span className={styles.buttonIcon} aria-hidden="true">→</span>
+            </Link>
+            <p className={styles.courseCount}>
+              Showing {displayedCourses.length} of {courses.length} courses
+            </p>
           </div>
         )}
       </div>

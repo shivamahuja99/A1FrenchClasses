@@ -109,7 +109,13 @@ const HomePage = () => {
         {/* Company Story Section */}
         <div id="aboutus" className={styles.sectionSpacing}>
           <ErrorBoundary>
-            <CompanyStory />
+            <CompanyStory
+              title={companyStoryData.title}
+              mission={companyStoryData.mission}
+              story={companyStoryData.story}
+              teamImage={companyStoryData.teamImage}
+              statistics={companyStoryData.statistics}
+            />
           </ErrorBoundary>
         </div>
 

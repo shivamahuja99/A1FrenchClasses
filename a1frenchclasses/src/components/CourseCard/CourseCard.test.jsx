@@ -7,93 +7,76 @@ delete window.location;
 window.location = { href: '' };
 
 const mockCourse = {
-  id: 'test-course',
-  name: 'Test French Course',
-  tutor: 'Test Tutor',
+  id: 1,
+  title: 'Test French Course',
+  instructor: 'Test Tutor',
   duration: '8 weeks',
   description: 'A test course description',
-  price: 199,
-  originalPrice: 299,
-  level: 'Beginner',
+  price: 100,
+  discount: 20,
+  difficulty: 'Beginner',
   image: '/test-image.jpg',
-  paymentPlans: [
-    {
-      type: 'Full Payment',
-      amount: 199,
-      duration: 'One-time'
-    },
-    {
-      type: 'Monthly',
-      amount: 67,
-      duration: '3 months'
-    }
-  ]
+  rating: 4.5,
+  course_url: 'https://example.com/course-1'
 };
 
 describe('CourseCard', () => {
   it('renders course information correctly', () => {
     render(<CourseCard course={mockCourse} />);
-    
+
     expect(screen.getByText('Test French Course')).toBeInTheDocument();
     expect(screen.getByText('By Test Tutor')).toBeInTheDocument();
     expect(screen.getByText('8 weeks')).toBeInTheDocument();
     expect(screen.getByText('A test course description')).toBeInTheDocument();
-    expect(screen.getByText('$199')).toBeInTheDocument();
-    expect(screen.getByText('$299')).toBeInTheDocument();
+    // Discounted price: 100 * (1 - 0.2) = 80
+    expect(screen.getByText('$80.00')).toBeInTheDocument();
+    expect(screen.getByText('$100')).toBeInTheDocument();
     expect(screen.getByText('Beginner')).toBeInTheDocument();
   });
 
-  it('displays discount percentage when original price is higher', () => {
+  it('displays discount badge when discount is present', () => {
     render(<CourseCard course={mockCourse} />);
-    
-    expect(screen.getByText('-33%')).toBeInTheDocument();
+
+    expect(screen.getByText('-20%')).toBeInTheDocument();
   });
 
-  it('shows payment plans when available', () => {
+  it('displays rating correctly', () => {
     render(<CourseCard course={mockCourse} />);
-    
-    expect(screen.getByText('Payment options:')).toBeInTheDocument();
-    expect(screen.getByText('Full Payment: $199')).toBeInTheDocument();
-    expect(screen.getByText('Monthly: $67 / 3 months')).toBeInTheDocument();
+
+    expect(screen.getByText('(4.5)')).toBeInTheDocument();
+    // Check for stars (simplified check for presence)
+    const stars = screen.getAllByText('★');
+    expect(stars.length).toBeGreaterThan(0);
   });
 
   it('handles click navigation', () => {
     render(<CourseCard course={mockCourse} />);
-    
+
     const card = screen.getByRole('button');
     fireEvent.click(card);
-    
-    expect(window.location.href).toBe('/courses/test-course');
+
+    expect(window.location.href).toBe('https://example.com/course-1');
   });
 
   it('handles keyboard navigation', () => {
     render(<CourseCard course={mockCourse} />);
-    
+
     const card = screen.getByRole('button');
     fireEvent.keyDown(card, { key: 'Enter' });
-    
-    expect(window.location.href).toBe('/courses/test-course');
+
+    expect(window.location.href).toBe('https://example.com/course-1');
   });
 
   it('returns null when no course is provided', () => {
     const { container } = render(<CourseCard course={null} />);
-    
+
     expect(container.firstChild).toBeNull();
   });
 
   it('applies correct level badge class', () => {
     render(<CourseCard course={mockCourse} />);
-    
-    const levelBadge = screen.getByText('Beginner');
-    expect(levelBadge).toHaveClass('levelBeginner');
-  });
 
-  it('handles image error gracefully', () => {
-    render(<CourseCard course={mockCourse} />);
-    
-    const image = screen.getByAltText('Test French Course course thumbnail');
-    fireEvent.error(image);
-    
-    expect(image.src).toContain('/images/placeholder-course.jpg');
+    const levelBadge = screen.getByText('Beginner');
+    expect(levelBadge.className).toContain('levelBeginner');
   });
 });

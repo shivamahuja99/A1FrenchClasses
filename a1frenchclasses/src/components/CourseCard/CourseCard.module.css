@@ -15,6 +15,18 @@
   animation: fadeIn 0.6s ease-out forwards;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .courseCard::before {
   content: '';
   position: absolute;
@@ -116,6 +128,18 @@
   transition: transform 0.2s ease;
 }
 
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
 .courseCard:hover .discountBadge {
   transform: translateY(-2px);
   animation: none;
@@ -149,6 +173,20 @@
 .tutor {
   font-weight: 500;
   color: #1976d2;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.star {
+  color: #fbbf24;
 }
 
 .duration {
@@ -222,44 +260,44 @@
   .courseCard {
     border-radius: 8px;
   }
-  
+
   .imageContainer {
     height: 140px;
   }
-  
+
   .courseContent {
     padding: 0.75rem;
   }
-  
+
   .courseTitle {
     font-size: 1rem;
     line-height: 1.2;
   }
-  
+
   .courseInfo {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.125rem;
     font-size: 0.8125rem;
   }
-  
+
   .description {
     font-size: 0.8125rem;
     line-height: 1.4;
   }
-  
+
   .currentPrice {
     font-size: 1.125rem;
   }
-  
+
   .originalPrice {
     font-size: 0.875rem;
   }
-  
+
   .paymentLabel {
     font-size: 0.6875rem;
   }
-  
+
   .paymentPlan {
     font-size: 0.8125rem;
   }
@@ -270,25 +308,25 @@
   .courseCard {
     border-radius: 10px;
   }
-  
+
   .imageContainer {
     height: 160px;
   }
-  
+
   .courseContent {
     padding: 1rem;
   }
-  
+
   .courseTitle {
     font-size: 1.125rem;
   }
-  
+
   .courseInfo {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.25rem;
   }
-  
+
   .currentPrice {
     font-size: 1.25rem;
   }
@@ -299,15 +337,15 @@
   .imageContainer {
     height: 180px;
   }
-  
+
   .courseContent {
     padding: 1.25rem;
   }
-  
+
   .courseTitle {
     font-size: 1.1875rem;
   }
-  
+
   .currentPrice {
     font-size: 1.375rem;
   }
@@ -319,11 +357,11 @@
     transform: translateY(-6px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
   }
-  
+
   .imageContainer {
     height: 200px;
   }
-  
+
   .courseContent {
     padding: 1.5rem;
   }
@@ -334,11 +372,11 @@
   .courseTitle {
     font-size: 1.375rem;
   }
-  
+
   .description {
     font-size: 1rem;
   }
-  
+
   .currentPrice {
     font-size: 1.625rem;
   }
