@@ -25,16 +25,20 @@
                 "href": "/"
             },
             {
-                "label": "Courses",
-                "href": "/courses"
+                "label": "About",
+                "href": "#aboutus"
             },
             {
-                "label": "About",
-                "href": "/about"
+                "label": "Courses",
+                "href": "#courses"
+            },
+            {
+                "label": "Testimonials",
+                "href": "#testimonials"
             },
             {
                 "label": "Contact",
-                "href": "/contact"
+                "href": "#footer"
             }
         ]
     }

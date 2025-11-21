@@ -10,7 +10,7 @@ const Footer = ({
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className={styles.footer} role="contentinfo">
+    <footer id="footer" className={styles.footer} role="contentinfo">
       <div className={styles.container}>
         {/* Main Footer Content */}
         <div className={styles.footerContent}>
@@ -42,9 +42,9 @@ const Footer = ({
                         rel="noopener noreferrer"
                       >
                         {social.icon ? (
-                          <img 
-                            src={social.icon} 
-                            alt="" 
+                          <img
+                            src={social.icon}
+                            alt=""
                             className={styles.socialIcon}
                             width="20"
                             height="20"
@@ -117,7 +117,7 @@ const Footer = ({
               {contactInfo.address && (
                 <div className={styles.contactItem}>
                   <span className={styles.contactLabel} id="address-label">Address:</span>
-                  <span 
+                  <span
                     className={styles.contactText}
                     aria-labelledby="address-label"
                   >
@@ -128,7 +128,7 @@ const Footer = ({
               {contactInfo.hours && (
                 <div className={styles.contactItem}>
                   <span className={styles.contactLabel} id="hours-label">Hours:</span>
-                  <span 
+                  <span
                     className={styles.contactText}
                     aria-labelledby="hours-label"
                   >
