@@ -1,14 +1,14 @@
 import { useHomepageData } from '../../controllers/useHomepageData';
 import { useImagePreloader } from '../../hooks/useImagePreloader';
-import { 
-  Header, 
-  Footer, 
-  HeroSection, 
-  TrustIndicators, 
-  CompanyStory, 
-  FeaturedCourses, 
+import {
+  Header,
+  Footer,
+  HeroSection,
+  TrustIndicators,
+  CompanyStory,
+  FeaturedCourses,
   CustomerTestimonials,
-  ErrorBoundary 
+  ErrorBoundary
 } from '../../components';
 import styles from './HomePage.module.css';
 
@@ -40,7 +40,7 @@ const HomePage = () => {
       <div className={styles.errorContainer} role="alert" aria-live="assertive">
         <h1>Error Loading Page</h1>
         <p>{error}</p>
-        <button 
+        <button
           onClick={() => window.location.reload()}
           type="button"
           aria-describedby="error-description"
@@ -82,7 +82,7 @@ const HomePage = () => {
   return (
     <div className={styles.homePage}>
       {/* Header */}
-      <Header 
+      <Header
         logo={navigationData.logo}
         navigationItems={navigationData.items || []}
       />
@@ -91,7 +91,7 @@ const HomePage = () => {
       <main id="main-content" className={styles.main} role="main">
         {/* Hero Section */}
         <ErrorBoundary>
-          <HeroSection 
+          <HeroSection
             title={heroData.title}
             subtitle={heroData.subtitle}
             ctaText={heroData.ctaText}
@@ -107,21 +107,21 @@ const HomePage = () => {
         </div>
 
         {/* Company Story Section */}
-        <div className={styles.sectionSpacing}>
+        <div id="aboutus" className={styles.sectionSpacing}>
           <ErrorBoundary>
             <CompanyStory />
           </ErrorBoundary>
         </div>
 
         {/* Featured Courses Section */}
-        <div className={styles.sectionSpacing}>
+        <div id="courses" className={styles.sectionSpacing}>
           <ErrorBoundary>
             <FeaturedCourses />
           </ErrorBoundary>
         </div>
 
         {/* Customer Testimonials Section */}
-        <div className={styles.sectionSpacing}>
+        <div id="testimonials" className={styles.sectionSpacing}>
           <ErrorBoundary>
             <CustomerTestimonials />
           </ErrorBoundary>
@@ -129,7 +129,7 @@ const HomePage = () => {
       </main>
 
       {/* Footer */}
-      <Footer 
+      <Footer
         logo={navigationData.logo}
         companyInfo={companyInfo}
         navigationLinks={navigationData.items || []}
