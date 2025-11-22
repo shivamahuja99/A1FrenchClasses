@@ -1,0 +1,80 @@
+/* Profile Page Styles */
+
+.page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    flex: 1;
+    padding: var(--spacing-xxl) 0;
+    background: var(--color-background-light);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-xl);
+}
+
+.pageHeader {
+    margin-bottom: var(--spacing-xxl);
+}
+
+.pageTitle {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.pageSubtitle {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: var(--spacing-xxl);
+}
+
+.sidebar {
+    /* User details form will go here */
+}
+
+.mainContent {
+    /* Purchased courses list will go here */
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .main {
+        padding: var(--spacing-xl) 0;
+    }
+
+    .container {
+        padding: 0 var(--spacing-md);
+    }
+
+    .pageTitle {
+        font-size: 2rem;
+    }
+
+    .pageSubtitle {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .pageTitle {
+        font-size: 1.75rem;
+    }
+}

@@ -1,7 +1,12 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 import { useHomepageData } from '../../../controllers/useHomepageData';
 import HomePage from '../HomePage';
+import authReducer from '../../../store/slices/authSlice';
+import uiReducer from '../../../store/slices/uiSlice';
+import { apiSlice } from '../../../store/api/apiSlice';
 
 // Mock the useHomepageData hook
 vi.mock('../../../controllers/useHomepageData', () => ({
@@ -40,10 +45,11 @@ vi.mock('../../../components', () => ({
       <h2>Trusted by Companies</h2>
     </section>
   ),
-  CompanyStory: () => (
+  CompanyStory: ({ teamImage }) => (
     <section data-testid="company-story">
       <h2>Our Story</h2>
       <p>We believe that learning French should be engaging and effective.</p>
+      {teamImage && <img src={teamImage} alt="Our team" />}
     </section>
   ),
   FeaturedCourses: () => (
@@ -59,6 +65,11 @@ vi.mock('../../../components', () => ({
   ErrorBoundary: ({ children }) => <div data-testid="error-boundary">{children}</div>
 }));
 
+// Mock ProfileDropdown since it's used in HomePage
+vi.mock('../../../components/ProfileDropdown/ProfileDropdown', () => ({
+  default: () => <div data-testid="profile-dropdown">Profile Dropdown</div>
+}));
+
 const mockHomepageData = {
   navigation: {
     logo: '/images/logo.png',
@@ -71,7 +82,7 @@ const mockHomepageData = {
   },
   hero: {
     title: 'Master French with Confidence',
-    subtitle: 'Join thousands of students who have transformed their French language skills.',
+    subtitle: 'Join thousands of students who have transformed their French language skills with our expert-led courses and proven methodology.',
     ctaText: 'Start Learning Today',
     backgroundImage: '/images/hero-background.jpg'
   },
@@ -89,6 +100,24 @@ const mockHomepageData = {
   }
 };
 
+const renderWithProvider = (component) => {
+  const store = configureStore({
+    reducer: {
+      auth: authReducer,
+      ui: uiReducer,
+      [apiSlice.reducerPath]: apiSlice.reducer,
+    },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(apiSlice.middleware),
+  });
+
+  return render(
+    <Provider store={store}>
+      {component}
+    </Provider>
+  );
+};
+
 describe('HomePage Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -101,9 +130,9 @@ describe('HomePage Component', () => {
       error: null
     });
 
-    render(<HomePage />);
-    
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    renderWithProvider(<HomePage />);
+
+    expect(screen.getByText('Loading homepage content...')).toBeInTheDocument();
   });
 
   it('renders error state correctly', () => {
@@ -113,8 +142,8 @@ describe('HomePage Component', () => {
       error: 'Failed to load data'
     });
 
-    render(<HomePage />);
-    
+    renderWithProvider(<HomePage />);
+
     expect(screen.getByText('Error Loading Page')).toBeInTheDocument();
     expect(screen.getByText('Failed to load data')).toBeInTheDocument();
     expect(screen.getByText('Try Again')).toBeInTheDocument();
@@ -127,25 +156,25 @@ describe('HomePage Component', () => {
       error: null
     });
 
-    render(<HomePage />);
-    
+    renderWithProvider(<HomePage />);
+
     await waitFor(() => {
       // Check Header and Footer are rendered
       expect(screen.getByTestId('header')).toBeInTheDocument();
       expect(screen.getByTestId('footer')).toBeInTheDocument();
-      
+
       // Check all main sections are rendered
       expect(screen.getByTestId('hero-section')).toBeInTheDocument();
       expect(screen.getByTestId('trust-indicators')).toBeInTheDocument();
       expect(screen.getByTestId('company-story')).toBeInTheDocument();
       expect(screen.getByTestId('featured-courses')).toBeInTheDocument();
       expect(screen.getByTestId('customer-testimonials')).toBeInTheDocument();
-      
+
       // Check Hero section content
       expect(screen.getByText('Master French with Confidence')).toBeInTheDocument();
       expect(screen.getByText('Join thousands of students who have transformed their French language skills with our expert-led courses and proven methodology.')).toBeInTheDocument();
       expect(screen.getByText('Start Learning Today')).toBeInTheDocument();
-      
+
       // Check that error boundaries are present
       expect(screen.getAllByTestId('error-boundary')).toHaveLength(5);
     });
@@ -158,14 +187,14 @@ describe('HomePage Component', () => {
       error: null
     });
 
-    render(<HomePage />);
-    
+    renderWithProvider(<HomePage />);
+
     await waitFor(() => {
       // Should render with default hero content
       expect(screen.getByText('Master French with Confidence')).toBeInTheDocument();
       expect(screen.getByText(/Join thousands of students who have transformed/)).toBeInTheDocument();
       expect(screen.getByText('Start Learning Today')).toBeInTheDocument();
-      
+
       // Should render all sections
       expect(screen.getByTestId('hero-section')).toBeInTheDocument();
       expect(screen.getByTestId('trust-indicators')).toBeInTheDocument();
@@ -182,8 +211,8 @@ describe('HomePage Component', () => {
       error: null
     });
 
-    render(<HomePage />);
-    
+    renderWithProvider(<HomePage />);
+
     await waitFor(() => {
       const heroImage = screen.getByAltText('French learning environment');
       expect(heroImage).toBeInTheDocument();
@@ -198,8 +227,8 @@ describe('HomePage Component', () => {
       error: null
     });
 
-    render(<HomePage />);
-    
+    renderWithProvider(<HomePage />);
+
     await waitFor(() => {
       const teamImage = screen.getByAltText('Our team');
       expect(teamImage).toBeInTheDocument();
@@ -212,15 +241,15 @@ describe('HomePage Component', () => {
       ...mockHomepageData,
       companyStory: {}
     };
-    
+
     useHomepageData.mockReturnValue({
       data: dataWithoutStory,
       loading: false,
       error: null
     });
 
-    render(<HomePage />);
-    
+    renderWithProvider(<HomePage />);
+
     await waitFor(() => {
       // All sections should still render as they are now separate components
       expect(screen.getByTestId('hero-section')).toBeInTheDocument();
@@ -238,8 +267,8 @@ describe('HomePage Component', () => {
       error: null
     });
 
-    render(<HomePage />);
-    
+    renderWithProvider(<HomePage />);
+
     await waitFor(() => {
       expect(screen.getByRole('main')).toBeInTheDocument();
       expect(screen.getByTestId('header')).toBeInTheDocument();

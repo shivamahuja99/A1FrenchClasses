@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
 
-const Header = ({ logo, navigationItems = [] }) => {
+const Header = ({ logo, navigationItems = [], authComponent = null }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Close mobile menu when clicking outside or pressing escape
@@ -103,6 +103,20 @@ const Header = ({ logo, navigationItems = [] }) => {
             ))}
           </ul>
         </nav>
+
+        {/* Auth Section */}
+        <div className={styles.authSection}>
+          {authComponent || (
+            <div className={styles.authButtons}>
+              <Link to="/login" className={styles.loginButton}>
+                Login
+              </Link>
+              <Link to="/signup" className={styles.signupButton}>
+                Sign Up
+              </Link>
+            </div>
+          )}
+        </div>
 
         {/* Mobile Menu Button */}
         <button

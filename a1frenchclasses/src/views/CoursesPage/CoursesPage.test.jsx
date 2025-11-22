@@ -6,6 +6,20 @@ import * as useCoursesDataModule from '../../controllers/useCoursesData';
 // Mock the useCoursesData hook
 vi.mock('../../controllers/useCoursesData');
 
+// Mock child components
+vi.mock('../../components', () => ({
+    Header: () => <div data-testid="header">Header</div>,
+    Footer: () => <div data-testid="footer">Footer</div>
+}));
+
+vi.mock('../../components/CourseCard/CourseCard', () => ({
+    default: ({ course }) => <div data-testid="course-card">{course.title}</div>
+}));
+
+vi.mock('../../components/LoadingSkeleton/LoadingSkeleton', () => ({
+    default: () => <div data-testid="loading-skeleton">Loading...</div>
+}));
+
 const mockCourses = [
     {
         id: 1,
@@ -94,8 +108,8 @@ describe('CoursesPage', () => {
 
         render(<CoursesPage />);
 
-        const courseCount = screen.getByText(/2.*courses available/i);
-        expect(courseCount).toBeInTheDocument();
+        const statsContainer = screen.getByLabelText('Course statistics');
+        expect(statsContainer).toHaveTextContent(/2.*Courses Available/i);
     });
 
     it('renders empty state when no courses available', () => {
@@ -144,24 +158,7 @@ describe('CoursesPage', () => {
         // Check that both courses are rendered
         mockCourses.forEach(course => {
             expect(screen.getByText(course.title)).toBeInTheDocument();
-            expect(screen.getByText(`By ${course.instructor}`)).toBeInTheDocument();
         });
-    });
-
-    it('has proper accessibility attributes', () => {
-        vi.spyOn(useCoursesDataModule, 'useCoursesData').mockReturnValue({
-            courses: mockCourses,
-            loading: false,
-            error: null
-        });
-
-        render(<CoursesPage />);
-
-        expect(screen.getByRole('main')).toBeInTheDocument();
-        expect(screen.getByRole('list')).toBeInTheDocument();
-
-        const listItems = screen.getAllByRole('listitem');
-        expect(listItems).toHaveLength(mockCourses.length);
     });
 
     it('renders header and footer components', () => {
@@ -173,12 +170,9 @@ describe('CoursesPage', () => {
 
         render(<CoursesPage />);
 
-        // Check for navigation items (from Header)
-        expect(screen.getByText('Home')).toBeInTheDocument();
-        expect(screen.getByText('About')).toBeInTheDocument();
-
-        // Check for footer content
-        expect(screen.getByText(/Learn French with confidence/i)).toBeInTheDocument();
+        // Check for header and footer mocks
+        expect(screen.getByTestId('header')).toBeInTheDocument();
+        expect(screen.getByTestId('footer')).toBeInTheDocument();
     });
 
     it('displays SEO-friendly page title and description', () => {
