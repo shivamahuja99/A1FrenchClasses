@@ -1,0 +1,116 @@
+/* User Details Form Styles */
+
+.container {
+    background: var(--color-background);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.editButton {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-md);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.editButton:hover {
+    background: var(--color-primary-dark);
+}
+
+.successMessage {
+    padding: var(--spacing-md);
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid var(--color-success);
+    border-radius: var(--border-radius-md);
+    color: var(--color-success-dark);
+    margin-bottom: var(--spacing-lg);
+}
+
+.errorMessage {
+    padding: var(--spacing-md);
+    background: rgba(244, 67, 54, 0.1);
+    border: 1px solid var(--color-error);
+    border-radius: var(--border-radius-md);
+    color: var(--color-error);
+    margin-bottom: var(--spacing-lg);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+}
+
+.actions {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: flex-end;
+    margin-top: var(--spacing-md);
+}
+
+.button {
+    padding: var(--spacing-md) var(--spacing-xl);
+    border-radius: var(--border-radius-md);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border: none;
+}
+
+.cancelButton {
+    background: var(--color-background-dark);
+    color: var(--color-text-primary);
+}
+
+.cancelButton:hover {
+    background: var(--color-gray-400);
+}
+
+.saveButton {
+    background: var(--color-primary);
+    color: white;
+}
+
+.saveButton:hover {
+    background: var(--color-primary-dark);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .row {
+        grid-template-columns: 1fr;
+    }
+
+    .actions {
+        flex-direction: column-reverse;
+    }
+
+    .button {
+        width: 100%;
+    }
+}

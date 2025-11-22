@@ -6,6 +6,16 @@ import CourseCard from './CourseCard';
 delete window.location;
 window.location = { href: '' };
 
+// Mock LazyImage component
+vi.mock('../LazyImage/LazyImage', () => ({
+  default: ({ src, alt, className }) => <img src={src} alt={alt} className={className} />
+}));
+
+// Mock imageUtils
+vi.mock('../../utils/imageUtils', () => ({
+  generateOptimizedImagePaths: () => ({})
+}));
+
 const mockCourse = {
   id: 1,
   title: 'Test French Course',

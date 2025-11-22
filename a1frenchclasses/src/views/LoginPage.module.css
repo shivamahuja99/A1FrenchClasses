@@ -1,0 +1,157 @@
+/* Login Page Styles */
+
+.pageContainer {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: var(--spacing-xl);
+}
+
+.contentWrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xxl);
+    max-width: 1200px;
+    width: 100%;
+    align-items: center;
+}
+
+/* Brand Section */
+.brandSection {
+    color: white;
+    animation: slideInLeft 0.6s ease-out;
+}
+
+.brandTitle {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
+}
+
+.brandTagline {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-xxl);
+    opacity: 0.95;
+    line-height: 1.6;
+}
+
+.features {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.featureIcon {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+/* Form Section */
+.formSection {
+    animation: slideInRight 0.6s ease-out;
+}
+
+/* Animations */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .contentWrapper {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xl);
+    }
+
+    .brandSection {
+        text-align: center;
+    }
+
+    .brandTitle {
+        font-size: 2.5rem;
+    }
+
+    .features {
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .pageContainer {
+        padding: var(--spacing-md);
+    }
+
+    .brandTitle {
+        font-size: 2rem;
+    }
+
+    .brandTagline {
+        font-size: 1.1rem;
+    }
+
+    .feature {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .brandTitle {
+        font-size: 1.75rem;
+    }
+
+    .brandTagline {
+        font-size: 1rem;
+        margin-bottom: var(--spacing-xl);
+    }
+
+    .features {
+        gap: var(--spacing-md);
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .brandSection,
+    .formSection {
+        animation: none;
+    }
+}

@@ -1,5 +1,7 @@
 import { useHomepageData } from '../../controllers/useHomepageData';
 import { useImagePreloader } from '../../hooks/useImagePreloader';
+import { useSelector } from 'react-redux';
+import { selectIsAuthenticated } from '../../store/slices/authSlice';
 import {
   Header,
   Footer,
@@ -10,11 +12,13 @@ import {
   CustomerTestimonials,
   ErrorBoundary
 } from '../../components';
+import ProfileDropdown from '../../components/ProfileDropdown/ProfileDropdown';
 import styles from './HomePage.module.css';
 
 const HomePage = () => {
   console.log("Starting home page")
   const { data, loading, error } = useHomepageData();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
   // Preload critical images for better performance
   const criticalImages = [
@@ -85,6 +89,7 @@ const HomePage = () => {
       <Header
         logo={navigationData.logo}
         navigationItems={navigationData.items || []}
+        authComponent={isAuthenticated ? <ProfileDropdown /> : null}
       />
 
       {/* Main Content */}
