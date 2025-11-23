@@ -25,7 +25,7 @@ vi.mock('../../../components', () => ({
       </nav>
     </header>
   ),
-  Footer: ({ logo, companyInfo, navigationLinks, socialLinks, contactInfo }) => (
+  Footer: ({ logo, companyInfo, contactInfo }) => (
     <footer data-testid="footer">
       <div>Logo: {logo || 'A1frenchclasses'}</div>
       <div>Email: {contactInfo?.email}</div>
