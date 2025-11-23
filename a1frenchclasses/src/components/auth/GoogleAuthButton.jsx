@@ -16,7 +16,7 @@ const GoogleAuthButton = ({ mode = 'signin' }) => {
 
     useEffect(() => {
         if (!clientId || clientId === 'your_google_client_id_here') {
-            console.warn('Google Client ID not configured. Please add it to .env file');
+            console.warn('Google Client ID not configured.');
             return;
         }
 
@@ -70,7 +70,6 @@ const GoogleAuthButton = ({ mode = 'signin' }) => {
             <div className={styles.googleAuthContainer}>
                 <div className={styles.googleAuthWarning}>
                     <p>Google Sign-In not configured</p>
-                    <small>Please add VITE_GOOGLE_CLIENT_ID to your .env file</small>
                 </div>
             </div>
         );
