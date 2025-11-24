@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styles from './Header.module.css';
 
 const Header = ({ logo, navigationItems = [], authComponent = null }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   // Close mobile menu when clicking outside or pressing escape
   useEffect(() => {
@@ -48,6 +49,14 @@ const Header = ({ logo, navigationItems = [], authComponent = null }) => {
     return href && !href.startsWith('#') && !href.startsWith('http');
   };
 
+  // Helper to normalize href - if we're not on homepage and href is a hash, prepend '/'
+  const getNormalizedHref = (href) => {
+    if (href && href.startsWith('#') && location.pathname !== '/') {
+      return `/${href}`;
+    }
+    return href;
+  };
+
   return (
     <header className={styles.header} role="banner">
       {/* Skip to main content link for keyboard users */}
@@ -90,7 +99,7 @@ const Header = ({ logo, navigationItems = [], authComponent = null }) => {
                   </Link>
                 ) : (
                   <a
-                    href={item.href}
+                    href={getNormalizedHref(item.href)}
                     className={styles.navLink}
                     role="menuitem"
                     aria-current={item.href === '/' ? 'page' : undefined}
@@ -162,7 +171,7 @@ const Header = ({ logo, navigationItems = [], authComponent = null }) => {
                   </Link>
                 ) : (
                   <a
-                    href={item.href}
+                    href={getNormalizedHref(item.href)}
                     className={styles.mobileNavLink}
                     onClick={handleNavClick}
                     role="menuitem"

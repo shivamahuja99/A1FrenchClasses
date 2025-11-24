@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useCoursesData } from '../../controllers/useCoursesData';
 import { Header, Footer } from '../../components';
 import CourseCard from '../../components/CourseCard/CourseCard';
@@ -6,6 +7,11 @@ import styles from './CoursesPage.module.css';
 
 const CoursesPage = () => {
     const { courses, loading, error } = useCoursesData();
+
+    // Scroll to top when component mounts
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, []);
 
     // Mock data for header/footer (would come from context or props in production)
     const navigationData = {
