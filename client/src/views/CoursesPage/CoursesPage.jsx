@@ -3,6 +3,8 @@ import { useCoursesData } from '../../controllers/useCoursesData';
 import { Header, Footer } from '../../components';
 import CourseCard from '../../components/CourseCard/CourseCard';
 import LoadingSkeleton from '../../components/LoadingSkeleton/LoadingSkeleton';
+import navigationConfig from '../../config/navigation';
+import footerConfig from '../../config/footer';
 import styles from './CoursesPage.module.css';
 
 const CoursesPage = () => {
@@ -13,41 +15,10 @@ const CoursesPage = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, []);
 
-    // Mock data for header/footer (would come from context or props in production)
-    const navigationData = {
-        logo: '/images/logo.png',
-        items: [
-            { label: 'Home', href: '/' },
-            { label: 'About', href: '#aboutus' },
-            { label: 'Courses', href: '#courses' },
-            { label: 'Testimonials', href: '#testimonials' },
-            { label: 'Contact', href: '#footer' }
-        ]
-    };
-
-    const contactInfo = {
-        email: 'info@a1frenchclasses.com',
-        phone: '+1 (555) 123-4567',
-        address: '123 French Street, Paris, France',
-        hours: 'Mon-Fri: 9AM-6PM'
-    };
-
-    const socialLinks = [
-        { platform: 'Facebook', url: 'https://facebook.com/a1frenchclasses' },
-        { platform: 'Twitter', url: 'https://twitter.com/a1frenchclasses' },
-        { platform: 'Instagram', url: 'https://instagram.com/a1frenchclasses' }
-    ];
-
-    const companyInfo = {
-        description: 'Learn French with confidence through our expert-led courses and proven methodology.',
-        privacyPolicy: '/privacy',
-        termsOfService: '/terms'
-    };
-
     if (loading) {
         return (
             <div className={styles.coursesPage}>
-                <Header logo={navigationData.logo} navigationItems={navigationData.items} />
+                <Header logo={navigationConfig.logo} navigationItems={navigationConfig.items} />
                 <main className={styles.main} role="main">
                     <div className={styles.container}>
                         <div className={styles.header}>
@@ -61,11 +32,11 @@ const CoursesPage = () => {
                     </div>
                 </main>
                 <Footer
-                    logo={navigationData.logo}
-                    companyInfo={companyInfo}
-                    navigationLinks={navigationData.items}
-                    socialLinks={socialLinks}
-                    contactInfo={contactInfo}
+                    logo={navigationConfig.logo}
+                    companyInfo={footerConfig.companyInfo}
+                    navigationLinks={navigationConfig.items}
+                    socialLinks={footerConfig.socialLinks}
+                    contactInfo={footerConfig.contactInfo}
                 />
             </div>
         );
@@ -74,7 +45,7 @@ const CoursesPage = () => {
     if (error) {
         return (
             <div className={styles.coursesPage}>
-                <Header logo={navigationData.logo} navigationItems={navigationData.items} />
+                <Header logo={navigationConfig.logo} navigationItems={navigationConfig.items} />
                 <main className={styles.main} role="main">
                     <div className={styles.container}>
                         <div className={styles.errorContainer} role="alert" aria-live="assertive">
@@ -91,11 +62,11 @@ const CoursesPage = () => {
                     </div>
                 </main>
                 <Footer
-                    logo={navigationData.logo}
-                    companyInfo={companyInfo}
-                    navigationLinks={navigationData.items}
-                    socialLinks={socialLinks}
-                    contactInfo={contactInfo}
+                    logo={navigationConfig.logo}
+                    companyInfo={footerConfig.companyInfo}
+                    navigationLinks={navigationConfig.items}
+                    socialLinks={footerConfig.socialLinks}
+                    contactInfo={footerConfig.contactInfo}
                 />
             </div>
         );
@@ -104,7 +75,7 @@ const CoursesPage = () => {
     return (
         <div className={styles.coursesPage}>
             {/* SEO Meta Tags - would be handled by Helmet or similar in production */}
-            <Header logo={navigationData.logo} navigationItems={navigationData.items} />
+            <Header logo={navigationConfig.logo} navigationItems={navigationConfig.items} />
 
             <main id="main-content" className={styles.main} role="main">
                 <div className={styles.container}>
@@ -158,11 +129,11 @@ const CoursesPage = () => {
             </main>
 
             <Footer
-                logo={navigationData.logo}
-                companyInfo={companyInfo}
-                navigationLinks={navigationData.items}
-                socialLinks={socialLinks}
-                contactInfo={contactInfo}
+                logo={navigationConfig.logo}
+                companyInfo={footerConfig.companyInfo}
+                navigationLinks={navigationConfig.items}
+                socialLinks={footerConfig.socialLinks}
+                contactInfo={footerConfig.contactInfo}
             />
         </div>
     );

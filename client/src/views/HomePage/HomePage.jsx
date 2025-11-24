@@ -15,6 +15,8 @@ import {
   ErrorBoundary
 } from '../../components';
 import ProfileDropdown from '../../components/ProfileDropdown/ProfileDropdown';
+import navigationConfig from '../../config/navigation';
+import footerConfig from '../../config/footer';
 import styles from './HomePage.module.css';
 
 const HomePage = () => {
@@ -76,37 +78,16 @@ const HomePage = () => {
     );
   }
 
-  // Extract data for components
-  const navigationData = data?.navigation || {};
+  // Extract data for components (hero and company story still come from API)
   const heroData = data?.hero || {};
   const companyStoryData = data?.companyStory || {};
 
-  // Mock contact info and social links for footer (these would typically come from data)
-  const contactInfo = {
-    email: 'info@a1frenchclasses.com',
-    phone: '+1 (555) 123-4567',
-    address: '123 French Street, Paris, France',
-    hours: 'Mon-Fri: 9AM-6PM'
-  };
-
-  const socialLinks = [
-    { platform: 'Facebook', url: 'https://facebook.com/a1frenchclasses' },
-    { platform: 'Twitter', url: 'https://twitter.com/a1frenchclasses' },
-    { platform: 'Instagram', url: 'https://instagram.com/a1frenchclasses' }
-  ];
-
-  const companyInfo = {
-    description: 'Learn French with confidence through our expert-led courses and proven methodology.',
-    privacyPolicy: '/privacy',
-    termsOfService: '/terms'
-  };
-
   return (
     <div className={styles.homePage}>
-      {/* Header */}
+      {/* Header - uses common navigation config */}
       <Header
-        logo={navigationData.logo}
-        navigationItems={navigationData.items || []}
+        logo={navigationConfig.logo}
+        navigationItems={navigationConfig.items}
         authComponent={isAuthenticated ? <ProfileDropdown /> : null}
       />
 
@@ -157,13 +138,13 @@ const HomePage = () => {
         </div>
       </main>
 
-      {/* Footer */}
+      {/* Footer - uses common footer config */}
       <Footer
-        logo={navigationData.logo}
-        companyInfo={companyInfo}
-        navigationLinks={navigationData.items || []}
-        socialLinks={socialLinks}
-        contactInfo={contactInfo}
+        logo={navigationConfig.logo}
+        companyInfo={footerConfig.companyInfo}
+        navigationLinks={navigationConfig.items}
+        socialLinks={footerConfig.socialLinks}
+        contactInfo={footerConfig.contactInfo}
       />
     </div>
   );

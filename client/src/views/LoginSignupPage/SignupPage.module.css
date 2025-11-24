@@ -1,0 +1,244 @@
+/* Modern Signup Page Styles - Optimized */
+
+.pageContainer {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg,
+            #1565c0 0%,
+            #1976d2 30%,
+            #2196f3 60%,
+            #ff9800 100%);
+    padding: var(--spacing-xl);
+    position: relative;
+    overflow: hidden;
+}
+
+.contentWrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xxl);
+    max-width: 1200px;
+    width: 100%;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Brand Section */
+.brandSection {
+    color: white;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.brandTitle {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.1;
+    color: #ffffff;
+    text-shadow: 2px 4px 12px rgba(0, 0, 0, 0.5),
+        0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.brandTagline {
+    font-size: 1.3rem;
+    margin-bottom: var(--spacing-xxl);
+    line-height: 1.6;
+    font-weight: 400;
+    color: #ffffff;
+    text-shadow: 1px 2px 8px rgba(0, 0, 0, 0.4),
+        0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.benefits {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.benefit {
+    display: flex;
+    gap: var(--spacing-lg);
+    align-items: flex-start;
+    padding: var(--spacing-lg);
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius-lg);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.2s ease;
+}
+
+.benefit:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.benefitIcon {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.benefit h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    color: #ffffff;
+    text-shadow: 1px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.benefit p {
+    font-size: 1.05rem;
+    margin: 0;
+    line-height: 1.5;
+    color: #ffffff;
+    font-weight: 500;
+    text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Form Section */
+.formSection {
+    animation: fadeInUp 0.6s ease-out 0.1s backwards;
+}
+
+/* Animations - Simplified */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+    .contentWrapper {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xl);
+        max-width: 600px;
+    }
+
+    .brandSection {
+        text-align: center;
+    }
+
+    .brandTitle {
+        font-size: 3rem;
+    }
+
+    .brandTagline {
+        font-size: 1.2rem;
+    }
+
+    .benefits {
+        align-items: center;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .benefit {
+        text-align: left;
+        width: 100%;
+    }
+}
+
+/* Mobile (481px - 767px) */
+@media (max-width: 767px) {
+    .pageContainer {
+        padding: var(--spacing-lg);
+    }
+
+    .brandTitle {
+        font-size: 2.5rem;
+    }
+
+    .brandTagline {
+        font-size: 1.1rem;
+        margin-bottom: var(--spacing-xl);
+    }
+
+    .benefit {
+        padding: var(--spacing-md);
+        gap: var(--spacing-md);
+    }
+
+    .benefitIcon {
+        font-size: 2rem;
+    }
+
+    .benefit h3 {
+        font-size: 1.15rem;
+    }
+
+    .benefit p {
+        font-size: 0.95rem;
+    }
+}
+
+/* Small Mobile (320px - 480px) */
+@media (max-width: 480px) {
+    .pageContainer {
+        padding: var(--spacing-md);
+    }
+
+    .contentWrapper {
+        gap: var(--spacing-lg);
+    }
+
+    .brandTitle {
+        font-size: 2rem;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .brandTagline {
+        font-size: 1rem;
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .benefits {
+        gap: var(--spacing-md);
+    }
+
+    .benefit {
+        padding: var(--spacing-sm) var(--spacing-md);
+        gap: var(--spacing-sm);
+    }
+
+    .benefitIcon {
+        font-size: 1.75rem;
+    }
+
+    .benefit h3 {
+        font-size: 1.05rem;
+    }
+
+    .benefit p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .brandSection,
+    .formSection {
+        animation: none;
+    }
+
+    .benefit:hover {
+        transform: none;
+    }
+
+    .benefit {
+        transition: none;
+    }
+}

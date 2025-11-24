@@ -57,6 +57,45 @@ const Header = ({ logo, navigationItems = [], authComponent = null }) => {
     return href;
   };
 
+  // Helper to check if a navigation item is active
+  const isActive = (href) => {
+    if (!href) return false;
+
+    // Special handling for home route
+    if (href === '/') {
+      // Home is only active when on homepage with NO hash
+      return location.pathname === '/' && !location.hash;
+    }
+
+    // For hash links (like #aboutus)
+    if (href.startsWith('#')) {
+      return location.pathname === '/' && location.hash === href;
+    }
+
+    // For hash links with slash (like /#aboutus)
+    if (href.startsWith('/#')) {
+      return location.pathname === '/' && location.hash === href.substring(1);
+    }
+
+    // For other routes, check if pathname matches
+    return location.pathname === href || location.pathname.startsWith(href + '/');
+  };
+
+  // Handle navigation link clicks - scroll to top for home
+  const handleNavLinkClick = (e, href) => {
+    // If clicking on home link
+    if (href === '/') {
+      // If already on homepage, scroll to top and clear hash
+      if (location.pathname === '/') {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.history.pushState('', document.title, window.location.pathname);
+      }
+    }
+    // Close mobile menu if open
+    handleNavClick();
+  };
+
   return (
     <header className={styles.header} role="banner">
       {/* Skip to main content link for keyboard users */}
@@ -67,7 +106,11 @@ const Header = ({ logo, navigationItems = [], authComponent = null }) => {
       <div className={styles.container}>
         {/* Logo */}
         <div className={styles.logo}>
-          <Link to="/" aria-label="A1frenchclasses - Return to homepage">
+          <Link
+            to="/"
+            aria-label="A1frenchclasses - Return to homepage"
+            onClick={(e) => handleNavLinkClick(e, '/')}
+          >
             {logo ? (
               <img
                 src={logo}
@@ -92,7 +135,8 @@ const Header = ({ logo, navigationItems = [], authComponent = null }) => {
                     to={item.href}
                     className={styles.navLink}
                     role="menuitem"
-                    aria-current={item.href === '/' ? 'page' : undefined}
+                    aria-current={isActive(item.href) ? 'page' : undefined}
+                    onClick={(e) => handleNavLinkClick(e, item.href)}
                     tabIndex={0}
                   >
                     {item.label}
@@ -102,7 +146,7 @@ const Header = ({ logo, navigationItems = [], authComponent = null }) => {
                     href={getNormalizedHref(item.href)}
                     className={styles.navLink}
                     role="menuitem"
-                    aria-current={item.href === '/' ? 'page' : undefined}
+                    aria-current={isActive(item.href) ? 'page' : undefined}
                     tabIndex={0}
                   >
                     {item.label}
@@ -162,9 +206,9 @@ const Header = ({ logo, navigationItems = [], authComponent = null }) => {
                   <Link
                     to={item.href}
                     className={styles.mobileNavLink}
-                    onClick={handleNavClick}
+                    onClick={(e) => handleNavLinkClick(e, item.href)}
                     role="menuitem"
-                    aria-current={item.href === '/' ? 'page' : undefined}
+                    aria-current={isActive(item.href) ? 'page' : undefined}
                     tabIndex={isMobileMenuOpen ? 0 : -1}
                   >
                     {item.label}
@@ -175,7 +219,7 @@ const Header = ({ logo, navigationItems = [], authComponent = null }) => {
                     className={styles.mobileNavLink}
                     onClick={handleNavClick}
                     role="menuitem"
-                    aria-current={item.href === '/' ? 'page' : undefined}
+                    aria-current={isActive(item.href) ? 'page' : undefined}
                     tabIndex={isMobileMenuOpen ? 0 : -1}
                   >
                     {item.label}
@@ -187,26 +231,25 @@ const Header = ({ logo, navigationItems = [], authComponent = null }) => {
 
           {/* Mobile Auth Section */}
           <div className={styles.mobileAuthSection}>
-            {authComponent || (
-              <div className={styles.mobileAuthButtons}>
-                <Link
-                  to="/login"
-                  className={styles.mobileLoginButton}
-                  onClick={handleNavClick}
-                  tabIndex={isMobileMenuOpen ? 0 : -1}
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/signup"
-                  className={styles.mobileSignupButton}
-                  onClick={handleNavClick}
-                  tabIndex={isMobileMenuOpen ? 0 : -1}
-                >
-                  Sign Up
-                </Link>
-              </div>
-            )}
+            {authComponent == null ? <div className={styles.mobileAuthButtons}>
+              <Link
+                to="/login"
+                className={styles.mobileLoginButton}
+                onClick={handleNavClick}
+                tabIndex={isMobileMenuOpen ? 0 : -1}
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className={styles.mobileSignupButton}
+                onClick={handleNavClick}
+                tabIndex={isMobileMenuOpen ? 0 : -1}
+              >
+                Sign Up
+              </Link>
+            </div>
+              : <div></div>}
           </div>
         </nav>
       </div>
