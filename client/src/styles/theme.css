@@ -1,0 +1,306 @@
+/* 
+ * A1 French Classes - Theme Configuration
+ * Centralized design tokens for consistent theming across the application
+ * Update this file to change the entire application's visual theme
+ */
+
+:root {
+    /* ============================================
+     BRAND COLORS
+     ============================================ */
+
+    /* Primary Color (Blue) - Main brand color */
+    --theme-primary: #1976d2;
+    --theme-primary-light: #42a5f5;
+    --theme-primary-dark: #1565c0;
+    --theme-primary-rgb: 25, 118, 210;
+
+    /* Secondary Color (Orange) - Accent color */
+    --theme-secondary: #ff9800;
+    --theme-secondary-light: #ffb74d;
+    --theme-secondary-dark: #f57c00;
+    --theme-secondary-rgb: 255, 152, 0;
+
+    /* ============================================
+     GRADIENTS
+     ============================================ */
+
+    /* Main app gradient (used in auth pages, hero sections) */
+    --theme-gradient-primary: linear-gradient(135deg,
+            var(--theme-primary-dark) 0%,
+            var(--theme-primary) 30%,
+            var(--theme-primary-light) 60%,
+            var(--theme-secondary) 100%);
+
+    /* Button gradients */
+    --theme-gradient-button-primary: linear-gradient(135deg,
+            var(--theme-primary) 0%,
+            var(--theme-primary-light) 100%);
+
+    --theme-gradient-button-secondary: linear-gradient(135deg,
+            var(--theme-secondary) 0%,
+            var(--theme-secondary-dark) 100%);
+
+    /* ============================================
+     SEMANTIC COLORS
+     ============================================ */
+
+    --theme-success: #4caf50;
+    --theme-success-dark: #388e3c;
+    --theme-error: #f44336;
+    --theme-warning: #ff9800;
+    --theme-info: #2196f3;
+
+    /* ============================================
+     TEXT COLORS
+     ============================================ */
+
+    --theme-text-primary: #212121;
+    --theme-text-secondary: #757575;
+    --theme-text-light: #ffffff;
+    --theme-text-muted: #9e9e9e;
+    --theme-text-on-primary: #ffffff;
+    --theme-text-on-secondary: #ffffff;
+
+    /* ============================================
+     BACKGROUND COLORS
+     ============================================ */
+
+    --theme-bg-primary: #ffffff;
+    --theme-bg-secondary: #f8f9fa;
+    --theme-bg-tertiary: #eeeeee;
+    --theme-bg-dark: #212121;
+
+    /* Glassmorphism backgrounds */
+    --theme-glass-white: rgba(255, 255, 255, 0.95);
+    --theme-glass-white-light: rgba(255, 255, 255, 0.2);
+    --theme-glass-white-medium: rgba(255, 255, 255, 0.3);
+
+    /* ============================================
+     BORDERS
+     ============================================ */
+
+    --theme-border-color: #e0e0e0;
+    --theme-border-light: #f0f0f0;
+    --theme-border-width: 1px;
+    --theme-border-width-thick: 2px;
+
+    /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+
+    /* Font Families */
+    --theme-font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    --theme-font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+
+    /* Font Sizes */
+    --theme-font-size-xs: 0.75rem;
+    /* 12px */
+    --theme-font-size-sm: 0.875rem;
+    /* 14px */
+    --theme-font-size-base: 1rem;
+    /* 16px */
+    --theme-font-size-md: 1.125rem;
+    /* 18px */
+    --theme-font-size-lg: 1.25rem;
+    /* 20px */
+    --theme-font-size-xl: 1.5rem;
+    /* 24px */
+    --theme-font-size-2xl: 2rem;
+    /* 32px */
+    --theme-font-size-3xl: 2.5rem;
+    /* 40px */
+    --theme-font-size-4xl: 3.5rem;
+    /* 56px */
+
+    /* Font Weights */
+    --theme-font-weight-normal: 400;
+    --theme-font-weight-medium: 500;
+    --theme-font-weight-semibold: 600;
+    --theme-font-weight-bold: 700;
+
+    /* Line Heights */
+    --theme-line-height-tight: 1.2;
+    --theme-line-height-normal: 1.5;
+    --theme-line-height-relaxed: 1.6;
+
+    /* ============================================
+     SPACING
+     ============================================ */
+
+    --theme-spacing-xs: 0.25rem;
+    /* 4px */
+    --theme-spacing-sm: 0.5rem;
+    /* 8px */
+    --theme-spacing-md: 1rem;
+    /* 16px */
+    --theme-spacing-lg: 1.5rem;
+    /* 24px */
+    --theme-spacing-xl: 2rem;
+    /* 32px */
+    --theme-spacing-2xl: 3rem;
+    /* 48px */
+    --theme-spacing-3xl: 4rem;
+    /* 64px */
+
+    /* ============================================
+     BORDER RADIUS
+     ============================================ */
+
+    --theme-radius-sm: 4px;
+    --theme-radius-md: 8px;
+    --theme-radius-lg: 12px;
+    --theme-radius-xl: 16px;
+    --theme-radius-full: 9999px;
+
+    /* ============================================
+     SHADOWS
+     ============================================ */
+
+    --theme-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --theme-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --theme-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --theme-shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+    /* Colored shadows for buttons */
+    --theme-shadow-primary: 0 4px 15px rgba(var(--theme-primary-rgb), 0.3);
+    --theme-shadow-secondary: 0 4px 15px rgba(var(--theme-secondary-rgb), 0.3);
+
+    /* Text shadows for better readability on gradients */
+    --theme-text-shadow-sm: 1px 2px 4px rgba(0, 0, 0, 0.3);
+    --theme-text-shadow-md: 2px 4px 8px rgba(0, 0, 0, 0.4);
+    --theme-text-shadow-lg: 2px 4px 12px rgba(0, 0, 0, 0.5);
+
+    /* ============================================
+     TRANSITIONS
+     ============================================ */
+
+    --theme-transition-fast: 0.15s ease-in-out;
+    --theme-transition-normal: 0.25s ease-in-out;
+    --theme-transition-slow: 0.35s ease-in-out;
+    --theme-transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* ============================================
+     Z-INDEX LAYERS
+     ============================================ */
+
+    --theme-z-dropdown: 1000;
+    --theme-z-sticky: 1020;
+    --theme-z-fixed: 1030;
+    --theme-z-modal-backdrop: 1040;
+    --theme-z-modal: 1050;
+    --theme-z-popover: 1060;
+    --theme-z-tooltip: 1070;
+
+    /* ============================================
+     COMPONENT-SPECIFIC VALUES
+     ============================================ */
+
+    /* Buttons */
+    --theme-button-padding-sm: var(--theme-spacing-sm) var(--theme-spacing-md);
+    --theme-button-padding-md: var(--theme-spacing-md) var(--theme-spacing-lg);
+    --theme-button-padding-lg: var(--theme-spacing-lg) var(--theme-spacing-xl);
+    --theme-button-min-width: 100px;
+    --theme-button-min-height: 44px;
+
+    /* Cards */
+    --theme-card-padding: var(--theme-spacing-xl);
+    --theme-card-bg: var(--theme-bg-primary);
+    --theme-card-border: 1px solid var(--theme-border-color);
+    --theme-card-radius: var(--theme-radius-lg);
+    --theme-card-shadow: var(--theme-shadow-md);
+
+    /* Glassmorphic Cards */
+    --theme-glass-padding: var(--theme-spacing-md);
+    --theme-glass-bg: var(--theme-glass-white-light);
+    --theme-glass-border: 1px solid rgba(255, 255, 255, 0.3);
+    --theme-glass-blur: blur(10px);
+
+    /* Forms */
+    --theme-input-height: 44px;
+    --theme-input-padding: var(--theme-spacing-md);
+    --theme-input-border: 2px solid var(--theme-border-color);
+    --theme-input-border-focus: 2px solid var(--theme-primary);
+    --theme-input-radius: var(--theme-radius-md);
+    --theme-input-bg: var(--theme-bg-primary);
+
+    /* Container Widths */
+    --theme-container-sm: 640px;
+    --theme-container-md: 768px;
+    --theme-container-lg: 1024px;
+    --theme-container-xl: 1200px;
+    --theme-container-2xl: 1440px;
+
+    /* ============================================
+     BREAKPOINTS (for reference in JS)
+     ============================================ */
+
+    --theme-breakpoint-xs: 320px;
+    --theme-breakpoint-sm: 480px;
+    --theme-breakpoint-md: 768px;
+    --theme-breakpoint-lg: 1024px;
+    --theme-breakpoint-xl: 1200px;
+    --theme-breakpoint-2xl: 1440px;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Glassmorphism Effect */
+.glass {
+    background: var(--theme-glass-bg);
+    backdrop-filter: var(--theme-glass-blur);
+    border: var(--theme-glass-border);
+}
+
+.glass-white {
+    background: var(--theme-glass-white);
+    backdrop-filter: var(--theme-glass-blur);
+}
+
+/* Text Shadows for Readability on Gradients */
+.text-shadow-sm {
+    text-shadow: var(--theme-text-shadow-sm);
+}
+
+.text-shadow-md {
+    text-shadow: var(--theme-text-shadow-md);
+}
+
+.text-shadow-lg {
+    text-shadow: var(--theme-text-shadow-lg);
+}
+
+/* Gradient Backgrounds */
+.bg-gradient-primary {
+    background: var(--theme-gradient-primary);
+}
+
+.bg-gradient-button-primary {
+    background: var(--theme-gradient-button-primary);
+}
+
+.bg-gradient-button-secondary {
+    background: var(--theme-gradient-button-secondary);
+}
+
+/* Container Utilities */
+.container {
+    width: 100%;
+    max-width: var(--theme-container-xl);
+    margin: 0 auto;
+    padding: 0 var(--theme-spacing-md);
+}
+
+.container-sm {
+    max-width: var(--theme-container-sm);
+}
+
+.container-lg {
+    max-width: var(--theme-container-lg);
+}
+
+.container-2xl {
+    max-width: var(--theme-container-2xl);
+}

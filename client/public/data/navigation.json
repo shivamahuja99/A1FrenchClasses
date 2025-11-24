@@ -1,0 +1,25 @@
+{
+    "logo": "/images/logo.png",
+    "items": [
+        {
+            "label": "Home",
+            "href": "/"
+        },
+        {
+            "label": "About",
+            "href": "/#aboutus"
+        },
+        {
+            "label": "Courses",
+            "href": "/courses"
+        },
+        {
+            "label": "Testimonials",
+            "href": "/#testimonials"
+        },
+        {
+            "label": "Contact",
+            "href": "/#footer"
+        }
+    ]
+}

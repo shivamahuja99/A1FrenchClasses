@@ -1,3 +1,5 @@
+/* Import theme first for design tokens */
+@import './styles/theme.css';
 /* Import animations */
 @import './styles/animations.css';
 
@@ -305,8 +307,7 @@ button:disabled {
   }
 }
 
-/* Acc
-essibility enhancements */
+/* Accessibility enhancements */
 
 /* Focus management */
 *:focus {

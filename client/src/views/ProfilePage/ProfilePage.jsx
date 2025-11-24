@@ -1,27 +1,26 @@
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
-import UserDetailsForm from '../components/profile/UserDetailsForm';
-import PurchasedCoursesList from '../components/profile/PurchasedCoursesList';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import UserDetailsForm from '../../components/profile/UserDetailsForm';
+import PurchasedCoursesList from '../../components/profile/PurchasedCoursesList';
 import { useSelector } from 'react-redux';
-import { selectIsAuthenticated } from '../store/slices/authSlice';
-import ProfileDropdown from '../components/ProfileDropdown/ProfileDropdown';
+import { selectIsAuthenticated } from '../../store/slices/authSlice';
+import ProfileDropdown from '../../components/ProfileDropdown/ProfileDropdown';
+import navigationConfig from '../../config/navigation';
+import footerConfig from '../../config/footer';
 import styles from './ProfilePage.module.css';
+import { useEffect } from 'react';
 
 const ProfilePage = () => {
     const isAuthenticated = useSelector(selectIsAuthenticated);
-
-    const navigationItems = [
-        { label: 'Home', href: '/' },
-        { label: 'Courses', href: '/courses' },
-        { label: 'About', href: '#about' },
-        { label: 'Contact', href: '#contact' },
-    ];
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, []);
 
     return (
         <div className={styles.page}>
             <Header
-                logo="/images/logo.png"
-                navigationItems={navigationItems}
+                logo={navigationConfig.logo}
+                navigationItems={navigationConfig.items}
                 authComponent={isAuthenticated ? <ProfileDropdown /> : null}
             />
 
@@ -46,7 +45,13 @@ const ProfilePage = () => {
                 </div>
             </main>
 
-            <Footer />
+            <Footer
+                logo={navigationConfig.logo}
+                companyInfo={footerConfig.companyInfo}
+                navigationLinks={navigationConfig.items}
+                socialLinks={footerConfig.socialLinks}
+                contactInfo={footerConfig.contactInfo}
+            />
         </div>
     );
 };
