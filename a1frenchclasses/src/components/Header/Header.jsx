@@ -175,6 +175,30 @@ const Header = ({ logo, navigationItems = [], authComponent = null }) => {
               </li>
             ))}
           </ul>
+
+          {/* Mobile Auth Section */}
+          <div className={styles.mobileAuthSection}>
+            {authComponent || (
+              <div className={styles.mobileAuthButtons}>
+                <Link
+                  to="/login"
+                  className={styles.mobileLoginButton}
+                  onClick={handleNavClick}
+                  tabIndex={isMobileMenuOpen ? 0 : -1}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className={styles.mobileSignupButton}
+                  onClick={handleNavClick}
+                  tabIndex={isMobileMenuOpen ? 0 : -1}
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
+          </div>
         </nav>
       </div>
     </header>
