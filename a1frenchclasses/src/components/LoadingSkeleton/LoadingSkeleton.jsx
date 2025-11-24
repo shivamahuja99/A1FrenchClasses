@@ -48,6 +48,26 @@ const LoadingSkeleton = ({
           <div className={`${styles.skeletonCircle} ${className}`} style={{ width, height }} />
         );
 
+      case 'screen':
+        return (
+          <div className={styles.skeletonScreen}>
+            <div className={styles.skeletonHeader}>
+              <div className={styles.skeletonLogo} />
+              <div className={styles.skeletonNav}>
+                <div className={styles.skeletonNavItem} />
+                <div className={styles.skeletonNavItem} />
+                <div className={styles.skeletonNavItem} />
+                <div className={styles.skeletonNavItem} />
+              </div>
+            </div>
+            <div className={styles.skeletonHero}>
+              <div className={styles.skeletonHeroTitle} />
+              <div className={styles.skeletonHeroText} />
+              <div className={styles.skeletonHeroText} />
+            </div>
+          </div>
+        );
+
       default:
         return (
           <div className={`${styles.skeletonBox} ${className}`} style={{ width, height }} />
