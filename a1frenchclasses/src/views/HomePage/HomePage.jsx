@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useHomepageData } from '../../controllers/useHomepageData';
 import { useImagePreloader } from '../../hooks/useImagePreloader';
 import { useSelector } from 'react-redux';
@@ -19,6 +21,7 @@ const HomePage = () => {
   console.log("Starting home page")
   const { data, loading, error } = useHomepageData();
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const location = useLocation();
 
   // Preload critical images for better performance
   const criticalImages = [
@@ -28,6 +31,21 @@ const HomePage = () => {
     '/images/placeholder-avatar.jpg'
   ];
   useImagePreloader(criticalImages, !loading && !error);
+
+  // Handle scrolling to hash anchor when page loads or hash changes
+  useEffect(() => {
+    if (!loading && location.hash) {
+      // Small delay to ensure DOM is fully rendered
+      const timeoutId = setTimeout(() => {
+        const element = document.querySelector(location.hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [location.hash, loading]);
 
   if (loading) {
     return (
