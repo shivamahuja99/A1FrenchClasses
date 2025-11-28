@@ -1,12 +1,19 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type User struct {
-	ID        string    `json:"id" db:"id"`
-	Name      string    `json:"name" db:"name"`
-	Age       int       `json:"age" db:"age"`
-	Gender    string    `json:"gender" db:"gender"`
-	CreatedAt time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
+	*gorm.Model
+	ID           string `json:"id" db:"id" gorm:"primaryKey;type:uuid;default:gen_random_uuid()"`
+	Name         string `json:"name" db:"name"`
+	Email        string `json:"email" db:"email"`
+	Type         string `json:"type" db:"type"`
+	MobileNumber string `json:"mobile_number" db:"mobile_number"`
+
+	CreatedAt time.Time `json:"created_at" db:"created_at" gorm:"autoCreateTime"`
+	UpdatedAt time.Time `json:"updated_at" db:"updated_at" gorm:"autoUpdateTime"`
 }

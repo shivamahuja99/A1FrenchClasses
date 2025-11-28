@@ -6,20 +6,25 @@ import (
 	"log"
 	"net/http"
 	"services/internal/models"
+	"services/internal/repository"
+
+	"github.com/gorilla/mux"
 )
 
 type UserHandler struct {
 	logger *log.Logger
+	repo   repository.UserRepository
 }
 
-func NewUserHandler(logger *log.Logger) *UserHandler {
+func NewUserHandler(logger *log.Logger, repo repository.UserRepository) *UserHandler {
 	return &UserHandler{
 		logger: logger,
+		repo:   repo,
 	}
 }
 
 func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
-	uh.logger.Println("Creating User", r.Body)
+	uh.logger.Println("Creating User")
 
 	// Read the request body
 	body, err := io.ReadAll(r.Body)
@@ -29,7 +34,7 @@ func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer r.Body.Close()
-	uh.logger.Println("Request body:", string(body))
+
 	// Parse JSON into User struct
 	var user models.User
 	if err := json.Unmarshal(body, &user); err != nil {
@@ -38,11 +43,15 @@ func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Log the received user data
-	uh.logger.Printf("Received user: ID=%s, Name=%s, Age=%d, Gender=%s",
-		user.ID, user.Name, user.Age, user.Gender)
+	// Save user to database
+	if err := uh.repo.Create(r.Context(), &user); err != nil {
+		uh.logger.Printf("Error creating user: %v", err)
+		http.Error(w, "Failed to create user", http.StatusInternalServerError)
+		return
+	}
 
-	// TODO: Save user to database
+	// Log the received user data
+	uh.logger.Printf("Created user: ID=%s, Name=%s", user.ID, user.Name)
 
 	// Send success response
 	w.Header().Set("Content-Type", "application/json")
@@ -54,5 +63,20 @@ func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (uh *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
-	uh.logger.Println("Creating User", r.Body)
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	user, err := uh.repo.FindByID(r.Context(), id)
+	if err != nil {
+		if err == repository.ErrUserNotFound {
+			http.Error(w, "User not found", http.StatusNotFound)
+			return
+		}
+		uh.logger.Printf("Error getting user: %v", err)
+		http.Error(w, "Failed to get user", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(user)
 }
