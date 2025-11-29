@@ -1,0 +1,24 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Environment variables (comment out if you want to include .env in image, but usually safer to exclude and mount/pass at runtime)
+# Keeping it included in build for now as per Dockerfile COPY, but ignoring local overrides if any
+# .env
+
+# Build artifacts
+server
+*.exe
+*.test
+*.out
+
+# Dependencies
+vendor/
+
+# OS generated files
+.DS_Store
+Thumbs.db
