@@ -44,6 +44,10 @@ func New(ctx context.Context, config *Config, appLogger *log.Logger) (*DB, error
 
 	databaseConnection := config.GetDBUrl()
 
+	// Note: For Supabase free tier, use Session Pooler (port 6543) instead of direct connection (port 5432)
+	// Session Pooler provides IPv4 compatibility which is required for Docker containers
+	appLogger.Printf("Connecting to database (ensure you're using Session Pooler on port 6543 for IPv4 support)")
+
 	// Configure GORM logger
 	gormLogger := logger.New(
 		appLogger,
