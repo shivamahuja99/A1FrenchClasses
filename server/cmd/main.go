@@ -9,8 +9,13 @@ import (
 	"syscall"
 	"time"
 
+	"services/cmd/services/courses"
+	paymentplans "services/cmd/services/payment_plans"
+	"services/cmd/services/payments"
+	"services/cmd/services/reviews"
 	user "services/cmd/services/users"
 	"services/internal/database"
+	"services/internal/middleware"
 	"services/internal/repository"
 
 	"github.com/gorilla/mux"
@@ -25,29 +30,27 @@ func main() {
 		log.Println("Warning: .env file not found, using system environment variables")
 	}
 
-	// Initialize database connection
-	dbConfig, err := database.LoadConfig()
-	if err != nil {
-		logger.Fatalf("Failed to load database config: %v", err)
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	db, err := database.New(ctx, dbConfig, logger)
+	// Initialize database
+	ctx := context.Background()
+	db, err := database.ConnectDatabase(ctx, logger)
 	if err != nil {
 		logger.Fatalf("Failed to connect to database: %v", err)
 	}
 	defer db.Close()
 
-	// Initialize repositories
-	userRepo := repository.NewPostgresUserRepository(db.DB)
-
 	// Initialize handlers
 	router := mux.NewRouter()
-	userHandler := user.NewUserHandler(logger, userRepo)
+	userHandler := user.NewUserHandler(logger, db.DB_client)
+	courseHandler := courses.NewCourseHandler(logger, db.DB_client)
+	paymentPlanHandler := paymentplans.NewPaymentPlanHandler(logger, db.DB_client)
+	reviewHandler := reviews.NewReviewHandler(logger, db.DB_client)
+	paymentHandler := payments.NewPaymentHandler(logger, db.DB_client)
 
-	// Health check endpoint
+	// Initialize auth middleware
+	sessionRepo := repository.NewPostgresSessionRepository(db.DB_client)
+	authMiddleware := middleware.NewAuthMiddleware(sessionRepo)
+
+	// Health check endpoint (public)
 	router.Handle("/health", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if err := db.HealthCheck(r.Context()); err != nil {
 			w.WriteHeader(http.StatusServiceUnavailable)
@@ -58,9 +61,47 @@ func main() {
 		w.Write([]byte("OK"))
 	}))
 
-	// User routes
-	router.HandleFunc("/api/user", userHandler.CreateUser).Methods("POST")
-	router.HandleFunc("/api/user/{id}", userHandler.GetUser).Methods("GET")
+	// Public auth routes
+	router.HandleFunc("/api/signup", userHandler.Signup).Methods("POST")
+	router.HandleFunc("/api/login/google", userHandler.Login).Methods("POST")
+	router.HandleFunc("/api/login/email", userHandler.LoginWithEmail).Methods("POST")
+	router.HandleFunc("/api/refresh", userHandler.RefreshToken).Methods("POST")
+	router.HandleFunc("/api/logout", userHandler.Logout).Methods("POST")
+
+	// Protected routes (require authentication)
+	protected := router.PathPrefix("/api").Subrouter()
+	protected.Use(authMiddleware.Authenticate)
+
+	// User routes (protected)
+	protected.HandleFunc("/user/me", userHandler.GetUser).Methods("GET")
+
+	// Course routes (protected)
+	protected.HandleFunc("/courses", courseHandler.CreateCourse).Methods("POST")
+	protected.HandleFunc("/courses", courseHandler.ListCourses).Methods("GET")
+	protected.HandleFunc("/courses/{id}", courseHandler.GetCourse).Methods("GET")
+	protected.HandleFunc("/courses/{id}", courseHandler.UpdateCourse).Methods("PUT")
+	protected.HandleFunc("/courses/{id}", courseHandler.DeleteCourse).Methods("DELETE")
+
+	// Payment Plan routes (protected)
+	protected.HandleFunc("/payment-plans", paymentPlanHandler.CreatePaymentPlan).Methods("POST")
+	protected.HandleFunc("/payment-plans", paymentPlanHandler.ListPaymentPlans).Methods("GET")
+	protected.HandleFunc("/payment-plans/{id}", paymentPlanHandler.GetPaymentPlan).Methods("GET")
+	protected.HandleFunc("/payment-plans/{id}", paymentPlanHandler.UpdatePaymentPlan).Methods("PUT")
+	protected.HandleFunc("/payment-plans/{id}", paymentPlanHandler.DeletePaymentPlan).Methods("DELETE")
+
+	// Review routes (protected)
+	protected.HandleFunc("/reviews", reviewHandler.CreateReview).Methods("POST")
+	protected.HandleFunc("/reviews", reviewHandler.ListReviews).Methods("GET")
+	protected.HandleFunc("/reviews/{id}", reviewHandler.GetReview).Methods("GET")
+	protected.HandleFunc("/reviews/{id}", reviewHandler.UpdateReview).Methods("PUT")
+	protected.HandleFunc("/reviews/{id}", reviewHandler.DeleteReview).Methods("DELETE")
+
+	// Payment routes (protected)
+	protected.HandleFunc("/payments", paymentHandler.CreatePayment).Methods("POST")
+	protected.HandleFunc("/payments", paymentHandler.ListPayments).Methods("GET")
+	protected.HandleFunc("/payments/{id}", paymentHandler.GetPayment).Methods("GET")
+	protected.HandleFunc("/payments/{id}", paymentHandler.UpdatePayment).Methods("PUT")
+	protected.HandleFunc("/payments/{id}", paymentHandler.DeletePayment).Methods("DELETE")
 
 	runServer(router)
 }

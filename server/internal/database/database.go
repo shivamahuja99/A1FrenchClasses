@@ -11,10 +11,29 @@ import (
 	"gorm.io/gorm/logger"
 )
 
+func ConnectDatabase(ctx context.Context, logger *log.Logger) (*DB, error) {
+	// Initialize database connection
+	dbConfig, err := LoadConfig()
+	if err != nil {
+		logger.Fatalf("Failed to load database config: %v", err)
+	}
+
+	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
+	defer cancel()
+
+	db, err := New(ctx, dbConfig, logger)
+	if err != nil {
+		logger.Fatalf("Failed to connect to database: %v", err)
+		return nil, err
+	}
+
+	return db, nil
+}
+
 // DB wraps the GORM database connection
 type DB struct {
-	DB     *gorm.DB
-	logger *log.Logger
+	DB_client *gorm.DB
+	logger    *log.Logger
 }
 
 // New creates a new database connection using GORM
@@ -24,6 +43,10 @@ func New(ctx context.Context, config *Config, appLogger *log.Logger) (*DB, error
 	}
 
 	databaseConnection := config.GetDBUrl()
+
+	// Note: For Supabase free tier, use Session Pooler (port 6543) instead of direct connection (port 5432)
+	// Session Pooler provides IPv4 compatibility which is required for Docker containers
+	appLogger.Printf("Connecting to database (ensure you're using Session Pooler on port 6543 for IPv4 support)")
 
 	// Configure GORM logger
 	gormLogger := logger.New(
@@ -77,15 +100,15 @@ func New(ctx context.Context, config *Config, appLogger *log.Logger) (*DB, error
 	appLogger.Println("Successfully connected to database with GORM")
 
 	return &DB{
-		DB:     db,
-		logger: appLogger,
+		DB_client: db,
+		logger:    appLogger,
 	}, nil
 }
 
 // Close closes the database connection
 func (db *DB) Close() {
-	if db.DB != nil {
-		sqlDB, err := db.DB.DB()
+	if db.DB_client != nil {
+		sqlDB, err := db.DB_client.DB()
 		if err == nil {
 			db.logger.Println("Closing database connection")
 			sqlDB.Close()
@@ -95,11 +118,11 @@ func (db *DB) Close() {
 
 // HealthCheck verifies database connectivity
 func (db *DB) HealthCheck(ctx context.Context) error {
-	if db.DB == nil {
+	if db.DB_client == nil {
 		return fmt.Errorf("database is not initialized")
 	}
 
-	sqlDB, err := db.DB.DB()
+	sqlDB, err := db.DB_client.DB()
 	if err != nil {
 		return fmt.Errorf("failed to get sql.DB: %w", err)
 	}

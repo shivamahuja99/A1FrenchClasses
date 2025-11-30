@@ -96,3 +96,15 @@ CREATE TABLE payments (
 );
 ```
 
+
+# Docker
+
+## Build
+```bash
+docker build -t a1frenchclasses-server .
+```
+
+## Run
+```bash
+docker run -p 8080:8080 --env-file .env a1frenchclasses-server
+```

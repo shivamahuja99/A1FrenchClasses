@@ -19,6 +19,8 @@ var (
 type UserRepository interface {
 	Create(ctx context.Context, user *models.User) error
 	FindByID(ctx context.Context, id string) (*models.User, error)
+	FindByGoogleID(ctx context.Context, googleID string) (*models.User, error)
+	FindByEmail(ctx context.Context, email string) (*models.User, error)
 	FindAll(ctx context.Context) ([]*models.User, error)
 	Update(ctx context.Context, user *models.User) error
 	Delete(ctx context.Context, id string) error
@@ -55,6 +57,30 @@ func (r *PostgresUserRepository) FindByID(ctx context.Context, id string) (*mode
 			return nil, ErrUserNotFound
 		}
 		return nil, fmt.Errorf("failed to find user: %w", err)
+	}
+	return &user, nil
+}
+
+// FindByGoogleID retrieves a user by their Google ID
+func (r *PostgresUserRepository) FindByGoogleID(ctx context.Context, googleID string) (*models.User, error) {
+	var user models.User
+	if err := r.db.WithContext(ctx).Where("google_id = ?", googleID).First(&user).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrUserNotFound
+		}
+		return nil, fmt.Errorf("failed to find user by google_id: %w", err)
+	}
+	return &user, nil
+}
+
+// FindByEmail retrieves a user by their email
+func (r *PostgresUserRepository) FindByEmail(ctx context.Context, email string) (*models.User, error) {
+	var user models.User
+	if err := r.db.WithContext(ctx).Where("email = ?", email).First(&user).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrUserNotFound
+		}
+		return nil, fmt.Errorf("failed to find user by email: %w", err)
 	}
 	return &user, nil
 }
