@@ -22,8 +22,7 @@ WORKDIR /root/
 # Install ca-certificates for HTTPS
 RUN apk --no-cache add ca-certificates
 
-COPY --from=builder /app/server .
-COPY --from=builder /app/.env . 
+COPY --from=builder /app/server . 
 
 # Expose port (defaulting to 8080, adjust if needed)
 EXPOSE 8080
