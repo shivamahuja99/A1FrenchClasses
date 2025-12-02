@@ -1,11 +1,11 @@
-import { useCoursesData } from '../../controllers/useCoursesData';
+import { useGetCoursesQuery } from '../../store/api/apiSlice';
 import { Link } from 'react-router-dom';
 import CourseCard from '../CourseCard/CourseCard';
 import LoadingSkeleton from '../LoadingSkeleton/LoadingSkeleton';
 import styles from './FeaturedCourses.module.css';
 
 const FeaturedCourses = ({ limit = 3 }) => {
-  const { courses, loading, error } = useCoursesData();
+  const { data: courses = [], isLoading: loading, error } = useGetCoursesQuery();
 
   // Limit the courses displayed
   const displayedCourses = courses.slice(0, limit);

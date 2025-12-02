@@ -131,8 +131,8 @@ const CourseCard = ({ course }) => {
 
         {/* Tutor and Duration */}
         <div className={styles.courseInfo} role="group" aria-label="Course details">
-          <span className={styles.tutor} aria-label={`Instructor: ${instructor}`}>
-            By {instructor}
+          <span className={styles.tutor} aria-label={`Instructor: ${instructor.name}`}>
+            By {instructor.name}
           </span>
           <span className={styles.duration} aria-label={`Course duration: ${duration}`}>
             {duration}
@@ -147,9 +147,9 @@ const CourseCard = ({ course }) => {
           <div id={`course-price-${id}`} className={styles.priceContainer}>
             <span
               className={styles.currentPrice}
-              aria-label={`Current price: $${discountedPrice}`}
+              aria-label={`Current price: $${price}`}
             >
-              ${discountedPrice}
+              ${price}
             </span>
             {hasDiscount && (
               <span

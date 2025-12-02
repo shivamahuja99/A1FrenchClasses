@@ -38,7 +38,7 @@ func (r *PostgresCourseRepository) Create(ctx context.Context, course *models.Co
 
 func (r *PostgresCourseRepository) FindByID(ctx context.Context, id string) (*models.Course, error) {
 	var course models.Course
-	if err := r.db.WithContext(ctx).First(&course, "id = ?", id).Error; err != nil {
+	if err := r.db.WithContext(ctx).Preload("Instructor").First(&course, "id = ?", id).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, ErrCourseNotFound
 		}
@@ -49,7 +49,7 @@ func (r *PostgresCourseRepository) FindByID(ctx context.Context, id string) (*mo
 
 func (r *PostgresCourseRepository) FindAll(ctx context.Context) ([]*models.Course, error) {
 	var courses []*models.Course
-	if err := r.db.WithContext(ctx).Find(&courses).Error; err != nil {
+	if err := r.db.WithContext(ctx).Preload("Instructor").Find(&courses).Error; err != nil {
 		return nil, fmt.Errorf("failed to list courses: %w", err)
 	}
 	return courses, nil

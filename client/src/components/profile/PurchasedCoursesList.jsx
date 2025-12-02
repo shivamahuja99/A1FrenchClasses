@@ -1,8 +1,8 @@
-import { useGetPurchasedCoursesQuery } from '../../store/api/apiSlice';
+import { useGetCoursesQuery } from '../../store/api/apiSlice';
 import styles from './PurchasedCoursesList.module.css';
 
 const PurchasedCoursesList = () => {
-    const { data: courses, isLoading, error } = useGetPurchasedCoursesQuery();
+    const { data: courses, isLoading, error } = useGetCoursesQuery();
 
     if (isLoading) {
         return (

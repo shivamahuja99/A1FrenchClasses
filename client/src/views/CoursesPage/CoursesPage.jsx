@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useCoursesData } from '../../controllers/useCoursesData';
+import { useGetCoursesQuery } from '../../store/api/apiSlice';
 import { Header, Footer } from '../../components';
 import CourseCard from '../../components/CourseCard/CourseCard';
 import LoadingSkeleton from '../../components/LoadingSkeleton/LoadingSkeleton';
@@ -8,7 +8,7 @@ import footerConfig from '../../config/footer';
 import styles from './CoursesPage.module.css';
 
 const CoursesPage = () => {
-    const { courses, loading, error } = useCoursesData();
+    const { data: courses = [], isLoading: loading, error } = useGetCoursesQuery();
 
     // Scroll to top when component mounts
     useEffect(() => {
