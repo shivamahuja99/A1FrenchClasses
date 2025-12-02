@@ -74,6 +74,7 @@ func main() {
 
 	// User routes (protected)
 	protected.HandleFunc("/user/me", userHandler.GetUser).Methods("GET")
+	protected.HandleFunc("/user/me", userHandler.UpdateUser).Methods("PUT")
 
 	// Course routes (protected)
 	protected.HandleFunc("/courses", courseHandler.CreateCourse).Methods("POST")
@@ -103,10 +104,10 @@ func main() {
 	protected.HandleFunc("/payments/{id}", paymentHandler.UpdatePayment).Methods("PUT")
 	protected.HandleFunc("/payments/{id}", paymentHandler.DeletePayment).Methods("DELETE")
 
-	runServer(router)
+	runServer(middleware.CORSMiddleware(router))
 }
 
-func runServer(router *mux.Router) {
+func runServer(handler http.Handler) {
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "3000"
@@ -114,7 +115,7 @@ func runServer(router *mux.Router) {
 
 	srv := &http.Server{
 		Addr:    ":" + port,
-		Handler: router,
+		Handler: handler,
 	}
 
 	// Graceful shutdown

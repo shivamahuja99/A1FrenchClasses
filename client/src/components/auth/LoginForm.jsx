@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useLoginMutation } from '../../store/api/apiSlice';
+import { useLoginWithEmailMutation } from '../../store/api/apiSlice';
 import { setCredentials } from '../../store/slices/authSlice';
 import FormInput from './FormInput';
 import GoogleAuthButton from './GoogleAuthButton';
@@ -11,7 +11,7 @@ import styles from './AuthForm.module.css';
 const LoginForm = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [login, { isLoading }] = useLoginMutation();
+    const [loginWithEmail, { isLoading }] = useLoginWithEmailMutation();
 
     const [formData, setFormData] = useState({
         email: '',
@@ -65,7 +65,7 @@ const LoginForm = () => {
         }
 
         try {
-            const result = await login(formData).unwrap();
+            const result = await loginWithEmail(formData).unwrap();
 
             // Update Redux state
             dispatch(setCredentials(result));

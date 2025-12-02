@@ -112,7 +112,7 @@ export const validation = {
     },
 
     // Date of birth validation
-    dateOfBirth: (dob) => {
+    dob: (dob) => {
         if (!dob) {
             return ''; // DOB is optional
         }

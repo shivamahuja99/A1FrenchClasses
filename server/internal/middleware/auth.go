@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"services/internal/auth"
 	"services/internal/repository"
@@ -22,20 +23,32 @@ func NewAuthMiddleware(sessionRepo repository.SessionRepository) *AuthMiddleware
 	}
 }
 
+// sendJSONError sends a JSON formatted error response
+func sendJSONError(w http.ResponseWriter, message string, code int) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(code)
+	// Create a map for the JSON response
+	response := map[string]string{"error": message}
+	// Encode and send
+	if err := json.NewEncoder(w).Encode(response); err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+}
+
 // Authenticate validates the JWT token and loads the session
 func (m *AuthMiddleware) Authenticate(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Extract token from Authorization header
 		authHeader := r.Header.Get("Authorization")
 		if authHeader == "" {
-			http.Error(w, "Missing authorization header", http.StatusUnauthorized)
+			sendJSONError(w, "Missing authorization header", http.StatusUnauthorized)
 			return
 		}
 
 		// Check for Bearer token
 		parts := strings.Split(authHeader, " ")
 		if len(parts) != 2 || parts[0] != "Bearer" {
-			http.Error(w, "Invalid authorization header format", http.StatusUnauthorized)
+			sendJSONError(w, "Invalid authorization header format", http.StatusUnauthorized)
 			return
 		}
 
@@ -44,14 +57,14 @@ func (m *AuthMiddleware) Authenticate(next http.Handler) http.Handler {
 		// Validate JWT token
 		claims, err := auth.ValidateAccessToken(tokenString)
 		if err != nil {
-			http.Error(w, "Invalid or expired token", http.StatusUnauthorized)
+			sendJSONError(w, "Invalid or expired token", http.StatusUnauthorized)
 			return
 		}
 
 		// Verify session exists in database
 		session, err := m.sessionRepo.FindByAccessToken(r.Context(), tokenString)
 		if err != nil {
-			http.Error(w, "Invalid session", http.StatusUnauthorized)
+			sendJSONError(w, "Invalid session", http.StatusUnauthorized)
 			return
 		}
 

@@ -20,7 +20,6 @@ import footerConfig from '../../config/footer';
 import styles from './HomePage.module.css';
 
 const HomePage = () => {
-  console.log("Starting home page")
   const { data, loading, error } = useHomepageData();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const location = useLocation();

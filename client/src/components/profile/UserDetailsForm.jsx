@@ -15,7 +15,7 @@ const UserDetailsForm = () => {
     const [formData, setFormData] = useState({
         name: user?.name || '',
         age: user?.age || '',
-        dateOfBirth: user?.dateOfBirth || '',
+        dob: user?.dob || '',
         email: user?.email || '',
     });
 
@@ -52,8 +52,8 @@ const UserDetailsForm = () => {
         const ageError = validation.age(formData.age);
         if (ageError) newErrors.age = ageError;
 
-        const dobError = validation.dateOfBirth(formData.dateOfBirth);
-        if (dobError) newErrors.dateOfBirth = dobError;
+        const dobError = validation.dob(formData.dob);
+        if (dobError) newErrors.dob = dobError;
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -72,9 +72,10 @@ const UserDetailsForm = () => {
             const updates = {
                 name: formData.name,
                 age: formData.age ? parseInt(formData.age, 10) : null,
-                dateOfBirth: formData.dateOfBirth || null,
+                dob: formData.dob || null,
             };
 
+            // Call API to update profile
             const result = await updateProfile(updates).unwrap();
 
             // Update Redux state
@@ -92,7 +93,7 @@ const UserDetailsForm = () => {
         setFormData({
             name: user?.name || '',
             age: user?.age || '',
-            dateOfBirth: user?.dateOfBirth || '',
+            dob: user?.dateOfBirth || '',
             email: user?.email || '',
         });
         setErrors({});
@@ -165,10 +166,10 @@ const UserDetailsForm = () => {
                     <FormInput
                         label="Date of Birth"
                         type="date"
-                        name="dateOfBirth"
-                        value={formData.dateOfBirth}
+                        name="dob"
+                        value={formData.dob}
                         onChange={handleChange}
-                        error={errors.dateOfBirth}
+                        error={errors.dob}
                         disabled={!isEditing || isLoading}
                     />
                 </div>

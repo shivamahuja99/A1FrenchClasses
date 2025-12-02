@@ -29,6 +29,14 @@ func NewUserHandler(logger *log.Logger, db *gorm.DB) *UserHandler {
 	}
 }
 
+func sendJSONError(w http.ResponseWriter, message string, code int) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(code)
+	json.NewEncoder(w).Encode(map[string]string{
+		"error": message,
+	})
+}
+
 func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	uh.logger.Println("Creating User")
 
@@ -36,7 +44,7 @@ func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		uh.logger.Printf("Error reading request body: %v", err)
-		http.Error(w, "Failed to read request body", http.StatusBadRequest)
+		sendJSONError(w, "Failed to read request body", http.StatusBadRequest)
 		return
 	}
 	defer r.Body.Close()
@@ -45,14 +53,14 @@ func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	var user models.User
 	if err := json.Unmarshal(body, &user); err != nil {
 		uh.logger.Printf("Error parsing JSON: %v", err)
-		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
+		sendJSONError(w, "Invalid JSON format", http.StatusBadRequest)
 		return
 	}
 
 	// Save user to database
 	if err := uh.repo.Create(r.Context(), &user); err != nil {
 		uh.logger.Printf("Error creating user: %v", err)
-		http.Error(w, "Failed to create user", http.StatusInternalServerError)
+		sendJSONError(w, "Failed to create user", http.StatusInternalServerError)
 		return
 	}
 
@@ -72,18 +80,68 @@ func (uh *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 	// Get user ID from context (set by auth middleware)
 	userID, ok := r.Context().Value("user_id").(string)
 	if !ok {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		sendJSONError(w, "Unauthorized", http.StatusUnauthorized)
 		return
 	}
 
 	user, err := uh.repo.FindByID(r.Context(), userID)
 	if err != nil {
 		if err == repository.ErrUserNotFound {
-			http.Error(w, "User not found", http.StatusNotFound)
+			sendJSONError(w, "User not found", http.StatusNotFound)
 			return
 		}
 		uh.logger.Printf("Error getting user: %v", err)
-		http.Error(w, "Failed to get user", http.StatusInternalServerError)
+		sendJSONError(w, "Failed to get user", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(user)
+}
+
+func (uh *UserHandler) UpdateUser(w http.ResponseWriter, r *http.Request) {
+	// Get user ID from context (set by auth middleware)
+	userID, ok := r.Context().Value("user_id").(string)
+	if !ok {
+		sendJSONError(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	var req struct {
+		Name        string `json:"name"`
+		DateOfBirth string `json:"dob"`
+		Age         int    `json:"age"` // Note: Age is not in the model, but might be sent by frontend. We'll ignore it or calculate DOB if needed.
+	}
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		sendJSONError(w, "Invalid request body", http.StatusBadRequest)
+		return
+	}
+
+	// Find existing user
+	user, err := uh.repo.FindByID(r.Context(), userID)
+	if err != nil {
+		if err == repository.ErrUserNotFound {
+			sendJSONError(w, "User not found", http.StatusNotFound)
+			return
+		}
+		uh.logger.Printf("Error getting user: %v", err)
+		sendJSONError(w, "Failed to get user", http.StatusInternalServerError)
+		return
+	}
+
+	// Update fields
+	if req.Name != "" {
+		user.Name = req.Name
+	}
+	if req.DateOfBirth != "" {
+		user.DateOfBirth = req.DateOfBirth
+	}
+
+	// Save updates
+	if err := uh.repo.Update(r.Context(), user); err != nil {
+		uh.logger.Printf("Error updating user: %v", err)
+		sendJSONError(w, "Failed to update user", http.StatusInternalServerError)
 		return
 	}
 
@@ -98,7 +156,7 @@ func (uh *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		sendJSONError(w, "Invalid request body", http.StatusBadRequest)
 		return
 	}
 
@@ -106,7 +164,7 @@ func (uh *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	googleInfo, err := auth.VerifyGoogleToken(r.Context(), req.GoogleToken)
 	if err != nil {
 		uh.logger.Printf("Error verifying Google token: %v", err)
-		http.Error(w, "Invalid Google token", http.StatusUnauthorized)
+		sendJSONError(w, "Invalid Google token", http.StatusUnauthorized)
 		return
 	}
 
@@ -115,7 +173,7 @@ func (uh *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		if err != repository.ErrUserNotFound {
 			uh.logger.Printf("Error finding user: %v", err)
-			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			sendJSONError(w, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 
@@ -129,7 +187,7 @@ func (uh *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 		if err := uh.repo.Create(r.Context(), user); err != nil {
 			uh.logger.Printf("Error creating user: %v", err)
-			http.Error(w, "Failed to create user", http.StatusInternalServerError)
+			sendJSONError(w, "Failed to create user", http.StatusInternalServerError)
 			return
 		}
 	}
@@ -138,14 +196,14 @@ func (uh *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	accessToken, err := auth.GenerateAccessToken(user.ID, user.Email)
 	if err != nil {
 		uh.logger.Printf("Error generating access token: %v", err)
-		http.Error(w, "Failed to generate token", http.StatusInternalServerError)
+		sendJSONError(w, "Failed to generate token", http.StatusInternalServerError)
 		return
 	}
 
 	refreshToken, err := auth.GenerateRefreshToken()
 	if err != nil {
 		uh.logger.Printf("Error generating refresh token: %v", err)
-		http.Error(w, "Failed to generate token", http.StatusInternalServerError)
+		sendJSONError(w, "Failed to generate token", http.StatusInternalServerError)
 		return
 	}
 
@@ -159,7 +217,7 @@ func (uh *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	if err := uh.sessionRepo.CreateSession(r.Context(), session); err != nil {
 		uh.logger.Printf("Error creating session: %v", err)
-		http.Error(w, "Failed to create session", http.StatusInternalServerError)
+		sendJSONError(w, "Failed to create session", http.StatusInternalServerError)
 		return
 	}
 
@@ -179,14 +237,14 @@ func (uh *UserHandler) RefreshToken(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		sendJSONError(w, "Invalid request body", http.StatusBadRequest)
 		return
 	}
 
 	// Find session by refresh token
 	session, err := uh.sessionRepo.FindByRefreshToken(r.Context(), req.RefreshToken)
 	if err != nil {
-		http.Error(w, "Invalid refresh token", http.StatusUnauthorized)
+		sendJSONError(w, "Invalid refresh token", http.StatusUnauthorized)
 		return
 	}
 
@@ -199,14 +257,14 @@ func (uh *UserHandler) RefreshToken(w http.ResponseWriter, r *http.Request) {
 	accessToken, err := auth.GenerateAccessToken(session.UserID, session.User.Email)
 	if err != nil {
 		uh.logger.Printf("Error generating access token: %v", err)
-		http.Error(w, "Failed to generate token", http.StatusInternalServerError)
+		sendJSONError(w, "Failed to generate token", http.StatusInternalServerError)
 		return
 	}
 
 	refreshToken, err := auth.GenerateRefreshToken()
 	if err != nil {
 		uh.logger.Printf("Error generating refresh token: %v", err)
-		http.Error(w, "Failed to generate token", http.StatusInternalServerError)
+		sendJSONError(w, "Failed to generate token", http.StatusInternalServerError)
 		return
 	}
 
@@ -220,7 +278,7 @@ func (uh *UserHandler) RefreshToken(w http.ResponseWriter, r *http.Request) {
 
 	if err := uh.sessionRepo.CreateSession(r.Context(), newSession); err != nil {
 		uh.logger.Printf("Error creating session: %v", err)
-		http.Error(w, "Failed to create session", http.StatusInternalServerError)
+		sendJSONError(w, "Failed to create session", http.StatusInternalServerError)
 		return
 	}
 
@@ -240,14 +298,14 @@ func (uh *UserHandler) Logout(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		sendJSONError(w, "Invalid request body", http.StatusBadRequest)
 		return
 	}
 
 	// Delete session
 	if err := uh.sessionRepo.DeleteSession(r.Context(), req.Token); err != nil {
 		uh.logger.Printf("Error deleting session: %v", err)
-		http.Error(w, "Failed to logout", http.StatusInternalServerError)
+		sendJSONError(w, "Failed to logout", http.StatusInternalServerError)
 		return
 	}
 
@@ -264,20 +322,20 @@ func (uh *UserHandler) Signup(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		sendJSONError(w, "Invalid request body", http.StatusBadRequest)
 		return
 	}
 
 	// Validate input
 	if req.Email == "" || req.Password == "" || req.Name == "" {
-		http.Error(w, "Name, email and password are required", http.StatusBadRequest)
+		sendJSONError(w, "Name, email and password are required", http.StatusBadRequest)
 		return
 	}
 
 	// Check if user already exists
 	existingUser, err := uh.repo.FindByEmail(r.Context(), req.Email)
 	if err == nil && existingUser != nil {
-		http.Error(w, "User with this email already exists", http.StatusConflict)
+		sendJSONError(w, "User with this email already exists", http.StatusConflict)
 		return
 	}
 
@@ -285,7 +343,7 @@ func (uh *UserHandler) Signup(w http.ResponseWriter, r *http.Request) {
 	hashedPassword, err := auth.HashPassword(req.Password)
 	if err != nil {
 		uh.logger.Printf("Error hashing password: %v", err)
-		http.Error(w, "Failed to create user", http.StatusInternalServerError)
+		sendJSONError(w, "Failed to create user", http.StatusInternalServerError)
 		return
 	}
 
@@ -300,7 +358,7 @@ func (uh *UserHandler) Signup(w http.ResponseWriter, r *http.Request) {
 
 	if err := uh.repo.Create(r.Context(), user); err != nil {
 		uh.logger.Printf("Error creating user: %v", err)
-		http.Error(w, "Failed to create user", http.StatusInternalServerError)
+		sendJSONError(w, "Failed to create user", http.StatusInternalServerError)
 		return
 	}
 
@@ -308,14 +366,14 @@ func (uh *UserHandler) Signup(w http.ResponseWriter, r *http.Request) {
 	accessToken, err := auth.GenerateAccessToken(user.ID, user.Email)
 	if err != nil {
 		uh.logger.Printf("Error generating access token: %v", err)
-		http.Error(w, "Failed to generate token", http.StatusInternalServerError)
+		sendJSONError(w, "Failed to generate token", http.StatusInternalServerError)
 		return
 	}
 
 	refreshToken, err := auth.GenerateRefreshToken()
 	if err != nil {
 		uh.logger.Printf("Error generating refresh token: %v", err)
-		http.Error(w, "Failed to generate token", http.StatusInternalServerError)
+		sendJSONError(w, "Failed to generate token", http.StatusInternalServerError)
 		return
 	}
 
@@ -329,7 +387,7 @@ func (uh *UserHandler) Signup(w http.ResponseWriter, r *http.Request) {
 
 	if err := uh.sessionRepo.CreateSession(r.Context(), session); err != nil {
 		uh.logger.Printf("Error creating session: %v", err)
-		http.Error(w, "Failed to create session", http.StatusInternalServerError)
+		sendJSONError(w, "Failed to create session", http.StatusInternalServerError)
 		return
 	}
 
@@ -350,13 +408,13 @@ func (uh *UserHandler) LoginWithEmail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		sendJSONError(w, "Invalid request body", http.StatusBadRequest)
 		return
 	}
 
 	// Validate input
 	if req.Email == "" || req.Password == "" {
-		http.Error(w, "Email and password are required", http.StatusBadRequest)
+		sendJSONError(w, "Email and password are required", http.StatusBadRequest)
 		return
 	}
 
@@ -364,17 +422,17 @@ func (uh *UserHandler) LoginWithEmail(w http.ResponseWriter, r *http.Request) {
 	user, err := uh.repo.FindByEmail(r.Context(), req.Email)
 	if err != nil {
 		if err == repository.ErrUserNotFound {
-			http.Error(w, "Invalid email or password", http.StatusUnauthorized)
+			sendJSONError(w, "Invalid email or password", http.StatusUnauthorized)
 			return
 		}
 		uh.logger.Printf("Error finding user: %v", err)
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		sendJSONError(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
 
 	// Verify password
 	if err := auth.ComparePassword(user.Password, req.Password); err != nil {
-		http.Error(w, "Invalid email or password", http.StatusUnauthorized)
+		sendJSONError(w, "Invalid email or password", http.StatusUnauthorized)
 		return
 	}
 
@@ -382,14 +440,14 @@ func (uh *UserHandler) LoginWithEmail(w http.ResponseWriter, r *http.Request) {
 	accessToken, err := auth.GenerateAccessToken(user.ID, user.Email)
 	if err != nil {
 		uh.logger.Printf("Error generating access token: %v", err)
-		http.Error(w, "Failed to generate token", http.StatusInternalServerError)
+		sendJSONError(w, "Failed to generate token", http.StatusInternalServerError)
 		return
 	}
 
 	refreshToken, err := auth.GenerateRefreshToken()
 	if err != nil {
 		uh.logger.Printf("Error generating refresh token: %v", err)
-		http.Error(w, "Failed to generate token", http.StatusInternalServerError)
+		sendJSONError(w, "Failed to generate token", http.StatusInternalServerError)
 		return
 	}
 
@@ -403,7 +461,7 @@ func (uh *UserHandler) LoginWithEmail(w http.ResponseWriter, r *http.Request) {
 
 	if err := uh.sessionRepo.CreateSession(r.Context(), session); err != nil {
 		uh.logger.Printf("Error creating session: %v", err)
-		http.Error(w, "Failed to create session", http.StatusInternalServerError)
+		sendJSONError(w, "Failed to create session", http.StatusInternalServerError)
 		return
 	}
 
