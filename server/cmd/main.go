@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	"services/cmd/services/cart"
 	"services/cmd/services/courses"
 	paymentplans "services/cmd/services/payment_plans"
 	"services/cmd/services/payments"
@@ -45,6 +46,7 @@ func main() {
 	paymentPlanHandler := paymentplans.NewPaymentPlanHandler(logger, db.DB_client)
 	reviewHandler := reviews.NewReviewHandler(logger, db.DB_client)
 	paymentHandler := payments.NewPaymentHandler(logger, db.DB_client)
+	cartHandler := cart.NewCartHandler(logger, db.DB_client)
 
 	// Initialize auth middleware
 	sessionRepo := repository.NewPostgresSessionRepository(db.DB_client)
@@ -103,6 +105,13 @@ func main() {
 	protected.HandleFunc("/payments/{id}", paymentHandler.GetPayment).Methods("GET")
 	protected.HandleFunc("/payments/{id}", paymentHandler.UpdatePayment).Methods("PUT")
 	protected.HandleFunc("/payments/{id}", paymentHandler.DeletePayment).Methods("DELETE")
+
+	// Cart routes (protected)
+	protected.HandleFunc("/cart", cartHandler.GetCart).Methods("GET")
+	protected.HandleFunc("/cart/items", cartHandler.AddToCart).Methods("POST")
+	protected.HandleFunc("/cart/items/{id}", cartHandler.UpdateCartItem).Methods("PUT")
+	protected.HandleFunc("/cart/items/{id}", cartHandler.RemoveFromCart).Methods("DELETE")
+	protected.HandleFunc("/cart", cartHandler.ClearCart).Methods("DELETE")
 
 	runServer(middleware.CORSMiddleware(router))
 }

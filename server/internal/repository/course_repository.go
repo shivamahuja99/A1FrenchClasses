@@ -38,7 +38,11 @@ func (r *PostgresCourseRepository) Create(ctx context.Context, course *models.Co
 
 func (r *PostgresCourseRepository) FindByID(ctx context.Context, id string) (*models.Course, error) {
 	var course models.Course
-	if err := r.db.WithContext(ctx).Preload("Instructor").First(&course, "id = ?", id).Error; err != nil {
+	if err := r.db.WithContext(ctx).
+		Preload("Instructor").
+		Preload("Reviews.User").
+		Preload("Reviews").
+		First(&course, "id = ?", id).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, ErrCourseNotFound
 		}

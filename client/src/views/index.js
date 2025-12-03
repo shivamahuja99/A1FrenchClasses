@@ -3,4 +3,6 @@ export { default as HomePage } from './HomePage/HomePage';
 export { default as CoursesPage } from './CoursesPage/CoursesPage';
 export { default as LoginPage } from './LoginSignupPage/LoginPage';
 export { default as SignupPage } from './LoginSignupPage/SignupPage';
-export { default as ProfilePage } from './ProfilePage/ProfilePage'; 
+export { default as ProfilePage } from './ProfilePage/ProfilePage';
+export { default as CourseDetailsPage } from './CourseDetailsPage/CourseDetailsPage';
+export { default as CartPage } from './CartPage/CartPage'; 

@@ -1,0 +1,70 @@
+.section {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.sectionTitle {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 1.5rem 0;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.detailsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.detailItem {
+    display: flex;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.detailItem:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.detailIcon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.detailContent {
+    flex: 1;
+}
+
+.detailTitle {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #666;
+    margin: 0 0 0.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detailValue {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .section {
+        padding: 1.5rem;
+    }
+
+    .detailsGrid {
+        grid-template-columns: 1fr;
+    }
+}
