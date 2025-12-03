@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { HomePage, CoursesPage, LoginPage, SignupPage, ProfilePage } from './views';
+import { HomePage, CoursesPage, LoginPage, SignupPage, ProfilePage, CourseDetailsPage, CartPage } from './views';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoadingSkeleton from './components/LoadingSkeleton/LoadingSkeleton';
 import { useGetCurrentUserQuery } from './store/api/apiSlice';
@@ -53,6 +53,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/courses/:id" element={<CourseDetailsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route
@@ -60,6 +61,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute>
+                <CartPage />
               </ProtectedRoute>
             }
           />

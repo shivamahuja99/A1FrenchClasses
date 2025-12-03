@@ -99,9 +99,9 @@ const Header = ({ logo, navigationItems = [], authComponent = null }) => {
   return (
     <header className={styles.header} role="banner">
       {/* Skip to main content link for keyboard users */}
-      <a href="#main-content" className="skip-link">
+      {/* <a href="#main-content" className="skip-link">
         Skip to main content
-      </a>
+      </a> */}
 
       <div className={styles.container}>
         {/* Logo */}

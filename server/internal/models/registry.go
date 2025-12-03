@@ -9,4 +9,6 @@ var AllModels = []any{
 	&Review{},
 	&Payment{},
 	&Session{},
+	&Cart{},
+	&CartItem{},
 }

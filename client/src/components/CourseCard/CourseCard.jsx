@@ -1,22 +1,25 @@
+import { useNavigate } from 'react-router-dom';
 import styles from './CourseCard.module.css';
 import LazyImage from '../LazyImage/LazyImage';
 import { generateOptimizedImagePaths } from '../../utils/imageUtils';
 
 const CourseCard = ({ course }) => {
+  const navigate = useNavigate();
+
   if (!course) {
     return null;
   }
 
   const {
     id,
-    title,
+    name: title,
     instructor,
     duration,
     description,
     price,
     discount,
     difficulty,
-    image,
+    image_url: image,
     rating,
     course_url
   } = course;
@@ -43,9 +46,7 @@ const CourseCard = ({ course }) => {
   };
 
   const handleCardClick = () => {
-    if (course_url) {
-      window.location.href = course_url;
-    }
+    navigate(`/courses/${id}`);
   };
 
   const handleKeyDown = (e) => {
@@ -131,8 +132,8 @@ const CourseCard = ({ course }) => {
 
         {/* Tutor and Duration */}
         <div className={styles.courseInfo} role="group" aria-label="Course details">
-          <span className={styles.tutor} aria-label={`Instructor: ${instructor.name}`}>
-            By {instructor.name}
+          <span className={styles.tutor} aria-label={`Instructor: ${instructor?.name || 'Unknown'}`}>
+            By {instructor?.name || 'Unknown'}
           </span>
           <span className={styles.duration} aria-label={`Course duration: ${duration}`}>
             {duration}

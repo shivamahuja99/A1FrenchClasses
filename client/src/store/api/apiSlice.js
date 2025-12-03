@@ -69,7 +69,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: baseQueryWithReauth,
-    tagTypes: ['User', 'Courses', 'Reviews'],
+    tagTypes: ['User', 'Courses', 'Reviews', 'Cart'],
     endpoints: (builder) => ({
         // ============ Authentication Endpoints ============
 
@@ -255,6 +255,55 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Reviews'],
         }),
+
+        // ============ Cart Endpoints (Protected) ============
+
+        // Get User's Cart
+        getCart: builder.query({
+            query: () => ({
+                url: '/api/cart',
+                method: 'GET',
+            }),
+            providesTags: ['Cart'],
+        }),
+
+        // Add Item to Cart
+        addToCart: builder.mutation({
+            query: (cartData) => ({
+                url: '/api/cart/items',
+                method: 'POST',
+                body: cartData,
+            }),
+            invalidatesTags: ['Cart'],
+        }),
+
+        // Update Cart Item
+        updateCartItem: builder.mutation({
+            query: ({ id, ...updateData }) => ({
+                url: `/api/cart/items/${id}`,
+                method: 'PUT',
+                body: updateData,
+            }),
+            invalidatesTags: ['Cart'],
+        }),
+
+        // Remove Item from Cart
+        removeFromCart: builder.mutation({
+            query: (itemId) => ({
+                url: `/api/cart/items/${itemId}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Cart'],
+        }),
+
+        // Clear Cart
+        clearCart: builder.mutation({
+            query: () => ({
+                url: '/api/cart',
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Cart'],
+        }),
     }),
 });
 
@@ -279,4 +328,11 @@ export const {
     useCreateReviewMutation,
     useUpdateReviewMutation,
     useDeleteReviewMutation,
+
+    // Cart hooks
+    useGetCartQuery,
+    useAddToCartMutation,
+    useUpdateCartItemMutation,
+    useRemoveFromCartMutation,
+    useClearCartMutation,
 } = apiSlice;
