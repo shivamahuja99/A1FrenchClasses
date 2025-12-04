@@ -154,9 +154,10 @@ export const apiSlice = createApi({
 
         // Logout
         logout: builder.mutation({
-            query: () => ({
+            query: (token) => ({
                 url: '/api/logout',
                 method: 'POST',
+                body: { token },
             }),
             transformResponse: (response) => {
                 // Clear tokens from sessionStorage

@@ -14,7 +14,6 @@ const authSlice = createSlice({
             const { user, access_token, refresh_token } = action.payload;
             state.user = user;
             state.isAuthenticated = true;
-
             // Tokens are already stored in sessionStorage by apiSlice
             // Just store user data here
             if (user) {

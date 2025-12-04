@@ -223,10 +223,11 @@ func (uh *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	// Return tokens
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{
+	json.NewEncoder(w).Encode(map[string]interface{}{
 		"access_token":  accessToken,
 		"refresh_token": refreshToken,
 		"token_type":    "Bearer",
+		"user":          user,
 	})
 }
 
@@ -393,10 +394,11 @@ func (uh *UserHandler) Signup(w http.ResponseWriter, r *http.Request) {
 
 	// Return tokens
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{
+	json.NewEncoder(w).Encode(map[string]interface{}{
 		"access_token":  accessToken,
 		"refresh_token": refreshToken,
 		"token_type":    "Bearer",
+		"user":          user,
 	})
 }
 
@@ -467,9 +469,10 @@ func (uh *UserHandler) LoginWithEmail(w http.ResponseWriter, r *http.Request) {
 
 	// Return tokens
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{
+	json.NewEncoder(w).Encode(map[string]interface{}{
 		"access_token":  accessToken,
 		"refresh_token": refreshToken,
 		"token_type":    "Bearer",
+		"user":          user,
 	})
 }
