@@ -6,6 +6,7 @@ const CoursePurchaseCard = ({
     hasDiscount,
     isAddingToCart,
     addedToCart,
+    isInCart,
     onBuyNow,
     onAddToCart
 }) => {
@@ -29,15 +30,15 @@ const CoursePurchaseCard = ({
                     className={styles.buyNowButton}
                     disabled={isAddingToCart}
                 >
-                    {isAddingToCart ? 'Processing...' : 'Buy Now'}
+                    {isAddingToCart ? 'Processing...' : (isInCart ? 'Go to Cart' : 'Buy Now')}
                 </button>
 
                 <button
                     onClick={onAddToCart}
                     className={styles.addToCartButton}
-                    disabled={isAddingToCart || addedToCart}
+                    disabled={isAddingToCart || (addedToCart && !isInCart)}
                 >
-                    {addedToCart ? '✓ Added to Cart' : 'Add to Cart'}
+                    {addedToCart ? '✓ Added to Cart' : (isInCart ? 'Go to Cart' : 'Add to Cart')}
                 </button>
             </div>
 

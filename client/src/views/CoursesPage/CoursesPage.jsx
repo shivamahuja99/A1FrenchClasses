@@ -6,9 +6,13 @@ import LoadingSkeleton from '../../components/LoadingSkeleton/LoadingSkeleton';
 import navigationConfig from '../../config/navigation';
 import footerConfig from '../../config/footer';
 import styles from './CoursesPage.module.css';
+import { useSelector } from 'react-redux';
+import { selectIsAuthenticated } from '../../store/slices/authSlice';
+import ProfileDropdown from '../../components/ProfileDropdown/ProfileDropdown';
 
 const CoursesPage = () => {
     const { data: courses = [], isLoading: loading, error } = useGetCoursesQuery();
+    const isAuthenticated = useSelector(selectIsAuthenticated);
 
     // Scroll to top when component mounts
     useEffect(() => {
@@ -18,7 +22,8 @@ const CoursesPage = () => {
     if (loading) {
         return (
             <div className={styles.coursesPage}>
-                <Header logo={navigationConfig.logo} navigationItems={navigationConfig.items} />
+                <Header logo={navigationConfig.logo} navigationItems={navigationConfig.items} authComponent={<ProfileDropdown />}
+                />
                 <main className={styles.main} role="main">
                     <div className={styles.container}>
                         <div className={styles.header}>
@@ -45,7 +50,11 @@ const CoursesPage = () => {
     if (error) {
         return (
             <div className={styles.coursesPage}>
-                <Header logo={navigationConfig.logo} navigationItems={navigationConfig.items} />
+                <Header
+                    logo={navigationConfig.logo}
+                    navigationItems={navigationConfig.items}
+                    authComponent={isAuthenticated ? <ProfileDropdown /> : null}
+                />
                 <main className={styles.main} role="main">
                     <div className={styles.container}>
                         <div className={styles.errorContainer} role="alert" aria-live="assertive">
@@ -75,7 +84,11 @@ const CoursesPage = () => {
     return (
         <div className={styles.coursesPage}>
             {/* SEO Meta Tags - would be handled by Helmet or similar in production */}
-            <Header logo={navigationConfig.logo} navigationItems={navigationConfig.items} />
+            <Header
+                logo={navigationConfig.logo}
+                navigationItems={navigationConfig.items}
+                authComponent={isAuthenticated ? <ProfileDropdown /> : null}
+            />
 
             <main id="main-content" className={styles.main} role="main">
                 <div className={styles.container}>

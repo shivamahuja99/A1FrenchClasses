@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useGetCourseQuery, useAddToCartMutation } from '../../store/api/apiSlice';
+import { useGetCourseQuery, useAddToCartMutation, useGetCartQuery } from '../../store/api/apiSlice';
 import styles from './CourseDetailsPage.module.css';
 import CustomerReviews from '../../components/CustomerReviews/CustomerReviews';
 import InstructorInfo from '../../components/InstructorInfo/InstructorInfo';
@@ -23,8 +23,15 @@ const CourseDetailsPage = () => {
     const [addToCart, { isLoading: isAddingToCart }] = useAddToCartMutation();
     const [addedToCart, setAddedToCart] = useState(false);
     const isAuthenticated = useSelector(selectIsAuthenticated);
+    const { data: cartData } = useGetCartQuery(undefined, { skip: !isAuthenticated });
+
+    const isInCart = cartData?.cart?.items?.some(item => item.course_id === id);
 
     const handleAddToCart = async () => {
+        if (isInCart) {
+            navigate('/cart');
+            return;
+        }
         try {
             await addToCart({ course_id: id, quantity: 1 }).unwrap();
             setAddedToCart(true);
@@ -36,6 +43,10 @@ const CourseDetailsPage = () => {
     };
 
     const handleBuyNow = async () => {
+        if (isInCart) {
+            navigate('/cart');
+            return;
+        }
         try {
             await addToCart({ course_id: id, quantity: 1 }).unwrap();
             navigate('/cart');
@@ -170,6 +181,7 @@ const CourseDetailsPage = () => {
                             hasDiscount={hasDiscount}
                             isAddingToCart={isAddingToCart}
                             addedToCart={addedToCart}
+                            isInCart={isInCart}
                             onBuyNow={handleBuyNow}
                             onAddToCart={handleAddToCart}
                         />
@@ -191,6 +203,7 @@ const CourseDetailsPage = () => {
                 originalPrice={course.price}
                 isAddingToCart={isAddingToCart}
                 addedToCart={addedToCart}
+                isInCart={isInCart}
                 onBuyNow={handleBuyNow}
                 onAddToCart={handleAddToCart}
             />

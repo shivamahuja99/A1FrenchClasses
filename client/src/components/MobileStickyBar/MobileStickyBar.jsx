@@ -6,6 +6,7 @@ const MobileStickyBar = ({
     originalPrice,
     isAddingToCart,
     addedToCart,
+    isInCart,
     onBuyNow,
     onAddToCart
 }) => {
@@ -22,17 +23,17 @@ const MobileStickyBar = ({
                 <button
                     onClick={onAddToCart}
                     className={styles.addToCartButton}
-                    disabled={isAddingToCart || addedToCart}
-                    aria-label="Add to cart"
+                    disabled={isAddingToCart || (addedToCart && !isInCart)}
+                    aria-label={isInCart ? "Go to cart" : "Add to cart"}
                 >
-                    {addedToCart ? '✓' : '+'}
+                    {addedToCart ? '✓' : (isInCart ? '→' : '+')}
                 </button>
                 <button
                     onClick={onBuyNow}
                     className={styles.buyNowButton}
                     disabled={isAddingToCart}
                 >
-                    {isAddingToCart ? '...' : 'Buy Now'}
+                    {isAddingToCart ? '...' : (isInCart ? 'Go to Cart' : 'Buy Now')}
                 </button>
             </div>
         </div>
