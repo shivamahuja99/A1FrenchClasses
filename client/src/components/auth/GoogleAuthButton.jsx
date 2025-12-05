@@ -19,7 +19,7 @@ const GoogleAuthButton = ({ mode = 'signin' }) => {
             console.warn('Google Client ID not configured.');
             return;
         }
-
+        console.log('Google Client ID:', clientId);
         // Initialize Google Sign-In
         googleOAuth.initialize(clientId).then((google) => {
             google.accounts.id.initialize({
@@ -47,12 +47,8 @@ const GoogleAuthButton = ({ mode = 'signin' }) => {
         try {
             setError('');
 
-            // Decode and extract user data
-            const userData = googleOAuth.handleCredentialResponse(response);
-            const googleData = googleOAuth.extractUserData(userData);
-
-            // Call our API with Google data
-            const result = await googleAuth(googleData).unwrap();
+            // Send raw token to backend
+            const result = await googleAuth({ google_token: response.credential }).unwrap();
 
             // Update Redux state
             dispatch(setCredentials(result));

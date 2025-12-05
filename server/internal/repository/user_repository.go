@@ -24,6 +24,7 @@ type UserRepository interface {
 	FindAll(ctx context.Context) ([]*models.User, error)
 	Update(ctx context.Context, user *models.User) error
 	Delete(ctx context.Context, id string) error
+	GetPurchasedCourses(ctx context.Context, userID string) ([]*models.Course, error)
 }
 
 // PostgresUserRepository implements UserRepository using PostgreSQL and GORM
@@ -120,4 +121,17 @@ func (r *PostgresUserRepository) Delete(ctx context.Context, id string) error {
 	}
 
 	return nil
+}
+
+// GetPurchasedCourses retrieves all courses purchased by a specific user
+func (r *PostgresUserRepository) GetPurchasedCourses(ctx context.Context, userID string) ([]*models.Course, error) {
+	var courses []*models.Course
+	err := r.db.WithContext(ctx).
+		Joins("JOIN user_courses ON user_courses.course_id = courses.id").
+		Where("user_courses.user_id = ?", userID).
+		Find(&courses).Error
+	if err != nil {
+		return nil, fmt.Errorf("failed to get purchased courses: %w", err)
+	}
+	return courses, nil
 }

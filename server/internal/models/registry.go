@@ -11,4 +11,5 @@ var AllModels = []any{
 	&Session{},
 	&Cart{},
 	&CartItem{},
+	&UserCourses{},
 }

@@ -1,8 +1,8 @@
-import { useGetCoursesQuery } from '../../store/api/apiSlice';
+import { useGetUserCoursesQuery } from '../../store/api/apiSlice';
 import styles from './PurchasedCoursesList.module.css';
 
 const PurchasedCoursesList = () => {
-    const { data: courses, isLoading, error } = useGetCoursesQuery();
+    const { data: courses, isLoading, error } = useGetUserCoursesQuery();
 
     if (isLoading) {
         return (
@@ -61,7 +61,7 @@ const PurchasedCoursesList = () => {
                 {courses.map((course) => (
                     <div key={course.id} className={styles.courseCard}>
                         <div className={styles.courseImage}>
-                            <img src={course.image} alt={course.title} />
+                            <img src={course.image_url} alt={course.name} />
                             <div className={styles.progressOverlay}>
                                 <div className={styles.progressCircle}>
                                     <svg className={styles.progressSvg} viewBox="0 0 36 36">
@@ -73,24 +73,24 @@ const PurchasedCoursesList = () => {
                                         />
                                         <path
                                             className={styles.progressBar}
-                                            strokeDasharray={`${course.progress}, 100`}
+                                            strokeDasharray={`${course.progress || 0}, 100`}
                                             d="M18 2.0845
                         a 15.9155 15.9155 0 0 1 0 31.831
                         a 15.9155 15.9155 0 0 1 0 -31.831"
                                         />
                                     </svg>
-                                    <div className={styles.progressText}>{course.progress}%</div>
+                                    <div className={styles.progressText}>{course.progress || 0}%</div>
                                 </div>
                             </div>
                         </div>
 
                         <div className={styles.courseContent}>
-                            <h3 className={styles.courseTitle}>{course.title}</h3>
+                            <h3 className={styles.courseTitle}>{course.name}</h3>
                             <p className={styles.courseDescription}>{course.description}</p>
 
                             <div className={styles.courseFooter}>
                                 <span className={styles.enrolledDate}>
-                                    Enrolled: {new Date(course.enrolledDate).toLocaleDateString()}
+                                    Enrolled: {new Date(course.created_at).toLocaleDateString()}
                                 </span>
                                 <a href={`/courses/${course.id}`} className={styles.continueButton}>
                                     Continue Learning →

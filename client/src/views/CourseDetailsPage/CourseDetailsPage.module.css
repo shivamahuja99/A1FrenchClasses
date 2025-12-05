@@ -2,6 +2,19 @@
     gap: 2rem;
 }
 
+.contentGrid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 2rem;
+    align-items: start;
+}
+
+.mainContent {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
 /* Section Styles */
 .section {
     background: white;
@@ -43,24 +56,6 @@
 .detailIcon {
     font-size: 2rem;
     flex-shrink: 0;
-}
-
-.detailContent {
-    flex: 1;
-}
-
-.detailTitle {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #666;
-    margin: 0 0 0.5rem 0;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.detailValue {
-    font-size: 1.1rem;
-    font-weight: 600;
     color: #1a1a1a;
     margin: 0;
 }
@@ -74,7 +69,7 @@
 .purchaseCard {
     background: white;
     border-radius: 16px;
-    padding: 2rem;
+    padding: 2rem 2rem 3rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     border: 2px solid #e5e7eb;
 }
@@ -237,15 +232,11 @@
     }
 
     .sidebar {
-        position: static;
+        display: none;
     }
 }
 
 @media (max-width: 768px) {
-    .container {
-        padding: 0 1rem;
-    }
-
     .section {
         padding: 1.5rem;
     }

@@ -28,3 +28,13 @@ type Course struct {
 	CreatedAt    time.Time  `json:"created_at" db:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt    time.Time  `json:"updated_at" db:"updated_at" gorm:"autoUpdateTime"`
 }
+
+type UserCourses struct {
+	*gorm.Model
+	UserID    string    `json:"user_id" db:"user_id" gorm:"type:uuid"`
+	CourseID  string    `json:"course_id" db:"course_id" gorm:"type:uuid"`
+	User      User      `json:"user" gorm:"foreignKey:UserID;references:ID"`
+	Course    Course    `json:"course" gorm:"foreignKey:CourseID;references:ID"`
+	CreatedAt time.Time `json:"created_at" db:"created_at" gorm:"autoCreateTime"`
+	UpdatedAt time.Time `json:"updated_at" db:"updated_at" gorm:"autoUpdateTime"`
+}
