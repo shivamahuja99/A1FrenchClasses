@@ -179,6 +179,15 @@ export const apiSlice = createApi({
             providesTags: ['User'],
         }),
 
+        // Get User Courses
+        getUserCourses: builder.query({
+            query: () => ({
+                url: '/api/user/me/courses',
+                method: 'GET',
+            }),
+            providesTags: ['Courses'],
+        }),
+
         // Update User Profile
         updateProfile: builder.mutation({
             query: (userData) => ({
@@ -319,6 +328,7 @@ export const {
     // User hooks
     useGetCurrentUserQuery,
     useUpdateProfileMutation,
+    useGetUserCoursesQuery,
 
     // Course hooks
     useGetCoursesQuery,

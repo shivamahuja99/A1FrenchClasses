@@ -30,7 +30,7 @@ const CoursePurchaseCard = ({
                     className={styles.buyNowButton}
                     disabled={isAddingToCart}
                 >
-                    {isAddingToCart ? 'Processing...' : (isInCart ? 'Go to Cart' : 'Buy Now')}
+                    {isAddingToCart ? 'Processing...' : 'buy now'}
                 </button>
 
                 <button

@@ -476,3 +476,23 @@ func (uh *UserHandler) LoginWithEmail(w http.ResponseWriter, r *http.Request) {
 		"user":          user,
 	})
 }
+
+// GetUserCourses retrieves courses purchased by the authenticated user
+func (uh *UserHandler) GetUserCourses(w http.ResponseWriter, r *http.Request) {
+	// Get user ID from context (set by auth middleware)
+	userID, ok := r.Context().Value("user_id").(string)
+	if !ok {
+		sendJSONError(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	courses, err := uh.repo.GetPurchasedCourses(r.Context(), userID)
+	if err != nil {
+		uh.logger.Printf("Error getting user courses: %v", err)
+		sendJSONError(w, "Failed to get user courses", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(courses)
+}

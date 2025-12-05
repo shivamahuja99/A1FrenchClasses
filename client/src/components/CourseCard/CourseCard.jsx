@@ -148,9 +148,9 @@ const CourseCard = ({ course }) => {
           <div id={`course-price-${id}`} className={styles.priceContainer}>
             <span
               className={styles.currentPrice}
-              aria-label={`Current price: $${price}`}
+              aria-label={`Current price: $${discountedPrice}`}
             >
-              ${price}
+              ${discountedPrice}
             </span>
             {hasDiscount && (
               <span

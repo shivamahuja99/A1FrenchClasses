@@ -77,6 +77,7 @@ func main() {
 	// User routes (protected)
 	protected.HandleFunc("/user/me", userHandler.GetUser).Methods("GET")
 	protected.HandleFunc("/user/me", userHandler.UpdateUser).Methods("PUT")
+	protected.HandleFunc("/user/me/courses", userHandler.GetUserCourses).Methods("GET")
 
 	// Course routes (protected)
 	protected.HandleFunc("/courses", courseHandler.CreateCourse).Methods("POST")
