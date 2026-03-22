@@ -1,0 +1,22 @@
+name: Auto Merge to Sandbox
+
+on:
+  pull_request:
+    types:
+      - labeled
+
+jobs:
+  auto-merge:
+    name: Auto Merge
+    if: github.event.label.name == 'to-stage'
+    runs-on: ubuntu-latest
+    steps:
+      - name: automerge
+        uses: "pascalgn/automerge-action@v0.16.4"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_LABELS: "to-stage"
+          MERGE_METHOD: "merge"
+          MERGE_COMMIT_MESSAGE: "Auto-merged PR to sandbox after 'to-stage' label"
+          MERGE_RETRIES: "6"
+          MERGE_RETRY_SLEEP: "10000"

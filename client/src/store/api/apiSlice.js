@@ -3,9 +3,9 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 // Get API URL based on environment
 const getApiUrl = () => {
     const env = import.meta.env.VITE_ENV || 'dev';
-    return env === 'prod'
-        ? import.meta.env.VITE_API_URL_PROD
-        : import.meta.env.VITE_API_URL_DEV;
+    if (env === 'prod') return import.meta.env.VITE_API_URL_PROD;
+    if (env === 'sandbox') return import.meta.env.VITE_API_URL_SANDBOX;
+    return import.meta.env.VITE_API_URL_DEV;
 };
 
 // Base query with authentication

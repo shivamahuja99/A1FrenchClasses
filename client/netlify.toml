@@ -9,3 +9,7 @@
 
 [build.environment]
 SECRETS_SCAN_OMIT_KEYS = "VITE_GOOGLE_CLIENT_ID"
+
+[context.sandbox.environment]
+  VITE_ENV = "sandbox"
+  VITE_API_URL_SANDBOX = "https://sandbox-api.a1frenchclasses.ca"
