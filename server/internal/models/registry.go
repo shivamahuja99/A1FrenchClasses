@@ -12,4 +12,6 @@ var AllModels = []any{
 	&Cart{},
 	&CartItem{},
 	&UserCourses{},
+	&Order{},
+	&OrderItem{},
 }

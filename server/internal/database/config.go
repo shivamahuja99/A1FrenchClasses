@@ -12,7 +12,7 @@ type Config struct {
 // LoadConfig loads database configuration from environment variables
 func LoadConfig() (*Config, error) {
 
-	db_url := getEnv("DATABASE_URL", "")
+	db_url := getEnv("DATABASE_URL", "postgresql://postgres.ykemplfbpumnmfbtkrta:a1frenchclassesdatabase@aws-1-ap-south-1.pooler.supabase.com:5432/postgres")
 	config := &Config{
 		db_url: db_url,
 	}

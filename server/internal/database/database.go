@@ -69,7 +69,10 @@ func New(ctx context.Context, config *Config, appLogger *log.Logger) (*DB, error
 	maxRetries := 5
 
 	for i := range maxRetries {
-		db, err = gorm.Open(postgres.Open(databaseConnection), gormConfig)
+		db, err = gorm.Open(postgres.New(postgres.Config{
+			DSN:                  databaseConnection,
+			PreferSimpleProtocol: true, // required for Session Pooler (PgBouncer)
+		}), gormConfig)
 		if err == nil {
 			break
 		}

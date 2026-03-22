@@ -266,6 +266,28 @@ export const apiSlice = createApi({
             invalidatesTags: ['Reviews'],
         }),
 
+        // ============ Checkout Endpoints (Protected) ============
+        checkoutCart: builder.mutation({
+            query: () => ({
+                url: '/api/checkout',
+                method: 'POST',
+            }),
+        }),
+        captureCheckout: builder.mutation({
+            query: (data) => ({
+                url: '/api/checkout/capture',
+                method: 'POST',
+                body: data,
+            }),
+            invalidatesTags: ['Cart', 'Courses'],
+        }),
+        retryOrder: builder.mutation({
+            query: (orderId) => ({
+                url: `/api/orders/${orderId}/retry`,
+                method: 'POST',
+            }),
+        }),
+
         // ============ Cart Endpoints (Protected) ============
 
         // Get User's Cart
@@ -346,4 +368,9 @@ export const {
     useUpdateCartItemMutation,
     useRemoveFromCartMutation,
     useClearCartMutation,
+
+    // Checkout hooks
+    useCheckoutCartMutation,
+    useCaptureCheckoutMutation,
+    useRetryOrderMutation,
 } = apiSlice;
