@@ -24,17 +24,26 @@ Use strict MVC pattern where models, views, and controllers are in separate fold
 
 ## Data Pattern
 
-### Current Implementation
-We will be adding a backend layer later. For now:
-- Always create dummy data JSON files in `public/data/` directory
-- Add data to these files with proper structure
-- Use custom hooks (controllers) to fetch and manage data
-- Never hardcode data directly in components
+### Backend Implementation
+The project uses a Go backend with PostgreSQL:
+- **Models**: GORM structs in `server/internal/models/` defining the schema.
+- **Repositories**: Data access logic in `server/internal/repository/` (Postgres repositories).
+- **Handlers**: HTTP request handers in `server/cmd/services/`.
+- **Controllers (Frontend)**: Custom hooks in `src/controllers/` that fetch data from the Go API.
 
 ### Data Flow
-1. JSON files in `public/data/` (Models)
-2. Custom hooks fetch data (Controllers)
-3. Components receive data via props (Views)
+1. Database Schema (PostgreSQL)
+2. GORM Models (Backend)
+3. Repositories communicate with DB (Backend)
+4. Handlers expose endpoints (Backend)
+5. Custom hooks (Controllers) fetch data via services (Frontend)
+6. Components (Views) render the UI (Frontend)
+
+### Repository Pattern
+Always use the repository pattern for database interactions:
+- Define an interface for the repository.
+- Implement the interface for Postgres (using GORM).
+- Inject the repository into the handler.
 
 Example:
 ```javascript

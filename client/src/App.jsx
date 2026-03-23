@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { HomePage, CoursesPage, LoginPage, SignupPage, ProfilePage, CourseDetailsPage, CartPage } from './views';
+import CheckoutSuccess from './views/CheckoutPage/CheckoutSuccess';
+import CheckoutCancel from './views/CheckoutPage/CheckoutCancel';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoadingSkeleton from './components/LoadingSkeleton/LoadingSkeleton';
 import { useGetCurrentUserQuery } from './store/api/apiSlice';
@@ -69,6 +71,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <CartPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/checkout/success"
+            element={
+              <ProtectedRoute>
+                <CheckoutSuccess />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/checkout/cancel"
+            element={
+              <ProtectedRoute>
+                <CheckoutCancel />
               </ProtectedRoute>
             }
           />

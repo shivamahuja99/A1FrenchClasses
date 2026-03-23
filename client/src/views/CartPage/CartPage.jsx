@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useGetCartQuery, useRemoveFromCartMutation, useClearCartMutation } from '../../store/api/apiSlice';
+import { useGetCartQuery, useRemoveFromCartMutation, useClearCartMutation, useCheckoutCartMutation } from '../../store/api/apiSlice';
 import styles from './CartPage.module.css';
 import LoadingSkeleton from '../../components/LoadingSkeleton/LoadingSkeleton';
 import { useSelector } from 'react-redux';
@@ -15,6 +15,7 @@ const CartPage = () => {
     const [removeFromCart, { isLoading: isRemoving }] = useRemoveFromCartMutation();
     const [clearCart, { isLoading: isClearing }] = useClearCartMutation();
     const isAuthenticated = useSelector(selectIsAuthenticated);
+    const [checkoutCart, { isLoading: isCheckingOut }] = useCheckoutCartMutation();
 
     const cart = cartData?.cart;
     const total = cartData?.total || 0;
@@ -39,9 +40,18 @@ const CartPage = () => {
         }
     };
 
-    const handleCheckout = () => {
-        // Navigate to checkout page (to be implemented)
-        alert('Checkout functionality coming soon!');
+    const handleCheckout = async () => {
+        try {
+            const response = await checkoutCart().unwrap();
+            if (response.approve_url) {
+                window.location.href = response.approve_url;
+            } else {
+                alert('Checkout failed: Missing approval URL');
+            }
+        } catch (err) {
+            console.error('Checkout error:', err);
+            alert('Failed to initiate checkout. Please try again.');
+        }
     };
 
     if (isLoading) {
@@ -212,8 +222,8 @@ const CartPage = () => {
                             <span>${total.toFixed(2)}</span>
                         </div>
 
-                        <button onClick={handleCheckout} className={styles.checkoutButton}>
-                            Proceed to Checkout
+                        <button onClick={handleCheckout} className={styles.checkoutButton} disabled={isCheckingOut}>
+                            {isCheckingOut ? 'Processing...' : 'Proceed to Checkout'}
                         </button>
 
                         <div className={styles.secureCheckout}>

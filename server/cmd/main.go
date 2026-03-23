@@ -100,6 +100,11 @@ func main() {
 	protected.HandleFunc("/reviews/{id}", reviewHandler.UpdateReview).Methods("PUT")
 	protected.HandleFunc("/reviews/{id}", reviewHandler.DeleteReview).Methods("DELETE")
 
+	// Checkout routes (protected)
+	protected.HandleFunc("/checkout", paymentHandler.Checkout).Methods("POST")
+	protected.HandleFunc("/checkout/capture", paymentHandler.CaptureCheckout).Methods("POST")
+	protected.HandleFunc("/orders/{id}/retry", paymentHandler.RetryOrder).Methods("POST")
+
 	// Payment routes (protected)
 	protected.HandleFunc("/payments", paymentHandler.CreatePayment).Methods("POST")
 	protected.HandleFunc("/payments", paymentHandler.ListPayments).Methods("GET")

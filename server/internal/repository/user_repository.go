@@ -25,6 +25,7 @@ type UserRepository interface {
 	Update(ctx context.Context, user *models.User) error
 	Delete(ctx context.Context, id string) error
 	GetPurchasedCourses(ctx context.Context, userID string) ([]*models.Course, error)
+	AssignCourse(ctx context.Context, userID string, courseID string) error
 }
 
 // PostgresUserRepository implements UserRepository using PostgreSQL and GORM
@@ -134,4 +135,15 @@ func (r *PostgresUserRepository) GetPurchasedCourses(ctx context.Context, userID
 		return nil, fmt.Errorf("failed to get purchased courses: %w", err)
 	}
 	return courses, nil
+}
+
+func (r *PostgresUserRepository) AssignCourse(ctx context.Context, userID string, courseID string) error {
+	userCourse := models.UserCourses{
+		UserID:   userID,
+		CourseID: courseID,
+	}
+	if err := r.db.WithContext(ctx).Create(&userCourse).Error; err != nil {
+		return fmt.Errorf("failed to assign course to user: %w", err)
+	}
+	return nil
 }

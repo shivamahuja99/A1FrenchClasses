@@ -1,0 +1,20 @@
+# Project Rules (for AI Assistants)
+
+## Tech Stack
+- Frontend: React 19, Vite, Vanilla CSS.
+- Backend: Go 1.24+, Gorilla Mux, GORM (PostgreSQL).
+- External: PayPal (Payments), Google OAuth (Auth).
+
+## Coding Standards
+1.  **MVC-like structure**:
+    - Backend: `handlers` (cmd/services) -> `repositories` (internal/repository) -> `models` (internal/models).
+    - Frontend: `views` (src/views) -> `controllers` (src/controllers/hooks) -> `models` (public/data or API).
+2.  **Explicit Errors**: Always handle errors explicitly in Go. On the frontend, provide loading and error handlers for asynchronous operations.
+3.  **Vanilla CSS**: Use plain CSS or CSS Modules. Avoid Utility classes like Tailwind unless requested.
+4.  **Documentation**: Keep `docs/*.md` updated when making significant changes to the architecture or core flows (like payments).
+
+## Payment Guidelines
+- Always ensure `order_id` is tracked correctly from initial checkout to capture.
+- `payment` records MUST be associated with an `order`.
+- Log any failed PayPal interactions in detail for debugging.
+- Refer to `docs/payments.md` for the full flow and debug steps.

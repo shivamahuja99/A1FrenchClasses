@@ -37,5 +37,21 @@ func MigrateDatabase(ctx context.Context, db_client *gorm.DB) error {
 		return fmt.Errorf("failed to auto-migrate database: %w", err)
 	}
 
+	// Manual migration: drop legacy columns that AutoMigrate doesn't remove.
+	// The payments table previously had course_id and user_id columns;
+	// payments now link to orders instead.
+	legacyColumns := []string{"course_id", "user_id"}
+	for _, col := range legacyColumns {
+		sql := fmt.Sprintf(
+			`DO $$ BEGIN IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='payments' AND column_name='%s') THEN ALTER TABLE payments DROP COLUMN %s; END IF; END $$;`,
+			col, col,
+		)
+		if err := db_client.Exec(sql).Error; err != nil {
+			logger.Printf("Warning: could not drop payments.%s: %v", col, err)
+		} else {
+			logger.Printf("Dropped legacy column payments.%s (if it existed)", col)
+		}
+	}
+
 	return nil
 }
