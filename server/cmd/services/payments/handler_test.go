@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
+	"log/slog"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -128,8 +128,10 @@ func (m *mockCartRepo) ClearCart(ctx context.Context, cartID string) error {
 	m.cleared = true
 	return nil
 }
-func (m *mockCartRepo) DeleteCart(ctx context.Context, cartID string) error               { return nil }
-func (m *mockCartRepo) AddItemToCart(ctx context.Context, cartItem *models.CartItem) error { return nil }
+func (m *mockCartRepo) DeleteCart(ctx context.Context, cartID string) error { return nil }
+func (m *mockCartRepo) AddItemToCart(ctx context.Context, cartItem *models.CartItem) error {
+	return nil
+}
 func (m *mockCartRepo) GetCartItem(ctx context.Context, cartItemID string) (*models.CartItem, error) {
 	return nil, nil
 }
@@ -148,13 +150,19 @@ type mockUserRepo struct {
 	assignedCourses map[string][]string // userID -> []courseID
 }
 
-func (m *mockUserRepo) Create(ctx context.Context, user *models.User) error                         { return nil }
-func (m *mockUserRepo) FindByID(ctx context.Context, id string) (*models.User, error)              { return nil, nil }
-func (m *mockUserRepo) FindByGoogleID(ctx context.Context, googleID string) (*models.User, error)  { return nil, nil }
-func (m *mockUserRepo) FindByEmail(ctx context.Context, email string) (*models.User, error)        { return nil, nil }
-func (m *mockUserRepo) FindAll(ctx context.Context) ([]*models.User, error)                        { return nil, nil }
-func (m *mockUserRepo) Update(ctx context.Context, user *models.User) error                        { return nil }
-func (m *mockUserRepo) Delete(ctx context.Context, id string) error                                { return nil }
+func (m *mockUserRepo) Create(ctx context.Context, user *models.User) error { return nil }
+func (m *mockUserRepo) FindByID(ctx context.Context, id string) (*models.User, error) {
+	return nil, nil
+}
+func (m *mockUserRepo) FindByGoogleID(ctx context.Context, googleID string) (*models.User, error) {
+	return nil, nil
+}
+func (m *mockUserRepo) FindByEmail(ctx context.Context, email string) (*models.User, error) {
+	return nil, nil
+}
+func (m *mockUserRepo) FindAll(ctx context.Context) ([]*models.User, error) { return nil, nil }
+func (m *mockUserRepo) Update(ctx context.Context, user *models.User) error { return nil }
+func (m *mockUserRepo) Delete(ctx context.Context, id string) error         { return nil }
 func (m *mockUserRepo) GetPurchasedCourses(ctx context.Context, userID string) ([]*models.Course, error) {
 	return nil, nil
 }
@@ -169,12 +177,12 @@ func (m *mockUserRepo) AssignCourse(ctx context.Context, userID string, courseID
 // ===================== Helper =====================
 
 func contextWithUserID(userID string) context.Context {
-	return context.WithValue(context.Background(), "user_id", userID)
+	return context.WithValue(context.Background(), models.UserIDContextKey, userID)
 }
 
 func newTestHandler(paymentRepo *mockPaymentRepo, orderRepo *mockOrderRepo, cartRepo *mockCartRepo, userRepo *mockUserRepo, pp *mockPayPalClient) *PaymentHandler {
 	return &PaymentHandler{
-		logger:       log.New(os.Stdout, "TEST: ", log.LstdFlags),
+		logger:       slog.New(slog.NewTextHandler(os.Stdout, nil)),
 		repo:         paymentRepo,
 		orderRepo:    orderRepo,
 		cartRepo:     cartRepo,
@@ -354,7 +362,7 @@ func TestCaptureCheckout_PayPalAlreadyCaptured(t *testing.T) {
 	paymentRepo := &mockPaymentRepo{}
 	userRepo := &mockUserRepo{}
 	h := newTestHandler(paymentRepo, orderRepo, &mockCartRepo{cart: &models.Cart{ID: "cart-1"}}, userRepo, pp)
-	
+
 	body, _ := json.Marshal(map[string]string{"order_id": "order-pending", "token": "token"})
 	req, _ := http.NewRequestWithContext(contextWithUserID("user-1"), "POST", "/api/checkout/capture", bytes.NewBuffer(body))
 	rr := httptest.NewRecorder()
@@ -452,7 +460,7 @@ func TestRetryOrder_Success(t *testing.T) {
 	}
 
 	var resp map[string]string
-	json.NewDecoder(rr.Body).Decode(&resp)
+	_ = json.NewDecoder(rr.Body).Decode(&resp)
 
 	if resp["approve_url"] != "https://paypal.com/approve/retry" {
 		t.Errorf("expected retry approve_url, got %s", resp["approve_url"])

@@ -3,8 +3,9 @@ package reviews
 import (
 	"encoding/json"
 	"io"
-	"log"
+	"log/slog"
 	"net/http"
+	"services/internal/api"
 	"services/internal/models"
 	"services/internal/repository"
 	"strconv"
@@ -14,11 +15,11 @@ import (
 )
 
 type ReviewHandler struct {
-	logger *log.Logger
+	logger *slog.Logger
 	repo   repository.ReviewRepository
 }
 
-func NewReviewHandler(logger *log.Logger, db *gorm.DB) *ReviewHandler {
+func NewReviewHandler(logger *slog.Logger, db *gorm.DB) *ReviewHandler {
 	repo := repository.NewPostgresReviewRepository(db)
 	return &ReviewHandler{
 		logger: logger,
@@ -27,114 +28,114 @@ func NewReviewHandler(logger *log.Logger, db *gorm.DB) *ReviewHandler {
 }
 
 func (h *ReviewHandler) CreateReview(w http.ResponseWriter, r *http.Request) {
-	h.logger.Println("Creating Review")
+	ctx := r.Context()
+	h.logger.InfoContext(ctx, "Creating Review")
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		h.logger.Printf("Error reading request body: %v", err)
-		http.Error(w, "Failed to read request body", http.StatusBadRequest)
+		h.logger.ErrorContext(ctx, "Error reading request body", "error", err)
+		api.RespondWithError(w, http.StatusBadRequest, "Failed to read request body")
 		return
 	}
-	defer r.Body.Close()
+	defer func() { _ = r.Body.Close() }()
 
 	var review models.Review
 	if err := json.Unmarshal(body, &review); err != nil {
-		h.logger.Printf("Error parsing JSON: %v", err)
-		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
+		h.logger.ErrorContext(ctx, "Error parsing JSON", "error", err)
+		api.RespondWithError(w, http.StatusBadRequest, "Invalid JSON format")
 		return
 	}
 
-	if err := h.repo.Create(r.Context(), &review); err != nil {
-		h.logger.Printf("Error creating review: %v", err)
-		http.Error(w, "Failed to create review", http.StatusInternalServerError)
+	if err := h.repo.Create(ctx, &review); err != nil {
+		h.logger.ErrorContext(ctx, "Error creating review", "error", err)
+		api.RespondWithError(w, http.StatusInternalServerError, "Failed to create review")
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(review)
+	api.RespondWithJSON(w, http.StatusCreated, review)
 }
 
 func (h *ReviewHandler) GetReview(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	review, err := h.repo.FindByID(r.Context(), id)
+	review, err := h.repo.FindByID(ctx, id)
 	if err != nil {
 		if err == repository.ErrReviewNotFound {
-			http.Error(w, "Review not found", http.StatusNotFound)
+			api.RespondWithError(w, http.StatusNotFound, "Review not found")
 			return
 		}
-		h.logger.Printf("Error getting review: %v", err)
-		http.Error(w, "Failed to get review", http.StatusInternalServerError)
+		h.logger.ErrorContext(ctx, "Error getting review", "error", err)
+		api.RespondWithError(w, http.StatusInternalServerError, "Failed to get review")
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(review)
+	api.RespondWithJSON(w, http.StatusOK, review)
 }
 
 func (h *ReviewHandler) ListReviews(w http.ResponseWriter, r *http.Request) {
-	reviews, err := h.repo.FindAll(r.Context())
+	ctx := r.Context()
+	reviews, err := h.repo.FindAll(ctx)
 	if err != nil {
-		h.logger.Printf("Error listing reviews: %v", err)
-		http.Error(w, "Failed to list reviews", http.StatusInternalServerError)
+		h.logger.ErrorContext(ctx, "Error listing reviews", "error", err)
+		api.RespondWithError(w, http.StatusInternalServerError, "Failed to list reviews")
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(reviews)
+	api.RespondWithJSON(w, http.StatusOK, reviews)
 }
 
 func (h *ReviewHandler) UpdateReview(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	vars := mux.Vars(r)
 	id := vars["id"]
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		http.Error(w, "Failed to read request body", http.StatusBadRequest)
+		api.RespondWithError(w, http.StatusBadRequest, "Failed to read request body")
 		return
 	}
-	defer r.Body.Close()
+	defer func() { _ = r.Body.Close() }()
 
 	var review models.Review
 	if err := json.Unmarshal(body, &review); err != nil {
-		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
+		api.RespondWithError(w, http.StatusBadRequest, "Invalid JSON format")
 		return
 	}
 
 	idUint, err := strconv.ParseUint(id, 10, 32)
 	if err != nil {
-		http.Error(w, "Invalid ID format", http.StatusBadRequest)
+		api.RespondWithError(w, http.StatusBadRequest, "Invalid ID format")
 		return
 	}
 	review.ID = uint(idUint)
 
-	if err := h.repo.Update(r.Context(), &review); err != nil {
+	if err := h.repo.Update(ctx, &review); err != nil {
 		if err == repository.ErrReviewNotFound {
-			http.Error(w, "Review not found", http.StatusNotFound)
+			api.RespondWithError(w, http.StatusNotFound, "Review not found")
 			return
 		}
-		h.logger.Printf("Error updating review: %v", err)
-		http.Error(w, "Failed to update review", http.StatusInternalServerError)
+		h.logger.ErrorContext(ctx, "Error updating review", "error", err)
+		api.RespondWithError(w, http.StatusInternalServerError, "Failed to update review")
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(review)
+	api.RespondWithJSON(w, http.StatusOK, review)
 }
 
 func (h *ReviewHandler) DeleteReview(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	if err := h.repo.Delete(r.Context(), id); err != nil {
+	if err := h.repo.Delete(ctx, id); err != nil {
 		if err == repository.ErrReviewNotFound {
-			http.Error(w, "Review not found", http.StatusNotFound)
+			api.RespondWithError(w, http.StatusNotFound, "Review not found")
 			return
 		}
-		h.logger.Printf("Error deleting review: %v", err)
-		http.Error(w, "Failed to delete review", http.StatusInternalServerError)
+		h.logger.ErrorContext(ctx, "Error deleting review", "error", err)
+		api.RespondWithError(w, http.StatusInternalServerError, "Failed to delete review")
 		return
 	}
 
