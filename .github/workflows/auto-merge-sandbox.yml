@@ -5,18 +5,32 @@ on:
     types:
       - labeled
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   auto-merge:
     name: Auto Merge
     if: github.event.label.name == 'to-stage'
     runs-on: ubuntu-latest
     steps:
-      - name: automerge
-        uses: "pascalgn/automerge-action@v0.16.4"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_LABELS: "to-stage"
-          MERGE_METHOD: "merge"
-          MERGE_COMMIT_MESSAGE: "Auto-merged PR to sandbox after 'to-stage' label"
-          MERGE_RETRIES: "6"
-          MERGE_RETRY_SLEEP: "10000"
+      - name: Checkout sandbox branch
+        uses: actions/checkout@v4
+        with:
+          ref: sandbox
+          fetch-depth: 0
+
+      - name: Merge PR branch into sandbox
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          echo "Fetching PR head SHA: ${{ github.event.pull_request.head.sha }}"
+          git fetch origin ${{ github.event.pull_request.head.sha }}
+          
+          echo "Merging into sandbox"
+          git merge ${{ github.event.pull_request.head.sha }} --no-ff -m "Auto-merge PR #${{ github.event.pull_request.number }} into sandbox"
+          
+          echo "Pushing to origin sandbox"
+          git push origin sandbox
