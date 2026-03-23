@@ -3,43 +3,54 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
+	"log/slog"
 	"os"
 	"services/internal/database"
 	"services/internal/models"
+	"services/internal/telemetry"
 
 	"github.com/joho/godotenv"
 	"gorm.io/gorm"
 )
 
-var logger = log.New(os.Stdout, "", log.LstdFlags)
-
 func main() {
 	// Load .env file
 	if err := godotenv.Load(); err != nil {
-		log.Println("Warning: .env file not found")
+		fmt.Fprintf(os.Stderr, "Warning: .env file not found\n")
 	}
+
 	ctx := context.Background()
+
+	// Initialize Telemetry for migration logs too
+	logger, shutdown, err := telemetry.InitLogger(ctx)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to initialize telemetry: %v\n", err)
+		os.Exit(1)
+	}
+	defer shutdown()
+
 	db, err := database.ConnectDatabase(ctx, logger)
 	if err != nil {
-		logger.Fatalf("Failed to connect to database: %v", err)
+		logger.Error("Failed to connect to database", "error", err)
+		os.Exit(1)
 	}
 	defer db.Close()
-	MigrateDatabase(ctx, db.DB_client)
 
+	_ = MigrateDatabase(ctx, db.DB_client, logger)
 }
-func MigrateDatabase(ctx context.Context, db_client *gorm.DB) error {
+
+func MigrateDatabase(ctx context.Context, db_client *gorm.DB, logger *slog.Logger) error {
 	if db_client == nil {
 		return fmt.Errorf("database client is required")
 	}
+
+	logger.Info("Starting database migration")
 
 	if err := db_client.AutoMigrate(models.AllModels...); err != nil {
 		return fmt.Errorf("failed to auto-migrate database: %w", err)
 	}
 
 	// Manual migration: drop legacy columns that AutoMigrate doesn't remove.
-	// The payments table previously had course_id and user_id columns;
-	// payments now link to orders instead.
 	legacyColumns := []string{"course_id", "user_id"}
 	for _, col := range legacyColumns {
 		sql := fmt.Sprintf(
@@ -47,11 +58,12 @@ func MigrateDatabase(ctx context.Context, db_client *gorm.DB) error {
 			col, col,
 		)
 		if err := db_client.Exec(sql).Error; err != nil {
-			logger.Printf("Warning: could not drop payments.%s: %v", col, err)
+			logger.Warn("Could not drop legacy column", "column", col, "error", err)
 		} else {
-			logger.Printf("Dropped legacy column payments.%s (if it existed)", col)
+			logger.Info("Dropped legacy column", "column", col)
 		}
 	}
 
+	logger.Info("Database migration completed successfully")
 	return nil
 }
