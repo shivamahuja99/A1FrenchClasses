@@ -52,7 +52,7 @@ func (c *Client) getAccessToken() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode != http.StatusOK {
 		body, _ := io.ReadAll(resp.Body)
@@ -85,9 +85,9 @@ type ApplicationContext struct {
 }
 
 type CreateOrderRequest struct {
-	Intent             string               `json:"intent"`
+	Intent             string                `json:"intent"`
 	PurchaseUnits      []PurchaseUnitRequest `json:"purchase_units"`
-	ApplicationContext ApplicationContext   `json:"application_context"`
+	ApplicationContext ApplicationContext    `json:"application_context"`
 }
 
 // CreateOrder calls the PayPal API to create an order
@@ -97,7 +97,7 @@ func (c *Client) CreateOrder(amount float64, orderID string) (string, string, er
 		return "", "", err
 	}
 
-	// Assuming the front-end runs on localhost:5173 for local dev 
+	// Assuming the front-end runs on localhost:5173 for local dev
 	frontendURL := os.Getenv("FRONTEND_URL")
 	if frontendURL == "" {
 		frontendURL = "http://localhost:5173"
@@ -141,7 +141,7 @@ func (c *Client) CreateOrder(amount float64, orderID string) (string, string, er
 	if err != nil {
 		return "", "", err
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode != http.StatusCreated {
 		respBody, _ := io.ReadAll(resp.Body)
@@ -191,7 +191,7 @@ func (c *Client) CaptureOrder(orderID string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
 		respBody, _ := io.ReadAll(resp.Body)

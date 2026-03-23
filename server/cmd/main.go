@@ -2,7 +2,8 @@ package main
 
 import (
 	"context"
-	"log"
+	"fmt"
+	"log/slog"
 	"net/http"
 	"os"
 	"os/signal"
@@ -18,29 +19,45 @@ import (
 	"services/internal/database"
 	"services/internal/middleware"
 	"services/internal/repository"
+	"services/internal/telemetry"
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 )
 
-var logger = log.New(os.Stdout, "", log.LstdFlags)
-
 func main() {
 	// Load .env file
 	if err := godotenv.Load(); err != nil {
-		log.Println("Warning: .env file not found, using system environment variables")
+		fmt.Fprintf(os.Stderr, "Warning: .env file not found, using system environment variables\n")
 	}
 
+	// Initialize context for setup
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// Initialize Telemetry (OpenTelemetry logs)
+	logger, shutdown, err := telemetry.InitLogger(ctx)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to initialize telemetry: %v\n", err)
+		os.Exit(1)
+	}
+	defer shutdown()
+
 	// Initialize database
-	ctx := context.Background()
 	db, err := database.ConnectDatabase(ctx, logger)
 	if err != nil {
-		logger.Fatalf("Failed to connect to database: %v", err)
+		logger.ErrorContext(ctx, "Failed to connect to database", "error", err)
+		os.Exit(1)
 	}
 	defer db.Close()
 
 	// Initialize handlers
 	router := mux.NewRouter()
+
+	// Apply global middleware
+	router.Use(middleware.LoggingMiddleware(logger))
+	router.Use(middleware.CORSMiddleware)
+
 	userHandler := user.NewUserHandler(logger, db.DB_client)
 	courseHandler := courses.NewCourseHandler(logger, db.DB_client)
 	paymentPlanHandler := paymentplans.NewPaymentPlanHandler(logger, db.DB_client)
@@ -56,11 +73,11 @@ func main() {
 	router.Handle("/health", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if err := db.HealthCheck(r.Context()); err != nil {
 			w.WriteHeader(http.StatusServiceUnavailable)
-			w.Write([]byte("Database unavailable"))
+			_, _ = w.Write([]byte("Database unavailable"))
 			return
 		}
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
+		_, _ = w.Write([]byte("OK"))
 	}))
 
 	// Public auth routes
@@ -119,10 +136,10 @@ func main() {
 	protected.HandleFunc("/cart/items/{id}", cartHandler.RemoveFromCart).Methods("DELETE")
 	protected.HandleFunc("/cart", cartHandler.ClearCart).Methods("DELETE")
 
-	runServer(middleware.CORSMiddleware(router))
+	runServer(router, logger)
 }
 
-func runServer(handler http.Handler) {
+func runServer(handler http.Handler, logger *slog.Logger) {
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "3000"
@@ -135,9 +152,10 @@ func runServer(handler http.Handler) {
 
 	// Graceful shutdown
 	go func() {
-		logger.Printf("Starting server on port %s...\n", port)
+		logger.Info("Starting server", "port", port)
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			logger.Fatalf("Server failed to start: %v", err)
+			logger.Error("Server failed to start", "error", err)
+			os.Exit(1)
 		}
 	}()
 
@@ -145,14 +163,15 @@ func runServer(handler http.Handler) {
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
-	logger.Println("Shutting down server...")
+	logger.Info("Shutting down server...")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	if err := srv.Shutdown(ctx); err != nil {
-		logger.Fatalf("Server forced to shutdown: %v", err)
+		logger.Error("Server forced to shutdown", "error", err)
+		os.Exit(1)
 	}
 
-	logger.Println("Server exited properly")
+	logger.Info("Server exited properly")
 }

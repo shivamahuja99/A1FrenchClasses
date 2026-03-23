@@ -3,12 +3,13 @@ package payments
 import (
 	"encoding/json"
 	"io"
-	"log"
+	"log/slog"
 	"net/http"
-	"strings"
+	"services/internal/api"
 	"services/internal/models"
 	"services/internal/paypal"
 	"services/internal/repository"
+	"strings"
 
 	"github.com/gorilla/mux"
 	"gorm.io/gorm"
@@ -21,7 +22,7 @@ type PayPalClient interface {
 }
 
 type PaymentHandler struct {
-	logger       *log.Logger
+	logger       *slog.Logger
 	repo         repository.PaymentRepository
 	orderRepo    repository.OrderRepository
 	cartRepo     repository.CartRepository
@@ -30,7 +31,7 @@ type PaymentHandler struct {
 	paypalClient PayPalClient
 }
 
-func NewPaymentHandler(logger *log.Logger, db *gorm.DB) *PaymentHandler {
+func NewPaymentHandler(logger *slog.Logger, db *gorm.DB) *PaymentHandler {
 	return &PaymentHandler{
 		logger:       logger,
 		repo:         repository.NewPostgresPaymentRepository(db),
@@ -45,24 +46,25 @@ func NewPaymentHandler(logger *log.Logger, db *gorm.DB) *PaymentHandler {
 // === NEW CHECKOUT ENDPOINTS ===
 
 func (h *PaymentHandler) Checkout(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	// 1. Get UserID
-	userID, ok := r.Context().Value("user_id").(string)
+	userID, ok := ctx.Value(models.UserIDContextKey).(string)
 	if !ok || userID == "" {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		api.RespondWithError(w, http.StatusUnauthorized, "Unauthorized")
 		return
 	}
 
 	// 2. Get Cart
-	cart, err := h.cartRepo.GetCartByUserID(r.Context(), userID)
+	cart, err := h.cartRepo.GetCartByUserID(ctx, userID)
 	if err != nil || len(cart.Items) == 0 {
-		http.Error(w, "Cart is empty or not found", http.StatusBadRequest)
+		api.RespondWithError(w, http.StatusBadRequest, "Cart is empty or not found")
 		return
 	}
 
 	// 3. Calculate total
-	total, err := h.cartRepo.GetCartTotal(r.Context(), cart.ID)
+	total, err := h.cartRepo.GetCartTotal(ctx, cart.ID)
 	if err != nil || total <= 0 {
-		http.Error(w, "Invalid cart total", http.StatusBadRequest)
+		api.RespondWithError(w, http.StatusBadRequest, "Invalid cart total")
 		return
 	}
 
@@ -82,98 +84,83 @@ func (h *PaymentHandler) Checkout(w http.ResponseWriter, r *http.Request) {
 		Items:       orderItems,
 	}
 
-	if err := h.orderRepo.Create(r.Context(), &order); err != nil {
-		if h.logger != nil {
-			h.logger.Printf("Failed to create order: %v", err)
-		}
-		http.Error(w, "Failed to create order", http.StatusInternalServerError)
+	if err := h.orderRepo.Create(ctx, &order); err != nil {
+		h.logger.ErrorContext(ctx, "Failed to create order", "error", err)
+		api.RespondWithError(w, http.StatusInternalServerError, "Failed to create order")
 		return
 	}
 
 	// 6. Create PayPal Order
 	paypalOrderID, approveURL, err := h.paypalClient.CreateOrder(total, order.ID)
 	if err != nil {
-		if h.logger != nil {
-			h.logger.Printf("Failed to create PayPal order: %v", err)
-		}
-		http.Error(w, "Payment provider error", http.StatusInternalServerError)
+		h.logger.ErrorContext(ctx, "Failed to create PayPal order", "error", err)
+		api.RespondWithError(w, http.StatusInternalServerError, "Payment provider error")
 		return
 	}
 
-	if h.logger != nil {
-		h.logger.Printf("Created PayPal order %s for internal order %s", paypalOrderID, order.ID)
-	}
+	h.logger.InfoContext(ctx, "Created PayPal order", "paypal_order_id", paypalOrderID, "order_id", order.ID)
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{
+	api.RespondWithJSON(w, http.StatusOK, map[string]string{
 		"order_id":    order.ID,
 		"approve_url": approveURL,
 	})
 }
 
 func (h *PaymentHandler) CaptureCheckout(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	var req struct {
 		OrderID string `json:"order_id"`
 		Token   string `json:"token"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "Invalid request", http.StatusBadRequest)
+		api.RespondWithError(w, http.StatusBadRequest, "Invalid request")
 		return
 	}
 
 	// 1. Fetch current order status for idempotency check
-	order, err := h.orderRepo.FindByID(r.Context(), req.OrderID)
+	order, err := h.orderRepo.FindByID(ctx, req.OrderID)
 	if err != nil {
-		h.logger.Printf("Order not found: %s", req.OrderID)
-		http.Error(w, "Order not found", http.StatusNotFound)
+		h.logger.ErrorContext(ctx, "Order not found", "order_id", req.OrderID)
+		api.RespondWithError(w, http.StatusNotFound, "Order not found")
 		return
 	}
 
 	// If already completed, return success immediately (Idempotency)
 	if order.Status == "COMPLETED" {
-		if h.logger != nil {
-			h.logger.Printf("Order %s already COMPLETED, skipping double capture", req.OrderID)
-		}
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(map[string]string{"status": "success", "message": "already_completed"})
+		h.logger.InfoContext(ctx, "Order already COMPLETED, skipping double capture", "order_id", req.OrderID)
+		api.RespondWithJSON(w, http.StatusOK, map[string]string{"status": "success", "message": "already_completed"})
 		return
 	}
 
 	// 2. Capture PayPal Order
 	status, err := h.paypalClient.CaptureOrder(req.Token)
 	if err != nil {
-		if h.logger != nil {
-			h.logger.Printf("Failed to capture PayPal order: %v", err)
-		}
+		h.logger.ErrorContext(ctx, "Failed to capture PayPal order", "error", err)
 
-		// Check if error is due to order already being captured 
-		// PayPal returns 422 with ORDER_ALREADY_CAPTURED in the body
-		// We'll check the error message for this specific string
-		isAlreadyCaptured := (
-			strings.Contains(err.Error(), ErrOrderAlreadyCaptured) || 
-			strings.Contains(err.Error(), ErrDuplicateResource) || 
-			strings.Contains(err.Error(), StatusUnprocessableEntity) || 
-			strings.Contains(err.Error(), StatusBadRequest)) 
+		// Check if error is due to order already being captured
+		isAlreadyCaptured := (strings.Contains(err.Error(), ErrOrderAlreadyCaptured) ||
+			strings.Contains(err.Error(), ErrDuplicateResource) ||
+			strings.Contains(err.Error(), StatusUnprocessableEntity) ||
+			strings.Contains(err.Error(), StatusBadRequest))
 
 		if isAlreadyCaptured {
-			// If it's already captured, we should double-check if we should mark it COMPLETED
-			// For safety, let's treat this as a potentially successful mount retry
-			h.logger.Printf("PayPal reported order %s already captured or duplicate. Marking as COMPLETED if internal check passes.", req.OrderID)
-			status = "COMPLETED" // Force success state to proceed with internal fulfillment
+			h.logger.InfoContext(ctx, "PayPal reported order already captured or duplicate. Marking as COMPLETED.", "order_id", req.OrderID)
+			status = "COMPLETED"
 		} else {
-			// Only mark as FAILED if it wasn't a duplicate/already-captured error
-			h.orderRepo.UpdateStatus(r.Context(), req.OrderID, "FAILED")
-			http.Error(w, "Failed to capture payment", http.StatusBadRequest)
+			_ = h.orderRepo.UpdateStatus(ctx, req.OrderID, "FAILED")
+			api.RespondWithError(w, http.StatusBadRequest, "Failed to capture payment")
 			return
 		}
 	}
 
 	if status == "COMPLETED" {
-		h.orderRepo.UpdateStatus(r.Context(), req.OrderID, "COMPLETED")
+		if err := h.orderRepo.UpdateStatus(ctx, req.OrderID, "COMPLETED"); err != nil {
+			h.logger.ErrorContext(ctx, "Failed to update order status to COMPLETED", "order_id", req.OrderID, "error", err)
+		}
 
 		// Re-fetch or use existing order object if it hasn't changed (Items are needed)
 		if order.Items == nil {
-			order, _ = h.orderRepo.FindByID(r.Context(), req.OrderID)
+			order, _ = h.orderRepo.FindByID(ctx, req.OrderID)
 		}
 
 		payment := models.Payment{
@@ -183,56 +170,57 @@ func (h *PaymentHandler) CaptureCheckout(w http.ResponseWriter, r *http.Request)
 			TransactionStatus:   "SUCCESS",
 			PayPalTransactionID: req.Token,
 		}
-		h.repo.Create(r.Context(), &payment)
+		if err := h.repo.Create(ctx, &payment); err != nil {
+			h.logger.ErrorContext(ctx, "Failed to create payment record", "order_id", req.OrderID, "error", err)
+		}
 
-		userID, _ := r.Context().Value("user_id").(string)
+		userID, _ := ctx.Value(models.UserIDContextKey).(string)
 		for _, item := range order.Items {
-			h.userRepo.AssignCourse(r.Context(), userID, item.CourseID)
+			if err := h.userRepo.AssignCourse(ctx, userID, item.CourseID); err != nil {
+				h.logger.ErrorContext(ctx, "Failed to assign course to user", "user_id", userID, "course_id", item.CourseID, "error", err)
+			}
 		}
 
-		cart, _ := h.cartRepo.GetCartByUserID(r.Context(), userID)
+		cart, _ := h.cartRepo.GetCartByUserID(ctx, userID)
 		if cart != nil {
-			h.cartRepo.ClearCart(r.Context(), cart.ID)
+			if err := h.cartRepo.ClearCart(ctx, cart.ID); err != nil {
+				h.logger.ErrorContext(ctx, "Failed to clear cart", "cart_id", cart.ID, "error", err)
+			}
 		}
 
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(map[string]string{"status": "success"})
+		api.RespondWithJSON(w, http.StatusOK, map[string]string{"status": "success"})
 	} else {
-		h.orderRepo.UpdateStatus(r.Context(), req.OrderID, "FAILED")
-		http.Error(w, "Payment not completed", http.StatusBadRequest)
+		_ = h.orderRepo.UpdateStatus(ctx, req.OrderID, "FAILED")
+		api.RespondWithError(w, http.StatusBadRequest, "Payment not completed")
 	}
 }
 
 func (h *PaymentHandler) RetryOrder(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	order, err := h.orderRepo.FindByID(r.Context(), id)
+	order, err := h.orderRepo.FindByID(ctx, id)
 	if err != nil {
-		http.Error(w, "Order not found", http.StatusNotFound)
+		api.RespondWithError(w, http.StatusNotFound, "Order not found")
 		return
 	}
 
 	if order.Status == "COMPLETED" {
-		http.Error(w, "Order already completed", http.StatusBadRequest)
+		api.RespondWithError(w, http.StatusBadRequest, "Order already completed")
 		return
 	}
 
 	paypalOrderID, approveURL, err := h.paypalClient.CreateOrder(order.TotalAmount, order.ID)
 	if err != nil {
-		if h.logger != nil {
-			h.logger.Printf("Failed to retry PayPal order: %v", err)
-		}
-		http.Error(w, "Payment provider error", http.StatusInternalServerError)
+		h.logger.ErrorContext(ctx, "Failed to retry PayPal order", "error", err)
+		api.RespondWithError(w, http.StatusInternalServerError, "Payment provider error")
 		return
 	}
 
-	if h.logger != nil {
-		h.logger.Printf("Retrying PayPal order %s for internal order %s", paypalOrderID, order.ID)
-	}
+	h.logger.InfoContext(ctx, "Retrying PayPal order", "paypal_order_id", paypalOrderID, "order_id", order.ID)
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{
+	api.RespondWithJSON(w, http.StatusOK, map[string]string{
 		"order_id":    order.ID,
 		"approve_url": approveURL,
 	})
@@ -241,100 +229,100 @@ func (h *PaymentHandler) RetryOrder(w http.ResponseWriter, r *http.Request) {
 // === LEGACY PAYMENT ENDPOINTS ===
 
 func (h *PaymentHandler) CreatePayment(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		http.Error(w, "Failed to read request body", http.StatusBadRequest)
+		api.RespondWithError(w, http.StatusBadRequest, "Failed to read request body")
 		return
 	}
-	defer r.Body.Close()
+	defer func() { _ = r.Body.Close() }()
 
 	var payment models.Payment
 	if err := json.Unmarshal(body, &payment); err != nil {
-		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
+		api.RespondWithError(w, http.StatusBadRequest, "Invalid JSON format")
 		return
 	}
 
-	if err := h.repo.Create(r.Context(), &payment); err != nil {
-		http.Error(w, "Failed to create payment", http.StatusInternalServerError)
+	if err := h.repo.Create(ctx, &payment); err != nil {
+		api.RespondWithError(w, http.StatusInternalServerError, "Failed to create payment")
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(payment)
+	api.RespondWithJSON(w, http.StatusCreated, payment)
 }
 
 func (h *PaymentHandler) GetPayment(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	payment, err := h.repo.FindByID(r.Context(), id)
+	payment, err := h.repo.FindByID(ctx, id)
 	if err != nil {
 		if err == repository.ErrPaymentNotFound {
-			http.Error(w, "Payment not found", http.StatusNotFound)
+			api.RespondWithError(w, http.StatusNotFound, "Payment not found")
 			return
 		}
-		http.Error(w, "Failed to get payment", http.StatusInternalServerError)
+		api.RespondWithError(w, http.StatusInternalServerError, "Failed to get payment")
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(payment)
+	api.RespondWithJSON(w, http.StatusOK, payment)
 }
 
 func (h *PaymentHandler) ListPayments(w http.ResponseWriter, r *http.Request) {
-	payments, err := h.repo.FindAll(r.Context())
+	ctx := r.Context()
+	payments, err := h.repo.FindAll(ctx)
 	if err != nil {
-		http.Error(w, "Failed to list payments", http.StatusInternalServerError)
+		api.RespondWithError(w, http.StatusInternalServerError, "Failed to list payments")
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(payments)
+	api.RespondWithJSON(w, http.StatusOK, payments)
 }
 
 func (h *PaymentHandler) UpdatePayment(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	vars := mux.Vars(r)
 	id := vars["id"]
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		http.Error(w, "Failed to read request body", http.StatusBadRequest)
+		api.RespondWithError(w, http.StatusBadRequest, "Failed to read request body")
 		return
 	}
-	defer r.Body.Close()
+	defer func() { _ = r.Body.Close() }()
 
 	var payment models.Payment
 	if err := json.Unmarshal(body, &payment); err != nil {
-		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
+		api.RespondWithError(w, http.StatusBadRequest, "Invalid JSON format")
 		return
 	}
 
 	payment.ID = id
 
-	if err := h.repo.Update(r.Context(), &payment); err != nil {
+	if err := h.repo.Update(ctx, &payment); err != nil {
 		if err == repository.ErrPaymentNotFound {
-			http.Error(w, "Payment not found", http.StatusNotFound)
+			api.RespondWithError(w, http.StatusNotFound, "Payment not found")
 			return
 		}
-		http.Error(w, "Failed to update payment", http.StatusInternalServerError)
+		api.RespondWithError(w, http.StatusInternalServerError, "Failed to update payment")
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(payment)
+	api.RespondWithJSON(w, http.StatusOK, payment)
 }
 
 func (h *PaymentHandler) DeletePayment(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	if err := h.repo.Delete(r.Context(), id); err != nil {
+	if err := h.repo.Delete(ctx, id); err != nil {
 		if err == repository.ErrPaymentNotFound {
-			http.Error(w, "Payment not found", http.StatusNotFound)
+			api.RespondWithError(w, http.StatusNotFound, "Payment not found")
 			return
 		}
-		http.Error(w, "Failed to delete payment", http.StatusInternalServerError)
+		api.RespondWithError(w, http.StatusInternalServerError, "Failed to delete payment")
 		return
 	}
 

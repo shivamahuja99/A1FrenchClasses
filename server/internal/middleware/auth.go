@@ -5,13 +5,10 @@ import (
 	"encoding/json"
 	"net/http"
 	"services/internal/auth"
+	"services/internal/models"
 	"services/internal/repository"
 	"strings"
 )
-
-type contextKey string
-
-const UserContextKey contextKey = "user"
 
 type AuthMiddleware struct {
 	sessionRepo repository.SessionRepository
@@ -69,8 +66,8 @@ func (m *AuthMiddleware) Authenticate(next http.Handler) http.Handler {
 		}
 
 		// Add user to context
-		ctx := context.WithValue(r.Context(), UserContextKey, session.User)
-		ctx = context.WithValue(ctx, "user_id", claims.UserID)
+		ctx := context.WithValue(r.Context(), models.UserContextKey, session.User)
+		ctx = context.WithValue(ctx, models.UserIDContextKey, claims.UserID)
 
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})

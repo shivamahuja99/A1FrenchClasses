@@ -25,14 +25,14 @@ const (
 	ErrInvalidPayerID    = "INVALID_PAYER_ID"
 
 	// Transaction Issues
-	ErrInstrumentDeclined            = "INSTRUMENT_DECLINED"
-	ErrTransactionRefused            = "TRANSACTION_REFUSED"
-	ErrMaxPaymentAttemptsExceeded    = "MAX_NUMBER_OF_PAYMENT_ATTEMPTS_EXCEEDED"
-	ErrPayerAccountLockedOrClosed    = "PAYER_ACCOUNT_LOCKED_OR_CLOSED"
-	ErrPayeeAccountLockedOrClosed    = "PAYEE_ACCOUNT_LOCKED_OR_CLOSED"
-	ErrPayeeAccountRestricted        = "PAYEE_ACCOUNT_RESTRICTED"
-	ErrPayeeAccountInvalid           = "PAYEE_ACCOUNT_INVALID"
-	ErrPayeeBlockedTransaction       = "PAYEE_BLOCKED_TRANSACTION"
+	ErrInstrumentDeclined         = "INSTRUMENT_DECLINED"
+	ErrTransactionRefused         = "TRANSACTION_REFUSED"
+	ErrMaxPaymentAttemptsExceeded = "MAX_NUMBER_OF_PAYMENT_ATTEMPTS_EXCEEDED"
+	ErrPayerAccountLockedOrClosed = "PAYER_ACCOUNT_LOCKED_OR_CLOSED"
+	ErrPayeeAccountLockedOrClosed = "PAYEE_ACCOUNT_LOCKED_OR_CLOSED"
+	ErrPayeeAccountRestricted     = "PAYEE_ACCOUNT_RESTRICTED"
+	ErrPayeeAccountInvalid        = "PAYEE_ACCOUNT_INVALID"
+	ErrPayeeBlockedTransaction    = "PAYEE_BLOCKED_TRANSACTION"
 
 	// Validation Issues
 	ErrUnprocessableEntity  = "UNPROCESSABLE_ENTITY"
