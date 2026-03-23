@@ -3,8 +3,9 @@ package courses
 import (
 	"encoding/json"
 	"io"
-	"log"
+	"log/slog"
 	"net/http"
+	"services/internal/api"
 	"services/internal/models"
 	"services/internal/repository"
 
@@ -13,11 +14,11 @@ import (
 )
 
 type CourseHandler struct {
-	logger *log.Logger
+	logger *slog.Logger
 	repo   repository.CourseRepository
 }
 
-func NewCourseHandler(logger *log.Logger, db *gorm.DB) *CourseHandler {
+func NewCourseHandler(logger *slog.Logger, db *gorm.DB) *CourseHandler {
 	repo := repository.NewPostgresCourseRepository(db)
 	return &CourseHandler{
 		logger: logger,
@@ -26,110 +27,110 @@ func NewCourseHandler(logger *log.Logger, db *gorm.DB) *CourseHandler {
 }
 
 func (h *CourseHandler) CreateCourse(w http.ResponseWriter, r *http.Request) {
-	h.logger.Println("Creating Course")
+	ctx := r.Context()
+	h.logger.InfoContext(ctx, "Creating Course")
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		h.logger.Printf("Error reading request body: %v", err)
-		http.Error(w, "Failed to read request body", http.StatusBadRequest)
+		h.logger.ErrorContext(ctx, "Error reading request body", "error", err)
+		api.RespondWithError(w, http.StatusBadRequest, "Failed to read request body")
 		return
 	}
-	defer r.Body.Close()
+	defer func() { _ = r.Body.Close() }()
 
 	var course models.Course
 	if err := json.Unmarshal(body, &course); err != nil {
-		h.logger.Printf("Error parsing JSON: %v", err)
-		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
+		h.logger.ErrorContext(ctx, "Error parsing JSON", "error", err)
+		api.RespondWithError(w, http.StatusBadRequest, "Invalid JSON format")
 		return
 	}
 
-	if err := h.repo.Create(r.Context(), &course); err != nil {
-		h.logger.Printf("Error creating course: %v", err)
-		http.Error(w, "Failed to create course", http.StatusInternalServerError)
+	if err := h.repo.Create(ctx, &course); err != nil {
+		h.logger.ErrorContext(ctx, "Error creating course", "error", err)
+		api.RespondWithError(w, http.StatusInternalServerError, "Failed to create course")
 		return
 	}
 
-	h.logger.Printf("Created course: ID=%s", course.ID)
+	h.logger.InfoContext(ctx, "Created course", "course_id", course.ID)
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(course)
+	api.RespondWithJSON(w, http.StatusCreated, course)
 }
 
 func (h *CourseHandler) GetCourse(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	course, err := h.repo.FindByID(r.Context(), id)
+	course, err := h.repo.FindByID(ctx, id)
 	if err != nil {
 		if err == repository.ErrCourseNotFound {
-			http.Error(w, "Course not found", http.StatusNotFound)
+			api.RespondWithError(w, http.StatusNotFound, "Course not found")
 			return
 		}
-		h.logger.Printf("Error getting course: %v", err)
-		http.Error(w, "Failed to get course", http.StatusInternalServerError)
+		h.logger.ErrorContext(ctx, "Error getting course", "error", err)
+		api.RespondWithError(w, http.StatusInternalServerError, "Failed to get course")
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(course)
+	api.RespondWithJSON(w, http.StatusOK, course)
 }
 
 func (h *CourseHandler) ListCourses(w http.ResponseWriter, r *http.Request) {
-	courses, err := h.repo.FindAll(r.Context())
+	ctx := r.Context()
+	courses, err := h.repo.FindAll(ctx)
 	if err != nil {
-		h.logger.Printf("Error listing courses: %v", err)
-		http.Error(w, "Failed to list courses", http.StatusInternalServerError)
+		h.logger.ErrorContext(ctx, "Error listing courses", "error", err)
+		api.RespondWithError(w, http.StatusInternalServerError, "Failed to list courses")
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(courses)
+	api.RespondWithJSON(w, http.StatusOK, courses)
 }
 
 func (h *CourseHandler) UpdateCourse(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	vars := mux.Vars(r)
 	id := vars["id"]
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		http.Error(w, "Failed to read request body", http.StatusBadRequest)
+		api.RespondWithError(w, http.StatusBadRequest, "Failed to read request body")
 		return
 	}
-	defer r.Body.Close()
+	defer func() { _ = r.Body.Close() }()
 
 	var course models.Course
 	if err := json.Unmarshal(body, &course); err != nil {
-		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
+		api.RespondWithError(w, http.StatusBadRequest, "Invalid JSON format")
 		return
 	}
 	course.ID = id
 
-	if err := h.repo.Update(r.Context(), &course); err != nil {
+	if err := h.repo.Update(ctx, &course); err != nil {
 		if err == repository.ErrCourseNotFound {
-			http.Error(w, "Course not found", http.StatusNotFound)
+			api.RespondWithError(w, http.StatusNotFound, "Course not found")
 			return
 		}
-		h.logger.Printf("Error updating course: %v", err)
-		http.Error(w, "Failed to update course", http.StatusInternalServerError)
+		h.logger.ErrorContext(ctx, "Error updating course", "error", err)
+		api.RespondWithError(w, http.StatusInternalServerError, "Failed to update course")
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(course)
+	api.RespondWithJSON(w, http.StatusOK, course)
 }
 
 func (h *CourseHandler) DeleteCourse(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	if err := h.repo.Delete(r.Context(), id); err != nil {
+	if err := h.repo.Delete(ctx, id); err != nil {
 		if err == repository.ErrCourseNotFound {
-			http.Error(w, "Course not found", http.StatusNotFound)
+			api.RespondWithError(w, http.StatusNotFound, "Course not found")
 			return
 		}
-		h.logger.Printf("Error deleting course: %v", err)
-		http.Error(w, "Failed to delete course", http.StatusInternalServerError)
+		h.logger.ErrorContext(ctx, "Error deleting course", "error", err)
+		api.RespondWithError(w, http.StatusInternalServerError, "Failed to delete course")
 		return
 	}
 
