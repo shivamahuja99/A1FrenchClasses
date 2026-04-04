@@ -12,7 +12,7 @@ const getApiUrl = () => {
 const baseQuery = fetchBaseQuery({
     baseUrl: getApiUrl(),
     prepareHeaders: (headers) => {
-        const token = sessionStorage.getItem('access_token');
+        const token = localStorage.getItem('access_token');
         if (token) {
             headers.set('Authorization', `Bearer ${token}`);
         }
@@ -27,7 +27,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     // If we get a 401 error, try to refresh the token
     if (result.error && result.error.status === 401) {
         console.log('🔄 Got 401 error, attempting token refresh...');
-        const refreshToken = sessionStorage.getItem('refresh_token');
+        const refreshToken = localStorage.getItem('refresh_token');
 
         if (refreshToken) {
             // Try to refresh the token
@@ -45,16 +45,16 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
                 console.log('✅ Token refresh successful');
                 // Store the new tokens
                 const { access_token, refresh_token } = refreshResult.data;
-                sessionStorage.setItem('access_token', access_token);
-                sessionStorage.setItem('refresh_token', refresh_token);
+                localStorage.setItem('access_token', access_token);
+                localStorage.setItem('refresh_token', refresh_token);
 
                 // Retry the original request with new token
                 result = await baseQuery(args, api, extraOptions);
             } else {
                 console.error('❌ Token refresh failed:', refreshResult.error);
                 // Refresh failed, clear tokens and redirect to login
-                sessionStorage.removeItem('access_token');
-                sessionStorage.removeItem('refresh_token');
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
                 window.location.href = '/login';
             }
         } else {
@@ -81,12 +81,12 @@ export const apiSlice = createApi({
                 body: userData,
             }),
             transformResponse: (response) => {
-                // Store tokens in sessionStorage
+                // Store tokens in localStorage
                 if (response.access_token) {
-                    sessionStorage.setItem('access_token', response.access_token);
+                    localStorage.setItem('access_token', response.access_token);
                 }
                 if (response.refresh_token) {
-                    sessionStorage.setItem('refresh_token', response.refresh_token);
+                    localStorage.setItem('refresh_token', response.refresh_token);
                 }
                 return response;
             },
@@ -101,12 +101,12 @@ export const apiSlice = createApi({
                 body: credentials,
             }),
             transformResponse: (response) => {
-                // Store tokens in sessionStorage
+                // Store tokens in localStorage
                 if (response.access_token) {
-                    sessionStorage.setItem('access_token', response.access_token);
+                    localStorage.setItem('access_token', response.access_token);
                 }
                 if (response.refresh_token) {
-                    sessionStorage.setItem('refresh_token', response.refresh_token);
+                    localStorage.setItem('refresh_token', response.refresh_token);
                 }
                 return response;
             },
@@ -121,12 +121,12 @@ export const apiSlice = createApi({
                 body: googleData,
             }),
             transformResponse: (response) => {
-                // Store tokens in sessionStorage
+                // Store tokens in localStorage
                 if (response.access_token) {
-                    sessionStorage.setItem('access_token', response.access_token);
+                    localStorage.setItem('access_token', response.access_token);
                 }
                 if (response.refresh_token) {
-                    sessionStorage.setItem('refresh_token', response.refresh_token);
+                    localStorage.setItem('refresh_token', response.refresh_token);
                 }
                 return response;
             },
@@ -143,10 +143,10 @@ export const apiSlice = createApi({
             transformResponse: (response) => {
                 // Store new tokens
                 if (response.access_token) {
-                    sessionStorage.setItem('access_token', response.access_token);
+                    localStorage.setItem('access_token', response.access_token);
                 }
                 if (response.refresh_token) {
-                    sessionStorage.setItem('refresh_token', response.refresh_token);
+                    localStorage.setItem('refresh_token', response.refresh_token);
                 }
                 return response;
             },
@@ -160,9 +160,9 @@ export const apiSlice = createApi({
                 body: { token },
             }),
             transformResponse: (response) => {
-                // Clear tokens from sessionStorage
-                sessionStorage.removeItem('access_token');
-                sessionStorage.removeItem('refresh_token');
+                // Clear tokens from localStorage
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
                 return response;
             },
             invalidatesTags: ['User', 'Courses', 'Reviews'],

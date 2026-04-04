@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    user: JSON.parse(sessionStorage.getItem('user')) || null,
-    isAuthenticated: !!sessionStorage.getItem('access_token'),
+    user: JSON.parse(localStorage.getItem('user')) || null,
+    isAuthenticated: !!localStorage.getItem('access_token'),
     loading: false,
 };
 
@@ -14,24 +14,24 @@ const authSlice = createSlice({
             const { user, access_token, refresh_token } = action.payload;
             state.user = user;
             state.isAuthenticated = true;
-            // Tokens are already stored in sessionStorage by apiSlice
+            // Tokens are already stored in localStorage by apiSlice
             // Just store user data here
             if (user) {
-                sessionStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('user', JSON.stringify(user));
             }
         },
         updateUser: (state, action) => {
             state.user = { ...state.user, ...action.payload };
-            sessionStorage.setItem('user', JSON.stringify(state.user));
+            localStorage.setItem('user', JSON.stringify(state.user));
         },
         logout: (state) => {
             state.user = null;
             state.isAuthenticated = false;
 
-            // Clear all auth data from sessionStorage
-            sessionStorage.removeItem('access_token');
-            sessionStorage.removeItem('refresh_token');
-            sessionStorage.removeItem('user');
+            // Clear all auth data from localStorage
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+            localStorage.removeItem('user');
         },
         setLoading: (state, action) => {
             state.loading = action.payload;
