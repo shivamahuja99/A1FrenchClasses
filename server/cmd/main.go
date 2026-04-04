@@ -56,7 +56,7 @@ func main() {
 
 	// Apply global middleware
 	router.Use(middleware.LoggingMiddleware(logger))
-	router.Use(middleware.CORSMiddleware)
+	// CORSMiddleware will wrap the entire router below
 
 	userHandler := user.NewUserHandler(logger, db.DB_client)
 	courseHandler := courses.NewCourseHandler(logger, db.DB_client)
@@ -136,7 +136,8 @@ func main() {
 	protected.HandleFunc("/cart/items/{id}", cartHandler.RemoveFromCart).Methods("DELETE")
 	protected.HandleFunc("/cart", cartHandler.ClearCart).Methods("DELETE")
 
-	runServer(router, logger)
+	globalHandler := middleware.CORSMiddleware(router)
+	runServer(globalHandler, logger)
 }
 
 func runServer(handler http.Handler, logger *slog.Logger) {
