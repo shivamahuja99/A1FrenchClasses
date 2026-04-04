@@ -13,7 +13,7 @@ import './App.css';
 // Component to initialize auth state
 const AuthInitializer = ({ children }) => {
   const dispatch = useDispatch();
-  const accessToken = sessionStorage.getItem('access_token');
+  const accessToken = localStorage.getItem('access_token');
 
   const { data: userData, isLoading, error } = useGetCurrentUserQuery(undefined, {
     skip: !accessToken,
@@ -21,7 +21,7 @@ const AuthInitializer = ({ children }) => {
 
   useEffect(() => {
     if (userData && accessToken) {
-      const refreshToken = sessionStorage.getItem('refresh_token');
+      const refreshToken = localStorage.getItem('refresh_token');
       dispatch(setCredentials({
         user: userData,
         access_token: accessToken,
@@ -35,9 +35,9 @@ const AuthInitializer = ({ children }) => {
     if (error && accessToken) {
       console.error('Failed to get current user:', error);
       // Clear invalid tokens
-      sessionStorage.removeItem('access_token');
-      sessionStorage.removeItem('refresh_token');
-      sessionStorage.removeItem('user');
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      localStorage.removeItem('user');
     }
   }, [error, accessToken]);
 

@@ -74,7 +74,7 @@ describe('Authentication Integration Flow', () => {
     beforeEach(() => {
         vi.clearAllMocks();
         localStorage.clear();
-        sessionStorage.clear();
+        localStorage.clear();
     });
 
     it('redirects to login when accessing protected route unauthenticated', () => {
@@ -95,8 +95,8 @@ describe('Authentication Integration Flow', () => {
             },
         };
 
-        // Mock sessionStorage for token check in ProtectedRoute/App
-        sessionStorage.setItem('access_token', 'fake-token');
+        // Mock localStorage for token check in ProtectedRoute/App
+        localStorage.setItem('access_token', 'fake-token');
 
         const store = configureStore({
             reducer: {

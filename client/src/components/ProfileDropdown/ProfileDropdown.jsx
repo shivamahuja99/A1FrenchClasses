@@ -61,7 +61,7 @@ const ProfileDropdown = () => {
     };
 
     const handleLogout = async () => {
-        const refreshToken = sessionStorage.getItem('refresh_token');
+        const refreshToken = localStorage.getItem('refresh_token');
         try {
             await logoutMutation(refreshToken).unwrap();
             dispatch(logout());
