@@ -2,6 +2,20 @@
   publish = "dist"
   command = "npm run build"
 
+# Force HTTPS
+[[redirects]]
+  from = "http://a1frenchclasses.ca/*"
+  to = "https://a1frenchclasses.ca/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.a1frenchclasses.ca/*"
+  to = "https://a1frenchclasses.ca/:splat"
+  status = 301
+  force = true
+
+# SPA catch-all
 [[redirects]]
   from = "/*"
   to = "/index.html"
