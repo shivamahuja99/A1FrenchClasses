@@ -25,7 +25,6 @@ type CartItem struct {
 	Cart      Cart      `json:"cart,omitempty" gorm:"foreignKey:CartID;references:ID"`
 	CourseID  string    `json:"course_id" db:"course_id" gorm:"type:uuid;not null"`
 	Course    Course    `json:"course,omitempty" gorm:"foreignKey:CourseID;references:ID"`
-	Quantity  int       `json:"quantity" db:"quantity" gorm:"default:1"`
 	Price     float64   `json:"price" db:"price"`
 	CreatedAt time.Time `json:"created_at" db:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at" gorm:"autoUpdateTime"`

@@ -64,6 +64,14 @@ func MigrateDatabase(ctx context.Context, db_client *gorm.DB, logger *slog.Logge
 		}
 	}
 
+	// Drop quantity from cart_items
+	cartItemsSql := `DO $$ BEGIN IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='cart_items' AND column_name='quantity') THEN ALTER TABLE cart_items DROP COLUMN quantity; END IF; END $$;`
+	if err := db_client.Exec(cartItemsSql).Error; err != nil {
+		logger.Warn("Could not drop quantity column from cart_items", "error", err)
+	} else {
+		logger.Info("Dropped quantity column from cart_items")
+	}
+
 	logger.Info("Database migration completed successfully")
 	return nil
 }

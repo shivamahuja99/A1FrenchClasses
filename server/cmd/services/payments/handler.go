@@ -85,7 +85,7 @@ func (h *PaymentHandler) Checkout(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := h.orderRepo.Create(ctx, &order); err != nil {
-		h.logger.ErrorContext(ctx, "Failed to create order", "error", err)
+		h.logger.ErrorContext(ctx, "Failed to create order", "user_id", userID, "error", err)
 		api.RespondWithError(w, http.StatusInternalServerError, "Failed to create order")
 		return
 	}
@@ -93,12 +93,12 @@ func (h *PaymentHandler) Checkout(w http.ResponseWriter, r *http.Request) {
 	// 6. Create PayPal Order
 	paypalOrderID, approveURL, err := h.paypalClient.CreateOrder(total, order.ID)
 	if err != nil {
-		h.logger.ErrorContext(ctx, "Failed to create PayPal order", "error", err)
+		h.logger.ErrorContext(ctx, "Failed to create PayPal order", "user_id", userID, "error", err)
 		api.RespondWithError(w, http.StatusInternalServerError, "Payment provider error")
 		return
 	}
 
-	h.logger.InfoContext(ctx, "Created PayPal order", "paypal_order_id", paypalOrderID, "order_id", order.ID)
+	h.logger.InfoContext(ctx, "Created PayPal order", "user_id", userID, "paypal_order_id", paypalOrderID, "order_id", order.ID)
 
 	api.RespondWithJSON(w, http.StatusOK, map[string]string{
 		"order_id":    order.ID,
@@ -117,17 +117,19 @@ func (h *PaymentHandler) CaptureCheckout(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
+	userID, _ := ctx.Value(models.UserIDContextKey).(string)
+
 	// 1. Fetch current order status for idempotency check
 	order, err := h.orderRepo.FindByID(ctx, req.OrderID)
 	if err != nil {
-		h.logger.ErrorContext(ctx, "Order not found", "order_id", req.OrderID)
+		h.logger.ErrorContext(ctx, "Order not found", "user_id", userID, "order_id", req.OrderID)
 		api.RespondWithError(w, http.StatusNotFound, "Order not found")
 		return
 	}
 
 	// If already completed, return success immediately (Idempotency)
 	if order.Status == "COMPLETED" {
-		h.logger.InfoContext(ctx, "Order already COMPLETED, skipping double capture", "order_id", req.OrderID)
+		h.logger.InfoContext(ctx, "Order already COMPLETED, skipping double capture", "user_id", userID, "order_id", req.OrderID)
 		api.RespondWithJSON(w, http.StatusOK, map[string]string{"status": "success", "message": "already_completed"})
 		return
 	}
@@ -135,7 +137,7 @@ func (h *PaymentHandler) CaptureCheckout(w http.ResponseWriter, r *http.Request)
 	// 2. Capture PayPal Order
 	status, err := h.paypalClient.CaptureOrder(req.Token)
 	if err != nil {
-		h.logger.ErrorContext(ctx, "Failed to capture PayPal order", "error", err)
+		h.logger.ErrorContext(ctx, "Failed to capture PayPal order", "user_id", userID, "error", err)
 
 		// Check if error is due to order already being captured
 		isAlreadyCaptured := (strings.Contains(err.Error(), ErrOrderAlreadyCaptured) ||
@@ -144,7 +146,7 @@ func (h *PaymentHandler) CaptureCheckout(w http.ResponseWriter, r *http.Request)
 			strings.Contains(err.Error(), StatusBadRequest))
 
 		if isAlreadyCaptured {
-			h.logger.InfoContext(ctx, "PayPal reported order already captured or duplicate. Marking as COMPLETED.", "order_id", req.OrderID)
+			h.logger.InfoContext(ctx, "PayPal reported order already captured or duplicate. Marking as COMPLETED.", "user_id", userID, "order_id", req.OrderID)
 			status = "COMPLETED"
 		} else {
 			_ = h.orderRepo.UpdateStatus(ctx, req.OrderID, "FAILED")
@@ -155,7 +157,7 @@ func (h *PaymentHandler) CaptureCheckout(w http.ResponseWriter, r *http.Request)
 
 	if status == "COMPLETED" {
 		if err := h.orderRepo.UpdateStatus(ctx, req.OrderID, "COMPLETED"); err != nil {
-			h.logger.ErrorContext(ctx, "Failed to update order status to COMPLETED", "order_id", req.OrderID, "error", err)
+			h.logger.ErrorContext(ctx, "Failed to update order status to COMPLETED", "user_id", userID, "order_id", req.OrderID, "error", err)
 		}
 
 		// Re-fetch or use existing order object if it hasn't changed (Items are needed)
@@ -171,10 +173,9 @@ func (h *PaymentHandler) CaptureCheckout(w http.ResponseWriter, r *http.Request)
 			PayPalTransactionID: req.Token,
 		}
 		if err := h.repo.Create(ctx, &payment); err != nil {
-			h.logger.ErrorContext(ctx, "Failed to create payment record", "order_id", req.OrderID, "error", err)
+			h.logger.ErrorContext(ctx, "Failed to create payment record", "user_id", userID, "order_id", req.OrderID, "error", err)
 		}
 
-		userID, _ := ctx.Value(models.UserIDContextKey).(string)
 		for _, item := range order.Items {
 			if err := h.userRepo.AssignCourse(ctx, userID, item.CourseID); err != nil {
 				h.logger.ErrorContext(ctx, "Failed to assign course to user", "user_id", userID, "course_id", item.CourseID, "error", err)

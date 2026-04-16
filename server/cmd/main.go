@@ -16,6 +16,7 @@ import (
 	"services/cmd/services/payments"
 	"services/cmd/services/reviews"
 	user "services/cmd/services/users"
+	"services/internal/api"
 	"services/internal/database"
 	"services/internal/middleware"
 	"services/internal/repository"
@@ -87,6 +88,11 @@ func main() {
 	router.HandleFunc("/api/refresh", userHandler.RefreshToken).Methods("POST")
 	router.HandleFunc("/api/logout", userHandler.Logout).Methods("POST")
 
+	// General public routes
+	router.HandleFunc("/api/accepted", func(w http.ResponseWriter, r *http.Request) {
+		api.RespondWithJSON(w, http.StatusOK, map[string]string{"message": "api accepted"})
+	}).Methods("POST")
+
 	// Protected routes (require authentication)
 	protected := router.PathPrefix("/api").Subrouter()
 	protected.Use(authMiddleware.Authenticate)
@@ -132,7 +138,6 @@ func main() {
 	// Cart routes (protected)
 	protected.HandleFunc("/cart", cartHandler.GetCart).Methods("GET")
 	protected.HandleFunc("/cart/items", cartHandler.AddToCart).Methods("POST")
-	protected.HandleFunc("/cart/items/{id}", cartHandler.UpdateCartItem).Methods("PUT")
 	protected.HandleFunc("/cart/items/{id}", cartHandler.RemoveFromCart).Methods("DELETE")
 	protected.HandleFunc("/cart", cartHandler.ClearCart).Methods("DELETE")
 

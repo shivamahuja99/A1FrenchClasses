@@ -166,7 +166,7 @@ func (r *PostgresCartRepository) GetCartTotal(ctx context.Context, cartID string
 	err := r.db.WithContext(ctx).
 		Model(&models.CartItem{}).
 		Where("cart_id = ?", cartID).
-		Select("COALESCE(SUM(price * quantity), 0)").
+		Select("COALESCE(SUM(price), 0)").
 		Scan(&total).Error
 
 	if err != nil {

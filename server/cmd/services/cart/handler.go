@@ -93,16 +93,11 @@ func (h *CartHandler) AddToCart(w http.ResponseWriter, r *http.Request) {
 
 	var req struct {
 		CourseID string `json:"course_id"`
-		Quantity int    `json:"quantity"`
 	}
 
 	if err := json.Unmarshal(body, &req); err != nil {
 		api.RespondWithError(w, http.StatusBadRequest, "Invalid JSON format")
 		return
-	}
-
-	if req.Quantity <= 0 {
-		req.Quantity = 1
 	}
 
 	// Get or create cart
@@ -144,13 +139,6 @@ func (h *CartHandler) AddToCart(w http.ResponseWriter, r *http.Request) {
 	// Check if course already in cart
 	existingItem, err := h.cartRepo.GetCartItemByCourseID(ctx, cart.ID, req.CourseID)
 	if err == nil {
-		// Update quantity
-		existingItem.Quantity += req.Quantity
-		if err := h.cartRepo.UpdateCartItem(ctx, existingItem); err != nil {
-			h.logger.ErrorContext(ctx, "Error updating cart item", "error", err)
-			api.RespondWithError(w, http.StatusInternalServerError, "Failed to update cart item")
-			return
-		}
 		api.RespondWithJSON(w, http.StatusOK, existingItem)
 		return
 	}
@@ -159,7 +147,6 @@ func (h *CartHandler) AddToCart(w http.ResponseWriter, r *http.Request) {
 	cartItem := &models.CartItem{
 		CartID:   cart.ID,
 		CourseID: req.CourseID,
-		Quantity: req.Quantity,
 		Price:    price,
 	}
 
@@ -172,68 +159,6 @@ func (h *CartHandler) AddToCart(w http.ResponseWriter, r *http.Request) {
 	api.RespondWithJSON(w, http.StatusCreated, cartItem)
 }
 
-// UpdateCartItem updates the quantity of a cart item
-func (h *CartHandler) UpdateCartItem(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-	userID, ok := ctx.Value(models.UserIDContextKey).(string)
-	if !ok {
-		api.RespondWithError(w, http.StatusUnauthorized, "Unauthorized")
-		return
-	}
-
-	vars := mux.Vars(r)
-	itemID := vars["id"]
-
-	body, err := io.ReadAll(r.Body)
-	if err != nil {
-		api.RespondWithError(w, http.StatusBadRequest, "Failed to read request body")
-		return
-	}
-	defer func() { _ = r.Body.Close() }()
-
-	var req struct {
-		Quantity int `json:"quantity"`
-	}
-
-	if err := json.Unmarshal(body, &req); err != nil {
-		api.RespondWithError(w, http.StatusBadRequest, "Invalid JSON format")
-		return
-	}
-
-	if req.Quantity <= 0 {
-		api.RespondWithError(w, http.StatusBadRequest, "Quantity must be greater than 0")
-		return
-	}
-
-	// Get cart item
-	cartItem, err := h.cartRepo.GetCartItem(ctx, itemID)
-	if err != nil {
-		if errors.Is(err, repository.ErrCartItemNotFound) {
-			api.RespondWithError(w, http.StatusNotFound, "Cart item not found")
-			return
-		}
-		h.logger.ErrorContext(ctx, "Error getting cart item", "error", err)
-		api.RespondWithError(w, http.StatusInternalServerError, "Failed to get cart item")
-		return
-	}
-
-	// Verify the cart belongs to the user
-	cart, err := h.cartRepo.GetCartByUserID(ctx, userID)
-	if err != nil || cart.ID != cartItem.CartID {
-		api.RespondWithError(w, http.StatusUnauthorized, "Unauthorized")
-		return
-	}
-
-	// Update quantity
-	cartItem.Quantity = req.Quantity
-	if err := h.cartRepo.UpdateCartItem(ctx, cartItem); err != nil {
-		h.logger.ErrorContext(ctx, "Error updating cart item", "error", err)
-		api.RespondWithError(w, http.StatusInternalServerError, "Failed to update cart item")
-		return
-	}
-
-	api.RespondWithJSON(w, http.StatusOK, cartItem)
-}
 
 // RemoveFromCart removes an item from the cart
 func (h *CartHandler) RemoveFromCart(w http.ResponseWriter, r *http.Request) {
