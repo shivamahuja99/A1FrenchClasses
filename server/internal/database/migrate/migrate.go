@@ -72,6 +72,21 @@ func MigrateDatabase(ctx context.Context, db_client *gorm.DB, logger *slog.Logge
 		logger.Info("Dropped quantity column from cart_items")
 	}
 
+	// Seed default app settings
+	logger.Info("Seeding default app settings")
+	initialSettings := []models.AppSetting{
+		{Key: "contact_recipient_email", Value: "hello@a1frenchclasses.ca", Description: "Email where contact submissions are sent"},
+		{Key: "contact_whatsapp_number", Value: "+1234567890", Description: "WhatsApp number for automated notifications"},
+		{Key: "google_spreadsheet_id", Value: "", Description: "ID of the Google Sheet for lead storage"},
+	}
+
+	for _, setting := range initialSettings {
+		if err := db_client.Where("key = ?", setting.Key).FirstOrCreate(&setting).Error; err != nil {
+			logger.Warn("Could not seed app setting", "key", setting.Key, "error", err)
+		}
+	}
+	logger.Info("Default app settings seeded")
+
 	logger.Info("Database migration completed successfully")
 	return nil
 }

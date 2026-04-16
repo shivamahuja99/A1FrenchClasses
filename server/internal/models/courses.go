@@ -27,6 +27,7 @@ type Course struct {
 	Reviews      []Review   `json:"reviews,omitempty" gorm:"foreignKey:CourseID"`
 	CreatedAt    time.Time  `json:"created_at" db:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt    time.Time  `json:"updated_at" db:"updated_at" gorm:"autoUpdateTime"`
+	EnrolledAt   *time.Time `json:"enrolled_at,omitempty" gorm:"->"` // Virtual field for enrollment date
 }
 
 type UserCourses struct {

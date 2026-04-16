@@ -335,6 +335,15 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Cart'],
         }),
+
+        // ============ Lead Endpoints (Public) ============
+        createLead: builder.mutation({
+            query: (leadData) => ({
+                url: '/api/leads',
+                method: 'POST',
+                body: leadData,
+            }),
+        }),
     }),
 });
 
@@ -372,4 +381,7 @@ export const {
     useCheckoutCartMutation,
     useCaptureCheckoutMutation,
     useRetryOrderMutation,
+
+    // Lead hooks
+    useCreateLeadMutation,
 } = apiSlice;

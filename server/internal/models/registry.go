@@ -14,4 +14,6 @@ var AllModels = []any{
 	&UserCourses{},
 	&Order{},
 	&OrderItem{},
+	&Lead{},
+	&AppSetting{},
 }

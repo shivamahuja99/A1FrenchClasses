@@ -128,6 +128,8 @@ func (r *PostgresUserRepository) Delete(ctx context.Context, id string) error {
 func (r *PostgresUserRepository) GetPurchasedCourses(ctx context.Context, userID string) ([]*models.Course, error) {
 	var courses []*models.Course
 	err := r.db.WithContext(ctx).
+		Table("courses").
+		Select("courses.*, user_courses.created_at as enrolled_at").
 		Joins("JOIN user_courses ON user_courses.course_id = courses.id").
 		Where("user_courses.user_id = ?", userID).
 		Find(&courses).Error

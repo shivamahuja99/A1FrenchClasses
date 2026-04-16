@@ -6,9 +6,9 @@
 const footerConfig = {
     contactInfo: {
         email: 'info@a1frenchclasses.com',
-        phone: '+1 (555) 123-4567',
-        address: '123 French Street, Paris, France',
-        hours: 'Mon-Fri: 9AM-6PM'
+        phone: '+1 (234) 567-890',
+        address: 'Toronto, ON Canada',
+        hours: 'Mon-Sat: 10AM-6PM'
     },
     socialLinks: [
         { platform: 'Facebook', url: 'https://facebook.com/a1frenchclasses' },

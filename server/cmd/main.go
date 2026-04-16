@@ -14,6 +14,7 @@ import (
 	"services/cmd/services/courses"
 	paymentplans "services/cmd/services/payment_plans"
 	"services/cmd/services/payments"
+	"services/cmd/services/leads"
 	"services/cmd/services/reviews"
 	user "services/cmd/services/users"
 	"services/internal/api"
@@ -65,6 +66,7 @@ func main() {
 	reviewHandler := reviews.NewReviewHandler(logger, db.DB_client)
 	paymentHandler := payments.NewPaymentHandler(logger, db.DB_client)
 	cartHandler := cart.NewCartHandler(logger, db.DB_client)
+	leadHandler := leads.NewLeadHandler(logger, db.DB_client)
 
 	// Initialize auth middleware
 	sessionRepo := repository.NewPostgresSessionRepository(db.DB_client)
@@ -92,6 +94,7 @@ func main() {
 	router.HandleFunc("/api/courses", courseHandler.ListCourses).Methods("GET")
 	router.HandleFunc("/api/courses/{id}", courseHandler.GetCourse).Methods("GET")
 	router.HandleFunc("/api/reviews", reviewHandler.ListReviews).Methods("GET")
+	router.HandleFunc("/api/leads", leadHandler.CreateLead).Methods("POST")
 
 	// General public routes
 	router.HandleFunc("/api/accepted", func(w http.ResponseWriter, r *http.Request) {
@@ -142,6 +145,9 @@ func main() {
 	protected.HandleFunc("/cart/items", cartHandler.AddToCart).Methods("POST")
 	protected.HandleFunc("/cart/items/{id}", cartHandler.RemoveFromCart).Methods("DELETE")
 	protected.HandleFunc("/cart", cartHandler.ClearCart).Methods("DELETE")
+
+	// Leads routes (protected - to view inquiries)
+	protected.HandleFunc("/leads", leadHandler.ListLeads).Methods("GET")
 
 	globalHandler := middleware.CORSMiddleware(router)
 	runServer(globalHandler, logger)
