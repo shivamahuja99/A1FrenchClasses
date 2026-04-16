@@ -19,7 +19,7 @@
   max-width: var(--ds-container-max, 88rem);
   margin: 0 auto;
   padding: 0 2rem;
-  height: 4.25rem;
+  height: 6rem;
 }
 
 /* ---- Logo ---- */
@@ -30,7 +30,7 @@
   align-items: center;
 }
 .logoImage {
-  height: 3rem;
+  height: 5rem;
   width: auto;
   object-fit: contain;
 }
@@ -270,8 +270,9 @@
 @media (max-width: 480px) {
   .container {
     padding: 0 1rem;
-    height: 3.75rem;
+    height: 4.5rem;
   }
+  .logoImage { height: 3.5rem; }
   .logoText { font-size: 1.125rem; }
   .authButtons { display: none; }
 }
@@ -282,7 +283,7 @@
 }
 
 @media (min-width: 768px) {
-  .container { padding: 0 2rem; height: 4.25rem; }
+  .container { padding: 0 2rem; height: 6rem; }
   .desktopNav { display: block; }
   .mobileMenuButton { display: none; }
   .mobileNav { display: none; }

@@ -14,7 +14,7 @@ const Footer = ({
   const links = navigationLinks.length > 0 ? navigationLinks : [
     { label: 'Programs', href: '/courses' },
     { label: 'About Us', href: '/about' },
-    { label: 'Contact', href: '/contact' }
+    { label: 'Contact', href: '/contact-us' }
   ];
 
   return (
@@ -24,10 +24,14 @@ const Footer = ({
           {/* Company Section */}
           <div className={styles.companySection}>
             <div className={styles.logo}>
-              <span className={styles.logoText}>THE LUMINOUS ATELIER</span>
+              {logo ? (
+                <img src={logo} alt="A1 French Classes logo" className={styles.logoImage} />
+              ) : (
+                <span className={styles.logoText}>A1 FRENCH CLASSES</span>
+              )}
             </div>
             <p className={styles.companyDescription}>
-              Experience French as a living art. Curated pedagogy for the modern student of culture.
+              {companyInfo.description || 'Learn French with confidence through our expert-led courses and proven methodology.'}
             </p>
             
             <div className={styles.socialLinks}>
@@ -44,8 +48,8 @@ const Footer = ({
                 ))}
                 {socialLinks.length === 0 && (
                   <>
-                    <li className={styles.socialItem}><a href="#" className={styles.socialLink}>IG</a></li>
-                    <li className={styles.socialItem}><a href="#" className={styles.socialLink}>LI</a></li>
+                    <li className={styles.socialItem}><a href="#" className={styles.socialLink}>FB</a></li>
+                    <li className={styles.socialItem}><a href="#" className={styles.socialLink}>TW</a></li>
                   </>
                 )}
               </ul>
@@ -70,7 +74,7 @@ const Footer = ({
 
           {/* Contact Information Section */}
           <div className={styles.contactSection}>
-            <h3 className={styles.sectionTitle}>Paris Studio</h3>
+            <h3 className={styles.sectionTitle}>Toronto Studio</h3>
             <address className={styles.contactInfo}>
               <div className={styles.contactItem}>
                 <span className={styles.contactLabel}>Email</span>
@@ -79,7 +83,7 @@ const Footer = ({
                 </a>
               </div>
               <div className={styles.contactItem}>
-                <span className={styles.contactLabel}>Studio</span>
+                <span className={styles.contactLabel}>Location</span>
                 <span className={styles.contactText}>{contactInfo.address || 'Toronto, ON Canada'}</span>
               </div>
             </address>
@@ -89,7 +93,7 @@ const Footer = ({
         {/* Footer Bottom */}
         <div className={styles.footerBottom}>
           <div className={styles.copyright}>
-            <p>© {currentYear} THE LUMINOUS ATELIER. All rights reserved.</p>
+            <p>© {currentYear} A1 FRENCH CLASSES. All rights reserved.</p>
           </div>
           <nav className={styles.legalLinks} aria-label="Legal">
             <Link to="/privacy" className={styles.legalLink}>Privacy</Link>

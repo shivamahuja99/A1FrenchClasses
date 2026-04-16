@@ -24,7 +24,7 @@ const navigationConfig = {
         },
         {
             label: "Contact",
-            href: "/#footer"
+            href: "/contact-us"
         }
     ]
 };

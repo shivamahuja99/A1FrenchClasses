@@ -90,7 +90,7 @@ const PurchasedCoursesList = () => {
 
                             <div className={styles.courseFooter}>
                                 <span className={styles.enrolledDate}>
-                                    Enrolled: {new Date(course.created_at).toLocaleDateString()}
+                                    Enrolled: {new Date(course.enrolled_at || course.created_at).toLocaleDateString()}
                                 </span>
                                 <a href={`/courses/${course.id}`} className={styles.continueButton}>
                                     Continue Learning →
