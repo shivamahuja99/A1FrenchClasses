@@ -7,6 +7,9 @@ migrate:
 dev:
 	go run cmd/main.go
 
+frontend:
+	cd ../client && npm run dev
+
 test:
 	go test -v ./...
 

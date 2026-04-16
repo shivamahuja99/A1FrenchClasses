@@ -28,6 +28,10 @@ const CourseDetailsPage = () => {
     const isInCart = cartData?.cart?.items?.some(item => item.course_id === id);
 
     const handleAddToCart = async () => {
+        if (!isAuthenticated) {
+            navigate('/login');
+            return;
+        }
         if (isInCart) {
             navigate('/cart');
             return;
@@ -43,6 +47,10 @@ const CourseDetailsPage = () => {
     };
 
     const handleBuyNow = async () => {
+        if (!isAuthenticated) {
+            navigate('/login');
+            return;
+        }
         if (isInCart) {
             navigate('/cart');
             return;

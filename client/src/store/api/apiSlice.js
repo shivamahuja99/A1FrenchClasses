@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { logout } from '../slices/authSlice';
 
 // Get API URL based on environment
 const getApiUrl = () => {
@@ -52,14 +53,12 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
                 result = await baseQuery(args, api, extraOptions);
             } else {
                 console.error('❌ Token refresh failed:', refreshResult.error);
-                // Refresh failed, clear tokens and redirect to login
-                localStorage.removeItem('access_token');
-                localStorage.removeItem('refresh_token');
-                window.location.href = '/login';
+                // Refresh failed, clear tokens and state
+                api.dispatch(logout());
             }
         } else {
-            console.log('⚠️ No refresh token available, redirecting to login');
-            window.location.href = '/login';
+            console.log('⚠️ No refresh token available, clearing auth state');
+            api.dispatch(logout());
         }
     }
 
