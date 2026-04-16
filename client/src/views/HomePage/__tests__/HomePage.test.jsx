@@ -100,6 +100,8 @@ const mockHomepageData = {
   }
 };
 
+import { MemoryRouter } from 'react-router-dom';
+
 const renderWithProvider = (component) => {
   const store = configureStore({
     reducer: {
@@ -113,7 +115,9 @@ const renderWithProvider = (component) => {
 
   return render(
     <Provider store={store}>
-      {component}
+      <MemoryRouter>
+        {component}
+      </MemoryRouter>
     </Provider>
   );
 };

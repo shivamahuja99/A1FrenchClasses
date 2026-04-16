@@ -234,7 +234,7 @@ func TestCheckout_ZeroTotal(t *testing.T) {
 	cart := &models.Cart{
 		ID: "cart-1",
 		Items: []models.CartItem{
-			{ID: "item-1", CourseID: "course-1", Price: 0, Quantity: 1},
+			{ID: "item-1", CourseID: "course-1", Price: 0},
 		},
 	}
 	h := newTestHandler(&mockPaymentRepo{}, &mockOrderRepo{}, &mockCartRepo{cart: cart, total: 0}, &mockUserRepo{}, &mockPayPalClient{})
@@ -251,7 +251,7 @@ func TestCheckout_OrderCreationFailure(t *testing.T) {
 	cart := &models.Cart{
 		ID: "cart-1",
 		Items: []models.CartItem{
-			{ID: "item-1", CourseID: "course-1", Price: 100, Quantity: 1},
+			{ID: "item-1", CourseID: "course-1", Price: 100},
 		},
 	}
 	orderRepo := &mockOrderRepo{
@@ -273,7 +273,7 @@ func TestCheckout_PayPalFailure(t *testing.T) {
 	cart := &models.Cart{
 		ID: "cart-1",
 		Items: []models.CartItem{
-			{ID: "item-1", CourseID: "course-1", Price: 100, Quantity: 1},
+			{ID: "item-1", CourseID: "course-1", Price: 100},
 		},
 	}
 	pp := &mockPayPalClient{

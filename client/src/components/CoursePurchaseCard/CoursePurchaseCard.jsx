@@ -28,9 +28,9 @@ const CoursePurchaseCard = ({
                 <button
                     onClick={onBuyNow}
                     className={styles.buyNowButton}
-                    disabled={isAddingToCart}
+                    disabled={isAddingToCart || isInCart}
                 >
-                    {isAddingToCart ? 'Processing...' : 'buy now'}
+                    {isAddingToCart ? 'Processing...' : (isInCart ? 'In Cart' : 'buy now')}
                 </button>
 
                 <button

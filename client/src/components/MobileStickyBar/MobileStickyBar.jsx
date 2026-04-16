@@ -31,9 +31,9 @@ const MobileStickyBar = ({
                 <button
                     onClick={onBuyNow}
                     className={styles.buyNowButton}
-                    disabled={isAddingToCart}
+                    disabled={isAddingToCart || isInCart}
                 >
-                    {isAddingToCart ? '...' : (isInCart ? 'Go to Cart' : 'Buy Now')}
+                    {isAddingToCart ? '...' : (isInCart ? 'In Cart' : 'Buy Now')}
                 </button>
             </div>
         </div>

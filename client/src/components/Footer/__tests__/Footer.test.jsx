@@ -1,4 +1,7 @@
-import { render, screen } from '@testing-library/react';
+import { render as rtlRender, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+
+const render = (ui, options) => rtlRender(<MemoryRouter>{ui}</MemoryRouter>, options);
 import { describe, it, expect } from 'vitest';
 import Footer from '../Footer';
 
