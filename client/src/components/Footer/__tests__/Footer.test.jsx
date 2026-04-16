@@ -34,32 +34,32 @@ const mockCompanyInfo = {
 describe('Footer Component', () => {
   it('renders footer with logo text when no logo image provided', () => {
     render(<Footer />);
-    
-    expect(screen.getByText('A1frenchclasses')).toBeInTheDocument();
+
+    expect(screen.getByText('THE LUMINOUS ATELIER')).toBeInTheDocument();
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 
   it('renders footer with logo image when provided', () => {
     const logoSrc = '/images/logo.png';
     render(<Footer logo={logoSrc} />);
-    
-    const logoImage = screen.getByAltText('A1frenchclasses');
+
+    const logoImage = screen.getByAltText('THE LUMINOUS ATELIER');
     expect(logoImage).toBeInTheDocument();
     expect(logoImage).toHaveAttribute('src', logoSrc);
   });
 
   it('displays company description when provided', () => {
     render(<Footer companyInfo={mockCompanyInfo} />);
-    
+
     expect(screen.getByText(mockCompanyInfo.description)).toBeInTheDocument();
   });
 
   it('renders navigation links correctly', () => {
     render(<Footer navigationLinks={mockNavigationLinks} />);
-    
+
     expect(screen.getByText('Quick Links')).toBeInTheDocument();
     expect(screen.getByLabelText('Footer navigation')).toBeInTheDocument();
-    
+
     mockNavigationLinks.forEach(link => {
       const linkElement = screen.getByText(link.label);
       expect(linkElement).toBeInTheDocument();
@@ -69,16 +69,16 @@ describe('Footer Component', () => {
 
   it('renders social links correctly', () => {
     render(<Footer socialLinks={mockSocialLinks} />);
-    
+
     expect(screen.getByText('Follow Us')).toBeInTheDocument();
-    
+
     mockSocialLinks.forEach(social => {
       const socialLink = screen.getByLabelText(`Follow us on ${social.platform}`);
       expect(socialLink).toBeInTheDocument();
       expect(socialLink).toHaveAttribute('href', social.url);
       expect(socialLink).toHaveAttribute('target', '_blank');
       expect(socialLink).toHaveAttribute('rel', 'noopener noreferrer');
-      
+
       if (social.icon) {
         const iconImage = screen.getByAltText(social.platform);
         expect(iconImage).toHaveAttribute('src', social.icon);
@@ -88,40 +88,40 @@ describe('Footer Component', () => {
 
   it('renders contact information correctly', () => {
     render(<Footer contactInfo={mockContactInfo} />);
-    
-    expect(screen.getByText('Contact Us')).toBeInTheDocument();
-    
+
+    expect(screen.getByText('Paris Studio')).toBeInTheDocument();
+
     // Check email
     const emailLink = screen.getByLabelText(`Send email to ${mockContactInfo.email}`);
     expect(emailLink).toHaveAttribute('href', `mailto:${mockContactInfo.email}`);
     expect(screen.getByText(mockContactInfo.email)).toBeInTheDocument();
-    
+
     // Check phone
     const phoneLink = screen.getByLabelText(`Call ${mockContactInfo.phone}`);
     expect(phoneLink).toHaveAttribute('href', 'tel:+1(555)123-4567');
     expect(screen.getByText(mockContactInfo.phone)).toBeInTheDocument();
-    
+
     // Check address
     expect(screen.getByText(mockContactInfo.address)).toBeInTheDocument();
-    
+
     // Check hours
     expect(screen.getByText(mockContactInfo.hours)).toBeInTheDocument();
   });
 
   it('displays current year in copyright', () => {
     render(<Footer />);
-    
+
     const currentYear = new Date().getFullYear();
-    expect(screen.getByText(`© ${currentYear} A1frenchclasses. All rights reserved.`)).toBeInTheDocument();
+    expect(screen.getByText(`© ${currentYear} THE LUMINOUS ATELIER. All rights reserved.`)).toBeInTheDocument();
   });
 
   it('renders legal links when provided', () => {
     render(<Footer companyInfo={mockCompanyInfo} />);
-    
+
     const privacyLink = screen.getByText('Privacy Policy');
     expect(privacyLink).toBeInTheDocument();
     expect(privacyLink).toHaveAttribute('href', mockCompanyInfo.privacyPolicy);
-    
+
     const termsLink = screen.getByText('Terms of Service');
     expect(termsLink).toBeInTheDocument();
     expect(termsLink).toHaveAttribute('href', mockCompanyInfo.termsOfService);
@@ -129,52 +129,52 @@ describe('Footer Component', () => {
 
   it('handles empty props gracefully', () => {
     render(<Footer />);
-    
+
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
-    expect(screen.getByText('A1frenchclasses')).toBeInTheDocument();
-    expect(screen.getByText('Contact Us')).toBeInTheDocument();
-    
+    expect(screen.getByText('THE LUMINOUS ATELIER')).toBeInTheDocument();
+    expect(screen.getByText('Paris Studio')).toBeInTheDocument();
+
     // Should not render sections that have no data
     expect(screen.queryByText('Quick Links')).not.toBeInTheDocument();
     expect(screen.queryByText('Follow Us')).not.toBeInTheDocument();
   });
 
   it('has proper semantic HTML structure', () => {
-    render(<Footer 
+    render(<Footer
       navigationLinks={mockNavigationLinks}
       contactInfo={mockContactInfo}
     />);
-    
+
     // Check main footer element
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
-    
+
     // Check navigation
     expect(screen.getByRole('navigation', { name: 'Footer navigation' })).toBeInTheDocument();
-    
+
     // Check address element
     const addressElement = screen.getByText(mockContactInfo.address).closest('address');
     expect(addressElement).toBeInTheDocument();
-    
+
     // Check lists
     const lists = screen.getAllByRole('list');
     expect(lists.length).toBeGreaterThan(0);
   });
 
   it('renders all sections when all props are provided', () => {
-    render(<Footer 
+    render(<Footer
       logo="/images/logo.png"
       companyInfo={mockCompanyInfo}
       navigationLinks={mockNavigationLinks}
       socialLinks={mockSocialLinks}
       contactInfo={mockContactInfo}
     />);
-    
+
     // Check all sections are present
-    expect(screen.getByAltText('A1frenchclasses')).toBeInTheDocument();
+    expect(screen.getByAltText('THE LUMINOUS ATELIER')).toBeInTheDocument();
     expect(screen.getByText(mockCompanyInfo.description)).toBeInTheDocument();
     expect(screen.getByText('Quick Links')).toBeInTheDocument();
     expect(screen.getByText('Follow Us')).toBeInTheDocument();
-    expect(screen.getByText('Contact Us')).toBeInTheDocument();
+    expect(screen.getByText('Paris Studio')).toBeInTheDocument();
     expect(screen.getByText('Privacy Policy')).toBeInTheDocument();
     expect(screen.getByText('Terms of Service')).toBeInTheDocument();
   });

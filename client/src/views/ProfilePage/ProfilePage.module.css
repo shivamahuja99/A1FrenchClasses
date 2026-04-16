@@ -1,80 +1,67 @@
-/* Profile Page Styles */
+/* ProfilePage — L'Atelier */
 
 .page {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  min-height: 100vh;
+  background: var(--ds-background);
 }
 
 .main {
-    flex: 1;
-    padding: var(--spacing-xxl) 0;
-    background: var(--color-background-light);
+  padding: 0;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 var(--spacing-xl);
+  max-width: var(--ds-container-max);
+  margin: 0 auto;
+  padding: 2.5rem 2rem 4rem;
 }
 
+/* Page header */
 .pageHeader {
-    margin-bottom: var(--spacing-xxl);
+  margin-bottom: 2.5rem;
 }
 
 .pageTitle {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-sm);
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  font-weight: 900;
+  color: var(--ds-on-surface);
+  letter-spacing: -0.04em;
+  margin-bottom: 0.5rem;
 }
 
 .pageSubtitle {
-    font-size: 1.125rem;
-    color: var(--color-text-secondary);
+  font-size: 1rem;
+  color: var(--ds-tertiary);
+  margin: 0;
 }
 
+/* Two-column layout: sidebar (user form) + main (purchased courses) */
 .content {
-    display: grid;
-    grid-template-columns: 400px 1fr;
-    gap: var(--spacing-xxl);
+  display: grid;
+  grid-template-columns: 22rem 1fr;
+  gap: 2rem;
+  align-items: start;
 }
 
 .sidebar {
-    /* User details form will go here */
+  position: sticky;
+  top: 5.5rem;
 }
 
 .mainContent {
-    /* Purchased courses list will go here */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .content {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 768px) {
-    .main {
-        padding: var(--spacing-xl) 0;
-    }
-
-    .container {
-        padding: 0 var(--spacing-md);
-    }
-
-    .pageTitle {
-        font-size: 2rem;
-    }
-
-    .pageSubtitle {
-        font-size: 1rem;
-    }
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 900px) {
+  .content { grid-template-columns: 1fr; }
+  .sidebar { position: static; }
 }
 
 @media (max-width: 480px) {
-    .pageTitle {
-        font-size: 1.75rem;
-    }
+  .container { padding: 1.5rem 1rem 3rem; }
+  .pageTitle { font-size: 1.75rem; }
 }

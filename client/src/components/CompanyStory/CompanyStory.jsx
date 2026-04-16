@@ -1,114 +1,74 @@
-import React, { useState } from 'react';
 import styles from './CompanyStory.module.css';
-import { generateResponsiveImageUrl } from '../../utils/imageUtils';
 
-const CompanyStory = ({ 
-  title = "Our Story", 
-  mission, 
-  story, 
-  teamImage, 
-  statistics = {} 
+const CompanyStory = ({
+  title = 'Our Story',
+  mission,
+  story,
+  teamImage,
+  statistics = {},
 }) => {
-  const [imageError, setImageError] = useState(false);
-  const [imageLoading, setImageLoading] = useState(true);
-
-  const handleImageLoad = () => {
-    setImageLoading(false);
-  };
-
-  const handleImageError = () => {
-    setImageError(true);
-    setImageLoading(false);
-  };
+  const hasStats = Object.keys(statistics).length > 0;
 
   return (
     <section className={styles.companyStory} aria-labelledby="story-title">
       <div className={styles.container}>
-        <div className={styles.content}>
-          <div className={styles.textContent}>
+        <div className={styles.sectionHeader}>
+          <div className={styles.headerLeft}>
             <h2 id="story-title" className={styles.title}>
               {title}
             </h2>
-            
-            {mission && (
-              <div className={styles.missionSection}>
-                <h3 className={styles.missionTitle}>Our Mission</h3>
-                <p className={styles.mission}>
-                  {mission}
-                </p>
-              </div>
-            )}
-            
-            {story && (
-              <div className={styles.storySection}>
-                <p className={styles.story}>
-                  {story}
-                </p>
-              </div>
-            )}
-            
-            {Object.keys(statistics).length > 0 && (
-              <div className={styles.highlightStats} role="region" aria-labelledby="story-title">
+            <p className={styles.subtitle}>
+              {mission ||
+                'We are dedicated to providing specialised curriculums tailored to your linguistic journey. Each program is led by certified native experts.'}
+            </p>
+          </div>
+          {/* Optional: Keep a link if needed, or remove if it feels too cluttered */}
+          <a href="/courses" className={styles.brochureLink}>
+            Explore our curriculum →
+          </a>
+        </div>
+
+        <div className={styles.grid}>
+          {/* Left Side: Story Text */}
+          <div className={styles.textContent}>
+            <div className={styles.storyWrap}>
+              <p className={styles.story}>
+                {story ||
+                  'Founded with a passion for the French language, A1FrenchClasses has grown into a premier destination for students worldwide. Our approach combines traditional values with modern, interactive techniques to ensure every student finds their unique pathway to fluency.'}
+              </p>
+            </div>
+
+            {hasStats && (
+              <div className={styles.statsGrid}>
                 {statistics.studentsHelped && (
-                  <div className={styles.highlightStat} role="group" aria-labelledby="students-transformed">
-                    <span 
-                      id="students-transformed"
-                      className={styles.highlightNumber}
-                      aria-label={`${statistics.studentsHelped} students transformed`}
-                    >
-                      {statistics.studentsHelped}
-                    </span>
-                    <span className={styles.highlightLabel} aria-hidden="true">Students Transformed</span>
+                  <div className={styles.statCard}>
+                    <span className={styles.statNumber}>{statistics.studentsHelped}</span>
+                    <span className={styles.statLabel}>Students Formed</span>
                   </div>
                 )}
                 {statistics.yearsExperience && (
-                  <div className={styles.highlightStat} role="group" aria-labelledby="years-excellence">
-                    <span 
-                      id="years-excellence"
-                      className={styles.highlightNumber}
-                      aria-label={`${statistics.yearsExperience} years of excellence`}
-                    >
-                      {statistics.yearsExperience}
-                    </span>
-                    <span className={styles.highlightLabel} aria-hidden="true">Years of Excellence</span>
+                  <div className={styles.statCard}>
+                    <span className={styles.statNumber}>{statistics.yearsExperience}</span>
+                    <span className={styles.statLabel}>Years Excellence</span>
                   </div>
                 )}
               </div>
             )}
           </div>
-          
-          {teamImage && (
-            <div className={styles.imageContent}>
-              {imageLoading && (
-                <div 
-                  className={styles.imageSkeleton} 
-                  aria-hidden="true"
-                  role="presentation"
-                />
-              )}
-              {imageError ? (
-                <div 
-                  className={styles.imageFallback} 
-                  role="img" 
-                  aria-label="Team photo unavailable - Our Amazing Team"
-                >
-                  <div className={styles.fallbackIcon} aria-hidden="true">👥</div>
-                  <p className={styles.fallbackText}>Our Amazing Team</p>
-                </div>
+
+          {/* Right Side: Visual Content */}
+          <div className={styles.visualContent}>
+            <div className={styles.imageWrapper}>
+              {teamImage ? (
+                <img src={teamImage} alt="Our Team" className={styles.teamImage} />
               ) : (
-                <img
-                  src={generateResponsiveImageUrl(teamImage, 600)}
-                  alt="A1frenchclasses team members collaborating in a modern office environment"
-                  className={styles.teamImage}
-                  onLoad={handleImageLoad}
-                  onError={handleImageError}
-                  loading="lazy"
-                  width="500"
-                  height="350"
-                />
+                <div className={styles.imagePlaceholder}>
+                  <div className={styles.placeholderBlob}></div>
+                  <span className={styles.placeholderText}>L'Académie Parisienne</span>
+                </div>
               )}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </section>

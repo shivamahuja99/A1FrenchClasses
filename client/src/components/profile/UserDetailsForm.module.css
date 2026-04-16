@@ -1,116 +1,109 @@
-/* User Details Form Styles */
+/* UserDetailsForm — L'Atelier profile component */
 
 .container {
-    background: var(--color-background);
-    border-radius: var(--border-radius-lg);
-    padding: var(--spacing-xl);
-    box-shadow: var(--shadow-md);
+  background: var(--ds-surface-container-lowest);
+  border-radius: var(--ds-radius-3xl);
+  padding: 2rem;
+  box-shadow: var(--ds-shadow-card);
+  border: 1px solid rgba(195, 198, 215, 0.15);
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--spacing-xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
 }
 
 .title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--ds-on-surface);
+  letter-spacing: -0.02em;
+  margin: 0;
 }
 
 .editButton {
-    padding: var(--spacing-sm) var(--spacing-lg);
-    background: var(--color-primary);
-    color: white;
-    border: none;
-    border-radius: var(--border-radius-md);
-    font-weight: 500;
-    cursor: pointer;
-    transition: all var(--transition-fast);
+  padding: 0.625rem 1.25rem;
+  background: var(--ds-surface-container-high);
+  color: var(--ds-primary);
+  border: none;
+  border-radius: var(--ds-radius-full);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--ds-transition-fast);
 }
-
 .editButton:hover {
-    background: var(--color-primary-dark);
+  background: var(--ds-surface-container-highest);
 }
 
 .successMessage {
-    padding: var(--spacing-md);
-    background: rgba(76, 175, 80, 0.1);
-    border: 1px solid var(--color-success);
-    border-radius: var(--border-radius-md);
-    color: var(--color-success-dark);
-    margin-bottom: var(--spacing-lg);
+  padding: 1rem;
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: var(--ds-radius-lg);
+  color: #2e7d32;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .errorMessage {
-    padding: var(--spacing-md);
-    background: rgba(244, 67, 54, 0.1);
-    border: 1px solid var(--color-error);
-    border-radius: var(--border-radius-md);
-    color: var(--color-error);
-    margin-bottom: var(--spacing-lg);
+  padding: 1rem;
+  background: var(--ds-error-container);
+  border-radius: var(--ds-radius-lg);
+  color: var(--ds-error);
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-lg);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
 }
 
 .actions {
-    display: flex;
-    gap: var(--spacing-md);
-    justify-content: flex-end;
-    margin-top: var(--spacing-md);
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
 }
 
 .button {
-    padding: var(--spacing-md) var(--spacing-xl);
-    border-radius: var(--border-radius-md);
-    font-weight: 500;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    border: none;
+  padding: 0.875rem 1.75rem;
+  border-radius: var(--ds-radius-full);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--ds-transition-normal);
+  border: none;
 }
 
 .cancelButton {
-    background: var(--color-background-dark);
-    color: var(--color-text-primary);
-}
-
-.cancelButton:hover {
-    background: var(--color-gray-400);
+  background: var(--ds-surface-container-high);
+  color: var(--ds-on-surface-variant);
 }
 
 .saveButton {
-    background: var(--color-primary);
-    color: white;
+  background: var(--ds-gradient-primary);
+  color: var(--ds-on-primary);
+  box-shadow: var(--ds-shadow-primary-sm);
 }
-
 .saveButton:hover {
-    background: var(--color-primary-dark);
+  opacity: 0.9;
+  box-shadow: var(--ds-shadow-primary);
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 768px) {
-    .row {
-        grid-template-columns: 1fr;
-    }
-
-    .actions {
-        flex-direction: column-reverse;
-    }
-
-    .button {
-        width: 100%;
-    }
+  .row { grid-template-columns: 1fr; }
+  .actions { flex-direction: column-reverse; }
+  .button { width: 100%; }
 }

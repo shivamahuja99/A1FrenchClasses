@@ -108,19 +108,19 @@ const Header = ({ logo, navigationItems = [], authComponent = null }) => {
         <div className={styles.logo}>
           <Link
             to="/"
-            aria-label="A1frenchclasses - Return to homepage"
+            aria-label="The Luminous Atelier - Return to homepage"
             onClick={(e) => handleNavLinkClick(e, '/')}
           >
             {logo ? (
               <img
                 src={logo}
-                alt="A1frenchclasses logo"
+                alt="The Luminous Atelier logo"
                 className={styles.logoImage}
-                width="120"
-                height="40"
+                width="140"
+                height="48"
               />
             ) : (
-              <span className={styles.logoText}>A1frenchclasses</span>
+              <span className={styles.logoText}>The Luminous Atelier</span>
             )}
           </Link>
         </div>

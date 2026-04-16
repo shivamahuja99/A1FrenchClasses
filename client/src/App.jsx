@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { HomePage, CoursesPage, LoginPage, SignupPage, ProfilePage, CourseDetailsPage, CartPage } from './views';
 import CheckoutSuccess from './views/CheckoutPage/CheckoutSuccess';
@@ -45,9 +45,19 @@ const AuthInitializer = ({ children }) => {
   return children;
 };
 
+// Global scroll to top on route change
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <AuthInitializer>
         <Routes>
           <Route path="/" element={<HomePage />} />

@@ -1,84 +1,102 @@
+/* Checkout — L'Atelier safe transaction style */
+
 .checkoutPage {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--ds-background);
 }
 
 .container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    background-color: #f8fafc;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem 1.5rem;
 }
 
 .card {
-    background: white;
-    padding: 3rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    text-align: center;
-    max-width: 500px;
-    width: 100%;
+  background: var(--ds-surface-container-lowest);
+  padding: 3.5rem 2.5rem;
+  border-radius: var(--ds-radius-3xl);
+  box-shadow: var(--ds-shadow-xl);
+  border: 1px solid rgba(195, 198, 215, 0.15);
+  text-align: center;
+  max-width: 480px;
+  width: 100%;
+  animation: scaleUp 0.5s ease-out both;
 }
 
 .card h2 {
-    color: #1e293b;
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: var(--ds-on-surface);
+  letter-spacing: -0.04em;
+  margin-bottom: 0.875rem;
 }
 
 .card p {
-    color: #64748b;
-    margin-bottom: 2rem;
-    line-height: 1.5;
+  font-size: 1rem;
+  color: var(--ds-tertiary);
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
 }
 
 .actions {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .primaryButton {
-    display: inline-block;
-    background-color: #1e40af;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 500;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    width: 100%;
-    box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ds-gradient-primary);
+  color: var(--ds-on-primary);
+  padding: 1rem 1.5rem;
+  border-radius: var(--ds-radius-full);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: all var(--ds-transition-normal);
+  width: 100%;
+  box-shadow: var(--ds-shadow-primary);
 }
 
 .primaryButton:hover:not(:disabled) {
-    background-color: #1e3a8a;
+  opacity: 0.9;
+  transform: scale(1.02);
+  box-shadow: 0 8px 28px rgba(0, 74, 198, 0.3);
 }
 
 .primaryButton:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .secondaryButton {
-    display: inline-block;
-    background-color: transparent;
-    color: #475569;
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 500;
-    border: 1px solid #cbd5e1;
-    transition: all 0.2s;
-    width: 100%;
-    box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--ds-primary);
+  padding: 1rem 1.5rem;
+  border-radius: var(--ds-radius-full);
+  text-decoration: none;
+  font-weight: 700;
+  border: 1px solid var(--ds-outline-variant);
+  transition: all var(--ds-transition-fast);
+  width: 100%;
 }
 
 .secondaryButton:hover {
-    background-color: #f1f5f9;
+  background: var(--ds-surface-container-high);
+}
+
+@media (max-width: 480px) {
+  .card { padding: 2.5rem 1.5rem; border-radius: var(--ds-radius-2xl); }
+  .card h2 { font-size: 1.5rem; }
 }

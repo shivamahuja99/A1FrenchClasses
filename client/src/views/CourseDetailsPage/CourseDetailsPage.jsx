@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useGetCourseQuery, useAddToCartMutation, useGetCartQuery } from '../../store/api/apiSlice';
+import { useGetCourseQuery, useAddToCartMutation, useGetCartQuery, useGetUserCoursesQuery } from '../../store/api/apiSlice';
 import styles from './CourseDetailsPage.module.css';
 import CustomerReviews from '../../components/CustomerReviews/CustomerReviews';
 import InstructorInfo from '../../components/InstructorInfo/InstructorInfo';
@@ -24,8 +24,10 @@ const CourseDetailsPage = () => {
     const [addedToCart, setAddedToCart] = useState(false);
     const isAuthenticated = useSelector(selectIsAuthenticated);
     const { data: cartData } = useGetCartQuery(undefined, { skip: !isAuthenticated });
+    const { data: userCourses } = useGetUserCoursesQuery(undefined, { skip: !isAuthenticated });
 
-    const isInCart = cartData?.cart?.items?.some(item => item.course_id === id);
+    const isInCart = cartData?.cart?.items?.some(item => String(item.course_id) === String(id));
+    const isEnrolled = Array.isArray(userCourses) && userCourses.some(course => String(course.id) === String(id));
 
     const handleAddToCart = async () => {
         if (!isAuthenticated) {
@@ -190,6 +192,7 @@ const CourseDetailsPage = () => {
                             isAddingToCart={isAddingToCart}
                             addedToCart={addedToCart}
                             isInCart={isInCart}
+                            isEnrolled={isEnrolled}
                             onBuyNow={handleBuyNow}
                             onAddToCart={handleAddToCart}
                         />
@@ -212,6 +215,7 @@ const CourseDetailsPage = () => {
                 isAddingToCart={isAddingToCart}
                 addedToCart={addedToCart}
                 isInCart={isInCart}
+                isEnrolled={isEnrolled}
                 onBuyNow={handleBuyNow}
                 onAddToCart={handleAddToCart}
             />
