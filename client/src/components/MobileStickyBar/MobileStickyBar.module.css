@@ -67,6 +67,28 @@
     padding: 0;
 }
 
+.enrolledActions {
+    width: 100%;
+}
+
+.startLearningButton {
+    width: 100%;
+    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+    text-decoration: none;
+}
+
 .buyNowButton:disabled,
 .addToCartButton:disabled {
     opacity: 0.6;

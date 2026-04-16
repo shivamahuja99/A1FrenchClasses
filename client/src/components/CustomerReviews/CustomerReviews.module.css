@@ -1,228 +1,168 @@
+/* CustomerReviews — L'Atelier curriculum details */
+
 .customerReviews {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
-/* Empty State */
-.emptyState {
-    text-align: center;
-    padding: 3rem 2rem;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-radius: 12px;
-}
-
-.emptyIcon {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-}
-
-.emptyState h3 {
-    font-size: 1.5rem;
-    color: #1a1a1a;
-    margin: 0 0 0.5rem 0;
-}
-
-.emptyState p {
-    color: #666;
-    margin: 0;
-}
-
-/* Rating Summary */
+/* Summary Box */
 .ratingSummary {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 3rem;
-    padding: 2rem;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-radius: 12px;
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  gap: 3rem;
+  padding: 2.5rem;
+  background: var(--ds-surface-container-low);
+  border-radius: var(--ds-radius-3xl);
+  border: 1px solid rgba(195, 198, 215, 0.1);
 }
 
 .averageRating {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
 }
 
 .ratingNumber {
-    font-size: 4rem;
-    font-weight: 700;
-    color: #4a90e2;
-    line-height: 1;
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--ds-primary);
+  letter-spacing: -0.05em;
+  line-height: 1;
 }
 
 .stars {
-    display: flex;
-    gap: 0.25rem;
-    font-size: 1.5rem;
+  display: flex;
+  gap: 0.25rem;
+  font-size: 1.25rem;
 }
 
-.starFilled {
-    color: #fbbf24;
-}
-
-.starEmpty {
-    color: #d1d5db;
-}
+.starFilled { color: var(--ds-secondary-container); }
+.starEmpty  { color: var(--ds-outline-variant); }
 
 .reviewCount {
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--ds-tertiary);
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-/* Rating Distribution */
+/* Distribution Bars */
 .ratingDistribution {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  justify-content: center;
 }
 
 .distributionRow {
-    display: grid;
-    grid-template-columns: 40px 1fr 40px;
-    align-items: center;
-    gap: 1rem;
+  display: grid;
+  grid-template-columns: 2.5rem 1fr 2.5rem;
+  align-items: center;
+  gap: 1.25rem;
 }
 
 .starLabel {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #666;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--ds-outline);
 }
 
 .distributionBar {
-    height: 8px;
-    background: #e5e7eb;
-    border-radius: 4px;
-    overflow: hidden;
+  height: 0.5rem;
+  background: var(--ds-outline-variant);
+  border-radius: var(--ds-radius-full);
+  overflow: hidden;
 }
 
 .distributionFill {
-    height: 100%;
-    background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
-    transition: width 0.3s ease;
+  height: 100%;
+  background: var(--ds-gradient-primary);
+  border-radius: var(--ds-radius-full);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .distributionCount {
-    font-size: 0.9rem;
-    color: #666;
-    text-align: right;
+  font-size: 0.85rem;
+  color: var(--ds-tertiary);
+  font-weight: 700;
+  text-align: right;
 }
 
-/* Reviews List */
+/* Review Cards */
 .reviewsList {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
 .reviewCard {
-    padding: 1.5rem;
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    transition: all 0.3s ease;
+  padding: 2rem;
+  background: var(--ds-surface-container-lowest);
+  border: 1px solid rgba(195, 198, 215, 0.15);
+  border-radius: var(--ds-radius-2xl);
+  transition: all var(--ds-transition-normal);
 }
 
 .reviewCard:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transform: translateY(-2px);
-}
-
-.reviewHeader {
-    margin-bottom: 1rem;
+  background: var(--ds-surface-container-low);
+  transform: translateY(-2px);
+  box-shadow: var(--ds-shadow-md);
 }
 
 .reviewerInfo {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
+  display: flex;
+  gap: 1.125rem;
+  align-items: center;
+  margin-bottom: 1.25rem;
 }
 
 .reviewerAvatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
-    font-weight: 700;
-    flex-shrink: 0;
-}
-
-.reviewerDetails {
-    flex: 1;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--ds-gradient-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+  font-weight: 900;
+  flex-shrink: 0;
 }
 
 .reviewerName {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #1a1a1a;
-    margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--ds-on-surface);
+  margin: 0;
+  letter-spacing: -0.01em;
 }
 
 .reviewMeta {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.reviewStars {
-    display: flex;
-    gap: 0.125rem;
-    font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .reviewDate {
-    font-size: 0.85rem;
-    color: #999;
+  font-size: 0.8rem;
+  color: var(--ds-outline);
+  font-weight: 600;
 }
 
 .reviewComment {
-    color: #555;
-    line-height: 1.6;
-    margin: 0;
-    font-size: 1rem;
+  color: var(--ds-on-surface-variant);
+  line-height: 1.7;
+  margin: 0;
+  font-size: 1rem;
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 768px) {
-    .ratingSummary {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-
-    .distributionRow {
-        grid-template-columns: 35px 1fr 35px;
-    }
-
-    .reviewerInfo {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .reviewerDetails {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-}
-
-@media (max-width: 480px) {
-    .ratingNumber {
-        font-size: 3rem;
-    }
-
-    .reviewCard {
-        padding: 1rem;
-    }
+  .ratingSummary { grid-template-columns: 1fr; padding: 2rem 1.5rem; text-align: center; }
+  .distributionRow { grid-template-columns: 2.25rem 1fr 2.25rem; }
+  .reviewerInfo { flex-direction: column; text-align: center; }
 }

@@ -1,122 +1,184 @@
+/* CoursePurchaseCard — L'Atelier sticky sidebar card */
+
 .purchaseCard {
-    background: white;
-    border-radius: 16px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    border: 2px solid #e5e7eb;
+  background: var(--ds-surface-container-lowest);
+  border-radius: var(--ds-radius-3xl);
+  padding: 2rem;
+  box-shadow: var(--ds-shadow-card);
+  border: 1px solid rgba(195, 198, 215, 0.15);
 }
 
+/* Price */
 .priceSection {
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
-    border-bottom: 2px solid #e5e7eb;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid var(--ds-outline-variant);
 }
 
 .priceContainer {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
+  display: flex;
+  align-items: baseline;
+  gap: 0.875rem;
+  flex-wrap: wrap;
 }
 
 .currentPrice {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--primary-color, #4a90e2);
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--ds-primary);
+  letter-spacing: -0.04em;
+  line-height: 1;
 }
 
 .originalPrice {
-    font-size: 1.5rem;
-    color: #999;
-    text-decoration: line-through;
+  font-size: 1.25rem;
+  color: var(--ds-outline);
+  text-decoration: line-through;
 }
 
 .discountBadge {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 0.9rem;
+  background: var(--ds-secondary-container);
+  color: #fff;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--ds-radius-full);
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
+.enrolledStatus {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.enrolledBadge {
+  color: var(--ds-primary);
+  font-size: 1.5rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.enrolledText {
+  color: var(--ds-outline);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Actions */
 .purchaseActions {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.buyNowButton,
-.addToCartButton {
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  margin-bottom: 1.75rem;
 }
 
 .buyNowButton {
-    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
-    color: white;
-    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: var(--ds-radius-full);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: var(--ds-gradient-primary);
+  color: var(--ds-on-primary);
+  box-shadow: var(--ds-shadow-primary);
+  transition: all var(--ds-transition-normal);
+  min-height: auto;
 }
-
 .buyNowButton:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+  opacity: 0.9;
+  box-shadow: 0 8px 28px rgba(0, 74, 198, 0.30);
+  transform: scale(1.015);
 }
 
 .addToCartButton {
-    background: white;
-    color: var(--primary-color, #4a90e2);
-    border: 2px solid var(--primary-color, #4a90e2);
+  width: 100%;
+  padding: 1rem;
+  border-radius: var(--ds-radius-full);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: var(--ds-surface-container-high);
+  color: var(--ds-primary);
+  border: none;
+  box-shadow: none;
+  transition: all var(--ds-transition-normal);
+  min-height: auto;
+}
+.addToCartButton:hover:not(:disabled) {
+  background: var(--ds-surface-container-highest);
+  box-shadow: none;
+  transform: none;
 }
 
-.addToCartButton:hover:not(:disabled) {
-    background: var(--primary-color, #4a90e2);
-    color: white;
+.startLearningButton {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: var(--ds-radius-full);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: var(--ds-gradient-primary);
+  color: var(--ds-on-primary);
+  box-shadow: var(--ds-shadow-primary);
+  transition: all var(--ds-transition-normal);
+  text-align: center;
+  text-decoration: none;
+}
+
+.startLearningButton:hover {
+  opacity: 0.9;
+  transform: scale(1.015);
+  box-shadow: 0 8px 28px rgba(0, 74, 198, 0.30);
 }
 
 .buyNowButton:disabled,
 .addToCartButton:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
+/* Includes list */
 .courseIncludes {
-    padding-top: 2rem;
-    border-top: 2px solid #e5e7eb;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--ds-outline-variant);
 }
 
 .includesTitle {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin: 0 0 1rem 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ds-outline);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin: 0 0 1rem;
 }
 
 .includesList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
 }
 
 .includesList li {
-    color: #555;
-    font-size: 0.95rem;
-    padding-left: 0.5rem;
+  color: var(--ds-on-surface-variant);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 @media (max-width: 480px) {
-    .purchaseCard {
-        padding: 1.5rem;
-    }
+  .purchaseCard { padding: 1.5rem; }
+  .currentPrice { font-size: 2rem; }
 }

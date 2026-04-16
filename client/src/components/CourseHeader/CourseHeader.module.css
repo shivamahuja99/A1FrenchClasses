@@ -1,123 +1,102 @@
+/* CourseHeader — L'Atelier hero-style header */
+
 .courseHeader {
-    background: white;
-    padding: 3rem 0;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    margin-bottom: 2rem;
+  background: var(--ds-surface-container-lowest);
+  padding: 4rem 0;
+  border-bottom: 1px solid var(--ds-outline-variant);
+  margin-bottom: 3rem;
+  animation: fadeIn 0.6s ease-out both;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 3rem;
-    align-items: center;
+  max-width: var(--ds-container-max);
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 24rem;
+  gap: 4rem;
+  align-items: center;
 }
 
 .headerContent {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .courseTitle {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin: 0;
-    line-height: 1.2;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: var(--ds-on-surface);
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin: 0;
 }
 
 .courseDescription {
-    font-size: 1.1rem;
-    color: #555;
-    line-height: 1.6;
-    margin: 0;
+  font-size: 1.15rem;
+  color: var(--ds-tertiary);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 42rem;
 }
 
 .courseMetadata {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  margin-top: 1rem;
 }
 
 .metadataItem {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
 }
 
 .metadataLabel {
-    font-weight: 600;
-    color: #666;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--ds-outline);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .metadataValue {
-    color: #333;
-    font-weight: 500;
+  font-size: 1rem;
+  color: var(--ds-on-surface);
+  font-weight: 700;
 }
 
-.difficultyBeginner {
-    color: #10b981;
-}
-
-.difficultyIntermediate {
-    color: #f59e0b;
-}
-
-.difficultyAdvanced {
-    color: #ef4444;
-}
+.difficultyBeginner    { color: #2e7d32; }
+.difficultyIntermediate { color: var(--ds-secondary); }
+.difficultyAdvanced     { color: var(--ds-error); }
 
 .headerImage {
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-radius: var(--ds-radius-3xl);
+  overflow: hidden;
+  box-shadow: var(--ds-shadow-xl);
+  aspect-ratio: 4/3;
 }
 
 .courseImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--ds-transition-image);
+}
+.headerImage:hover .courseImage {
+  transform: scale(1.05);
 }
 
-/* Responsive Design */
-@media (max-width: 992px) {
-    .container {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-
-    .headerImage {
-        max-height: 400px;
-        order: -1;
-        /* Move image to top on mobile if desired, or keep as is */
-    }
+/* Responsive */
+@media (max-width: 1100px) {
+  .container { grid-template-columns: 1fr; gap: 3rem; }
+  .headerImage { order: -1; max-width: 32rem; }
 }
 
-@media (max-width: 768px) {
-    .courseHeader {
-        padding: 2rem 0;
-    }
-
-    .container {
-        padding: 0 1rem;
-    }
-
-    .courseTitle {
-        font-size: 2rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .courseTitle {
-        font-size: 1.5rem;
-    }
-
-    .courseMetadata {
-        flex-direction: column;
-        gap: 1rem;
-    }
+@media (max-width: 600px) {
+  .courseHeader { padding: 3rem 0; }
+  .courseTitle { font-size: 2.25rem; }
+  .courseMetadata { gap: 1.5rem; }
 }

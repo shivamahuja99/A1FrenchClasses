@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useGetCoursesQuery } from '../../store/api/apiSlice';
+import { useGetCoursesQuery, useGetUserCoursesQuery } from '../../store/api/apiSlice';
 import { Header, Footer } from '../../components';
 import CourseCard from '../../components/CourseCard/CourseCard';
 import LoadingSkeleton from '../../components/LoadingSkeleton/LoadingSkeleton';
@@ -13,6 +13,7 @@ import ProfileDropdown from '../../components/ProfileDropdown/ProfileDropdown';
 const CoursesPage = () => {
     const { data: courses = [], isLoading: loading, error } = useGetCoursesQuery();
     const isAuthenticated = useSelector(selectIsAuthenticated);
+    const { data: userCourses } = useGetUserCoursesQuery(undefined, { skip: !isAuthenticated });
 
     // Scroll to top when component mounts
     useEffect(() => {
@@ -130,7 +131,10 @@ const CoursesPage = () => {
                                         aria-posinset={index + 1}
                                         style={{ animationDelay: `${index * 0.05}s` }}
                                     >
-                                        <CourseCard course={course} />
+                                        <CourseCard 
+                                            course={course} 
+                                            isEnrolled={Array.isArray(userCourses) && userCourses.some(c => String(c.id) === String(course.id))}
+                                        />
                                     </div>
                                 ))}
                             </div>

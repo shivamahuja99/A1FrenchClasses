@@ -1,471 +1,157 @@
-/* Footer Component Styles */
+/* Footer — L'Atelier minimal footer */
+
 .footer {
-  background-color: #2c3e50;
-  color: #ecf0f1;
-  margin-top: auto;
+  background: var(--ds-surface-container-low);
+  border-top: 1px solid var(--ds-outline-variant);
+  padding: 3.5rem 2rem;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: var(--ds-container-max);
   margin: 0 auto;
-  padding: 2rem 1rem 1rem;
 }
 
-/* Main Footer Content */
+/* ---- Main footer row ---- */
 .footerContent {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 3rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
 }
 
-/* Company Section */
-.companySection {
-  text-align: center;
-}
+/* Company section */
+.companySection { display: flex; flex-direction: column; gap: 1rem; max-width: 20rem; }
 
-.logo {
-  margin-bottom: 1rem;
-}
-
-.logoImage {
-  height: 2.5rem;
-  width: auto;
-  object-fit: contain;
-  filter: brightness(0) invert(1);
-}
-
+.logo { display: flex; align-items: center; }
+.logoImage { height: 2rem; width: auto; object-fit: contain; }
 .logoText {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #3498db;
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--ds-on-surface);
+  letter-spacing: -0.03em;
 }
 
 .companyDescription {
-  font-size: 0.9rem;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  color: #bdc3c7;
-  max-width: 300px;
-  margin-left: auto;
-  margin-right: auto;
+  font-size: 0.875rem;
+  color: var(--ds-tertiary);
+  line-height: 1.65;
+  margin: 0;
 }
 
-/* Section Titles */
+/* Social links */
+.socialLinks { margin-top: 0.5rem; }
 .sectionTitle {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: #3498db;
-  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--ds-outline);
+  margin-bottom: 0.75rem;
 }
-
-/* Social Links */
-.socialLinks {
-  margin-top: 1.5rem;
-}
-
-.socialList {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.socialItem {
-  margin: 0;
-}
-
+.socialList { list-style: none; display: flex; gap: 0.75rem; }
+.socialItem { margin: 0; }
 .socialLink {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: #34495e;
-  border-radius: 50%;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--ds-radius-md);
+  background: var(--ds-surface-container);
+  color: var(--ds-on-surface-variant);
+  transition: all var(--ds-transition-fast);
+}
+.socialLink:hover {
+  background: var(--ds-primary);
+  color: var(--ds-on-primary);
+}
+.socialIcon { width: 1rem; height: 1rem; }
+
+/* Quick links section */
+.linksSection { display: flex; flex-direction: column; gap: 0.75rem; }
+.linksList { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+.linkItem { margin: 0; }
+.footerLink {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ds-on-surface-variant);
   text-decoration: none;
-  color: #ecf0f1;
-  transition: all 0.3s ease;
+  transition: color var(--ds-transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   font-size: 0.8rem;
 }
+.footerLink:hover { color: var(--ds-secondary-container); }
 
-.socialLink:hover,
-.socialLink:focus {
-  background-color: #3498db;
-  transform: translateY(-2px);
-  outline: 2px solid #3498db;
-  outline-offset: 2px;
-}
-
-.socialIcon {
-  width: 1.2rem;
-  height: 1.2rem;
-  filter: brightness(0) invert(1);
-}
-
-/* Links Section */
-.linksSection {
-  text-align: center;
-}
-
-.linksList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.linkItem {
-  margin: 0;
-}
-
-.footerLink {
-  text-decoration: none;
-  color: #bdc3c7;
-  font-size: 0.9rem;
-  transition: color 0.3s ease;
-  display: inline-block;
-  padding: 0.25rem 0;
-}
-
-.footerLink:hover,
-.footerLink:focus {
-  color: #3498db;
-  text-decoration: underline;
-  outline: none;
-}
-
-/* Contact Section */
-.contactSection {
-  text-align: center;
-}
-
-.contactInfo {
-  font-style: normal;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.contactItem {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  font-size: 0.9rem;
-}
-
+/* Contact section */
+.contactSection { display: flex; flex-direction: column; gap: 0.75rem; }
+.contactInfo { font-style: normal; display: flex; flex-direction: column; gap: 0.5rem; }
+.contactItem { display: flex; gap: 0.5rem; align-items: flex-start; flex-wrap: wrap; }
 .contactLabel {
-  font-weight: 600;
-  color: #3498db;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ds-outline);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
 }
-
+.contactLink, .contactText {
+  font-size: 0.875rem;
+  color: var(--ds-on-surface-variant);
+}
 .contactLink {
-  color: #bdc3c7;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color var(--ds-transition-fast);
 }
+.contactLink:hover { color: var(--ds-primary); }
 
-.contactLink:hover,
-.contactLink:focus {
-  color: #3498db;
-  text-decoration: underline;
-  outline: none;
-}
-
-.contactText {
-  color: #bdc3c7;
-  line-height: 1.4;
-}
-
-/* Footer Bottom */
+/* ---- Footer bottom bar ---- */
 .footerBottom {
-  border-top: 1px solid #34495e;
-  padding-top: 1.5rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   gap: 1rem;
-  text-align: center;
-}
-
-.copyright {
-  margin: 0;
+  padding-top: 2rem;
+  border-top: 1px solid var(--ds-outline-variant);
 }
 
 .copyright p {
-  margin: 0;
   font-size: 0.8rem;
-  color: #95a5a6;
+  color: var(--ds-outline);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .legalLinks {
   display: flex;
   gap: 1.5rem;
-  flex-wrap: wrap;
-  justify-content: center;
 }
-
 .legalLink {
-  color: #95a5a6;
-  text-decoration: none;
   font-size: 0.8rem;
-  transition: color 0.3s ease;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ds-outline);
+  text-decoration: none;
+  transition: color var(--ds-transition-fast);
 }
+.legalLink:hover { color: var(--ds-secondary-container); }
 
-.legalLink:hover,
-.legalLink:focus {
-  color: #3498db;
-  text-decoration: underline;
-  outline: none;
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .footerContent { flex-direction: column; align-items: flex-start; gap: 2rem; }
+  .companySection { max-width: 100%; }
+  .footerBottom { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
 }
-
-/* Small mobile styles (320px - 480px) */
 @media (max-width: 480px) {
-  .container {
-    padding: 1.5rem 0.75rem 1rem;
-  }
-
-  .footerContent {
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .logoImage {
-    height: 2rem;
-  }
-
-  .logoText {
-    font-size: 1.25rem;
-  }
-
-  .companyDescription {
-    font-size: 0.8125rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .sectionTitle {
-    font-size: 1rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .socialLink {
-    width: 2.25rem;
-    height: 2.25rem;
-  }
-
-  .socialIcon {
-    width: 1rem;
-    height: 1rem;
-  }
-
-  .footerLink {
-    font-size: 0.8125rem;
-  }
-
-  .contactItem {
-    font-size: 0.8125rem;
-  }
-
-  .copyright p {
-    font-size: 0.75rem;
-  }
-
-  .legalLink {
-    font-size: 0.75rem;
-  }
-
-  .legalLinks {
-    gap: 1rem;
-  }
-}
-
-/* Mobile styles (481px - 767px) */
-@media (min-width: 481px) and (max-width: 767px) {
-  .container {
-    padding: 2rem 1rem 1rem;
-  }
-
-  .footerContent {
-    gap: 1.75rem;
-    margin-bottom: 1.75rem;
-  }
-
-  .companyDescription {
-    font-size: 0.875rem;
-  }
-
-  .socialLink {
-    width: 2.375rem;
-    height: 2.375rem;
-  }
-
-  .socialIcon {
-    width: 1.125rem;
-    height: 1.125rem;
-  }
-}
-
-/* Tablet Styles (768px - 1023px) */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .container {
-    padding: 2.5rem 1.5rem 1.25rem;
-  }
-
-  .footerContent {
-    grid-template-columns: 1fr 1fr;
-    gap: 2.5rem;
-  }
-
-  .companySection {
-    text-align: left;
-  }
-
-  .sectionTitle {
-    text-align: left;
-  }
-
-  .socialList {
-    justify-content: flex-start;
-  }
-
-  .linksSection {
-    text-align: left;
-  }
-
-  .linksList {
-    align-items: flex-start;
-  }
-
-  .contactSection {
-    text-align: left;
-    grid-column: 1 / -1;
-  }
-
-  .contactInfo {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1.75rem;
-    justify-content: flex-start;
-  }
-
-  .contactItem {
-    flex-direction: row;
-    gap: 0.5rem;
-    align-items: baseline;
-  }
-
-  .footerBottom {
-    flex-direction: row;
-    justify-content: space-between;
-    text-align: left;
-  }
-}
-
-/* Desktop Styles (1024px - 1199px) */
-@media (min-width: 1024px) and (max-width: 1199px) {
-  .container {
-    padding: 3rem 2rem 1.5rem;
-  }
-
-  .footerContent {
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 3.5rem;
-  }
-
-  .companyDescription {
-    max-width: none;
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .contactSection {
-    grid-column: auto;
-  }
-
-  .contactInfo {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.25rem;
-  }
-
-  .contactItem {
-    flex-direction: column;
-    gap: 0.25rem;
-    align-items: flex-start;
-  }
-}
-
-/* Large Desktop Styles (1200px+) */
-@media (min-width: 1200px) {
-  .container {
-    padding: 3.5rem 2.5rem 1.75rem;
-  }
-
-  .footerContent {
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 4.5rem;
-  }
-
-  .logoImage {
-    height: 2.75rem;
-  }
-
-  .logoText {
-    font-size: 1.625rem;
-  }
-
-  .companyDescription {
-    font-size: 1rem;
-    line-height: 1.7;
-  }
-
-  .sectionTitle {
-    font-size: 1.1875rem;
-  }
-
-  .footerLink {
-    font-size: 0.9375rem;
-  }
-
-  .contactItem {
-    font-size: 0.9375rem;
-  }
-
-  .contactInfo {
-    gap: 1.5rem;
-  }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .footer {
-    border-top: 3px solid #ffffff;
-  }
-
-  .footerLink:focus,
-  .contactLink:focus,
-  .socialLink:focus,
-  .legalLink:focus {
-    outline: 3px solid #ffffff;
-    outline-offset: 2px;
-  }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  .footerLink,
-  .contactLink,
-  .socialLink,
-  .legalLink {
-    transition: none;
-  }
-
-  .socialLink:hover {
-    transform: none;
-  }
+  .footer { padding: 2.5rem 1.25rem; }
+  .legalLinks { flex-wrap: wrap; gap: 1rem; }
 }

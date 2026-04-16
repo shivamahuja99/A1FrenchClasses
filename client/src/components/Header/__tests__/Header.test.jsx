@@ -22,7 +22,7 @@ describe('Header Component', () => {
   it('renders header with logo text when no logo image provided', () => {
     renderHeader();
 
-    expect(screen.getByText('A1frenchclasses')).toBeInTheDocument();
+    expect(screen.getByText('The Luminous Atelier')).toBeInTheDocument();
     expect(screen.getByRole('banner')).toBeInTheDocument();
   });
 
@@ -30,7 +30,7 @@ describe('Header Component', () => {
     const logoSrc = '/images/logo.png';
     renderHeader({ logo: logoSrc });
 
-    const logoImage = screen.getByAltText('A1frenchclasses logo');
+    const logoImage = screen.getByAltText('The Luminous Atelier logo');
     expect(logoImage).toBeInTheDocument();
     expect(logoImage).toHaveAttribute('src', logoSrc);
   });
@@ -134,7 +134,7 @@ describe('Header Component', () => {
     expect(screen.getByLabelText('Mobile navigation')).toBeInTheDocument();
 
     // Check logo link
-    expect(screen.getByLabelText('A1frenchclasses - Return to homepage')).toBeInTheDocument();
+    expect(screen.getByLabelText('The Luminous Atelier - Return to homepage')).toBeInTheDocument();
 
     // Check mobile menu button
     const mobileMenuButton = screen.getByLabelText('Open navigation menu');
@@ -145,7 +145,7 @@ describe('Header Component', () => {
     renderHeader({ navigationItems: [] });
 
     expect(screen.getByRole('banner')).toBeInTheDocument();
-    expect(screen.getByText('A1frenchclasses')).toBeInTheDocument();
+    expect(screen.getByText('The Luminous Atelier')).toBeInTheDocument();
   });
 
   it('marks current page with aria-current', () => {

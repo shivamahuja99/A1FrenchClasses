@@ -1,306 +1,386 @@
 /* 
- * A1 French Classes - Theme Configuration
- * Centralized design tokens for consistent theming across the application
- * Update this file to change the entire application's visual theme
+ * A1 French Classes — L'Atelier Design System
+ * Material You: Cobalt / Amber palette
+ * All design tokens for the application — update this file to retheme globally
  */
 
 :root {
     /* ============================================
-     BRAND COLORS
-     ============================================ */
-
-    /* Primary Color (Blue) - Main brand color */
-    --theme-primary: #1976d2;
-    --theme-primary-light: #42a5f5;
-    --theme-primary-dark: #1565c0;
-    --theme-primary-rgb: 25, 118, 210;
-
-    /* Secondary Color (Orange) - Accent color */
-    --theme-secondary: #ff9800;
-    --theme-secondary-light: #ffb74d;
-    --theme-secondary-dark: #f57c00;
-    --theme-secondary-rgb: 255, 152, 0;
+       PRIMARY BRAND — Cobalt Blue
+       ============================================ */
+    --ds-primary:                   #004ac6;
+    --ds-primary-container:         #2563eb;   /* gradient pair */
+    --ds-primary-fixed:             #dbe1ff;
+    --ds-primary-fixed-dim:         #b4c5ff;
+    --ds-on-primary:                #ffffff;
+    --ds-on-primary-container:      #eeefff;
+    --ds-on-primary-fixed:          #00174b;
+    --ds-on-primary-fixed-variant:  #003ea8;
+    --ds-inverse-primary:           #b4c5ff;
+    --ds-surface-tint:              #0053db;
 
     /* ============================================
-     GRADIENTS
-     ============================================ */
-
-    /* Main app gradient (used in auth pages, hero sections) */
-    --theme-gradient-primary: linear-gradient(135deg,
-            var(--theme-primary-dark) 0%,
-            var(--theme-primary) 30%,
-            var(--theme-primary-light) 60%,
-            var(--theme-secondary) 100%);
-
-    /* Button gradients */
-    --theme-gradient-button-primary: linear-gradient(135deg,
-            var(--theme-primary) 0%,
-            var(--theme-primary-light) 100%);
-
-    --theme-gradient-button-secondary: linear-gradient(135deg,
-            var(--theme-secondary) 0%,
-            var(--theme-secondary-dark) 100%);
+       SECONDARY — Amber / Warm orange
+       ============================================ */
+    --ds-secondary:                 #8a5100;
+    --ds-secondary-container:       #fe9800;   /* vivid amber badge */
+    --ds-secondary-fixed:           #ffdcbd;
+    --ds-secondary-fixed-dim:       #ffb86f;
+    --ds-on-secondary:              #ffffff;
+    --ds-on-secondary-container:    #643900;
+    --ds-on-secondary-fixed:        #2c1600;
+    --ds-on-secondary-fixed-variant:#693c00;
 
     /* ============================================
-     SEMANTIC COLORS
-     ============================================ */
-
-    --theme-success: #4caf50;
-    --theme-success-dark: #388e3c;
-    --theme-error: #f44336;
-    --theme-warning: #ff9800;
-    --theme-info: #2196f3;
-
-    /* ============================================
-     TEXT COLORS
-     ============================================ */
-
-    --theme-text-primary: #212121;
-    --theme-text-secondary: #757575;
-    --theme-text-light: #ffffff;
-    --theme-text-muted: #9e9e9e;
-    --theme-text-on-primary: #ffffff;
-    --theme-text-on-secondary: #ffffff;
+       TERTIARY — Slate / Blue-grey
+       ============================================ */
+    --ds-tertiary:                  #4c5665;
+    --ds-tertiary-container:        #646e7e;
+    --ds-tertiary-fixed:            #d9e3f6;
+    --ds-tertiary-fixed-dim:        #bdc7d9;
+    --ds-on-tertiary:               #ffffff;
+    --ds-on-tertiary-container:     #eaf1ff;
+    --ds-on-tertiary-fixed:         #121c2a;
+    --ds-on-tertiary-fixed-variant: #3d4756;
 
     /* ============================================
-     BACKGROUND COLORS
-     ============================================ */
-
-    --theme-bg-primary: #ffffff;
-    --theme-bg-secondary: #f8f9fa;
-    --theme-bg-tertiary: #eeeeee;
-    --theme-bg-dark: #212121;
-
-    /* Glassmorphism backgrounds */
-    --theme-glass-white: rgba(255, 255, 255, 0.95);
-    --theme-glass-white-light: rgba(255, 255, 255, 0.2);
-    --theme-glass-white-medium: rgba(255, 255, 255, 0.3);
+       SURFACE HIERARCHY  (light mode)
+       ============================================ */
+    --ds-background:                #f8f9ff;
+    --ds-surface:                   #f8f9ff;
+    --ds-surface-bright:            #f8f9ff;
+    --ds-surface-dim:               #d0dbed;
+    --ds-surface-variant:           #d9e3f6;
+    --ds-surface-container-lowest:  #ffffff;
+    --ds-surface-container-low:     #eff4ff;
+    --ds-surface-container:         #e6eeff;
+    --ds-surface-container-high:    #dee9fc;
+    --ds-surface-container-highest: #d9e3f6;
+    --ds-inverse-surface:           #27313f;
+    --ds-inverse-on-surface:        #eaf1ff;
 
     /* ============================================
-     BORDERS
-     ============================================ */
+       TEXT / ON-SURFACE
+       ============================================ */
+    --ds-on-background:             #121c2a;
+    --ds-on-surface:                #121c2a;
+    --ds-on-surface-variant:        #434655;
+    --ds-outline:                   #737686;
+    --ds-outline-variant:           #c3c6d7;
 
-    --theme-border-color: #e0e0e0;
-    --theme-border-light: #f0f0f0;
-    --theme-border-width: 1px;
+    /* ============================================
+       ERROR
+       ============================================ */
+    --ds-error:                     #ba1a1a;
+    --ds-error-container:           #ffdad6;
+    --ds-on-error:                  #ffffff;
+    --ds-on-error-container:        #93000a;
+
+    /* ============================================
+       TYPOGRAPHY
+       ============================================ */
+    --ds-font-family:               'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --ds-font-size-xs:              0.75rem;    /* 12px */
+    --ds-font-size-sm:              0.875rem;   /* 14px */
+    --ds-font-size-base:            1rem;       /* 16px */
+    --ds-font-size-md:              1.125rem;   /* 18px */
+    --ds-font-size-lg:              1.25rem;    /* 20px */
+    --ds-font-size-xl:              1.5rem;     /* 24px */
+    --ds-font-size-2xl:             2rem;       /* 32px */
+    --ds-font-size-3xl:             2.5rem;     /* 40px */
+    --ds-font-size-4xl:             3.5rem;     /* 56px */
+    --ds-font-size-hero:            4.5rem;     /* 72px — big hero headline */
+
+    --ds-font-weight-regular:       400;
+    --ds-font-weight-medium:        500;
+    --ds-font-weight-semibold:      600;
+    --ds-font-weight-bold:          700;
+    --ds-font-weight-extrabold:     800;
+    --ds-font-weight-black:         900;
+
+    --ds-line-height-tight:         0.95;
+    --ds-line-height-snug:          1.2;
+    --ds-line-height-normal:        1.5;
+    --ds-line-height-relaxed:       1.6;
+
+    --ds-letter-spacing-tighter:    -0.04em;
+    --ds-letter-spacing-tight:      -0.02em;
+    --ds-letter-spacing-wide:       0.05em;
+    --ds-letter-spacing-wider:      0.1em;
+    --ds-letter-spacing-widest:     0.2em;
+
+    /* ============================================
+       BORDER RADIUS  (L'Atelier shape language)
+       ============================================ */
+    --ds-radius-xs:                 0.125rem;   /* 2px  — subtle */
+    --ds-radius-sm:                 0.25rem;    /* 4px */
+    --ds-radius-md:                 0.5rem;     /* 8px */
+    --ds-radius-lg:                 0.75rem;    /* 12px — button */
+    --ds-radius-xl:                 1rem;       /* 16px */
+    --ds-radius-2xl:                1.5rem;     /* 24px */
+    --ds-radius-3xl:                2rem;       /* 32px — cards */
+    --ds-radius-4xl:                3rem;       /* 48px — CTA sections */
+    --ds-radius-full:               9999px;     /* pill */
+
+    /* ============================================
+       SHADOWS
+       ============================================ */
+    --ds-shadow-sm:     0 1px 3px rgba(18, 28, 42, 0.06);
+    --ds-shadow-md:     0 4px 12px rgba(18, 28, 42, 0.08);
+    --ds-shadow-lg:     0 12px 32px rgba(18, 28, 42, 0.10);
+    --ds-shadow-xl:     0 24px 64px rgba(18, 28, 42, 0.15);
+    --ds-shadow-primary:0 4px 20px rgba(0, 74, 198, 0.20);
+    --ds-shadow-primary-sm: 0 4px 12px rgba(0, 74, 198, 0.12);
+    --ds-shadow-card:   0px 12px 32px rgba(18, 28, 42, 0.06);
+
+    /* ============================================
+       GRADIENTS
+       ============================================ */
+    --ds-gradient-primary:         linear-gradient(135deg, #004ac6, #2563eb);
+    --ds-gradient-primary-hover:   linear-gradient(135deg, #003ea8, #1d4ed8);
+    --ds-gradient-hero:            linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+    --ds-gradient-amber:           linear-gradient(135deg, #8a5100, #fe9800);
+
+    /* ============================================
+       TRANSITIONS  (L'Atelier micro-animations)
+       ============================================ */
+    --ds-transition-fast:          0.15s ease-in-out;
+    --ds-transition-normal:        0.25s ease-in-out;
+    --ds-transition-slow:          0.35s ease-in-out;
+    --ds-transition-smooth:        0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    --ds-transition-image:         0.7s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* ============================================
+       SPACING
+       ============================================ */
+    --ds-space-1:  0.25rem;
+    --ds-space-2:  0.5rem;
+    --ds-space-3:  0.75rem;
+    --ds-space-4:  1rem;
+    --ds-space-5:  1.25rem;
+    --ds-space-6:  1.5rem;
+    --ds-space-8:  2rem;
+    --ds-space-10: 2.5rem;
+    --ds-space-12: 3rem;
+    --ds-space-16: 4rem;
+    --ds-space-20: 5rem;
+    --ds-space-24: 6rem;
+    --ds-space-32: 8rem;
+
+    /* ============================================
+       LAYOUT
+       ============================================ */
+    --ds-container-max:     88rem;    /* 1408px — max-w-7xl equiv */
+    --ds-container-padding: 2rem;
+
+    /* ============================================
+       Z-INDEX LAYERS
+       ============================================ */
+    --ds-z-dropdown:        1000;
+    --ds-z-sticky:          1020;
+    --ds-z-fixed:           1030;
+    --ds-z-modal-backdrop:  1040;
+    --ds-z-modal:           1050;
+    --ds-z-popover:         1060;
+    --ds-z-tooltip:         1070;
+
+    /* ============================================
+       BACKWARD-COMPAT ALIASES (used by old components)
+       ============================================ */
+    --color-primary:          var(--ds-primary);
+    --color-primary-light:    var(--ds-primary-fixed-dim);
+    --color-primary-dark:     var(--ds-on-primary-fixed-variant);
+    --color-secondary:        var(--ds-secondary-container);
+    --color-secondary-dark:   var(--ds-secondary);
+    --color-success:          #4caf50;
+    --color-success-dark:     #388e3c;
+    --color-error:            var(--ds-error);
+    --color-warning:          var(--ds-secondary-container);
+    --color-text-primary:     var(--ds-on-surface);
+    --color-text-secondary:   var(--ds-tertiary);
+    --color-text-light:       #ffffff;
+    --color-text-muted:       var(--ds-outline);
+    --color-background:       var(--ds-background);
+    --color-background-light: var(--ds-surface-container-low);
+    --color-background-dark:  var(--ds-surface-container-high);
+    --color-border:           var(--ds-outline-variant);
+    --color-border-light:     var(--ds-surface-container);
+    --color-shadow:           rgba(18, 28, 42, 0.08);
+    --color-shadow-light:     rgba(18, 28, 42, 0.04);
+    --color-shadow-dark:      rgba(18, 28, 42, 0.15);
+    --color-gray-50:          var(--ds-surface-container-lowest);
+    --color-gray-100:         var(--ds-surface-container-low);
+    --color-gray-200:         var(--ds-surface-container);
+    --color-gray-300:         var(--ds-surface-container-high);
+    --color-gray-400:         var(--ds-surface-container-highest);
+    --color-gray-500:         var(--ds-outline);
+    --color-gray-600:         var(--ds-on-surface-variant);
+    --color-gray-700:         var(--ds-tertiary);
+    --color-gray-800:         var(--ds-on-background);
+    --color-gray-900:         var(--ds-on-surface);
+    --theme-primary:          var(--ds-primary);
+    --theme-primary-light:    var(--ds-primary-fixed-dim);
+    --theme-primary-dark:     var(--ds-on-primary-fixed-variant);
+    --theme-secondary:        var(--ds-secondary-container);
+    --theme-secondary-light:  var(--ds-secondary-fixed-dim);
+    --theme-secondary-dark:   var(--ds-secondary);
+    --theme-primary-rgb:      0, 74, 198;
+    --theme-secondary-rgb:    254, 152, 0;
+    --theme-error:            var(--ds-error);
+    --theme-success:          #4caf50;
+    --theme-text-primary:     var(--ds-on-surface);
+    --theme-text-secondary:   var(--ds-tertiary);
+    --theme-text-light:       #ffffff;
+    --theme-text-muted:       var(--ds-outline);
+    --theme-text-on-primary:  var(--ds-on-primary);
+    --theme-text-on-secondary:var(--ds-on-secondary);
+    --theme-bg-primary:       var(--ds-surface-container-lowest);
+    --theme-bg-secondary:     var(--ds-background);
+    --theme-bg-tertiary:      var(--ds-surface-container-low);
+    --theme-bg-dark:          var(--ds-inverse-surface);
+    --theme-border-color:     var(--ds-outline-variant);
+    --theme-border-light:     var(--ds-surface-container);
+    --theme-border-width:     1px;
     --theme-border-width-thick: 2px;
-
-    /* ============================================
-     TYPOGRAPHY
-     ============================================ */
-
-    /* Font Families */
-    --theme-font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-    --theme-font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-
-    /* Font Sizes */
-    --theme-font-size-xs: 0.75rem;
-    /* 12px */
-    --theme-font-size-sm: 0.875rem;
-    /* 14px */
-    --theme-font-size-base: 1rem;
-    /* 16px */
-    --theme-font-size-md: 1.125rem;
-    /* 18px */
-    --theme-font-size-lg: 1.25rem;
-    /* 20px */
-    --theme-font-size-xl: 1.5rem;
-    /* 24px */
-    --theme-font-size-2xl: 2rem;
-    /* 32px */
-    --theme-font-size-3xl: 2.5rem;
-    /* 40px */
-    --theme-font-size-4xl: 3.5rem;
-    /* 56px */
-
-    /* Font Weights */
-    --theme-font-weight-normal: 400;
-    --theme-font-weight-medium: 500;
-    --theme-font-weight-semibold: 600;
-    --theme-font-weight-bold: 700;
-
-    /* Line Heights */
-    --theme-line-height-tight: 1.2;
-    --theme-line-height-normal: 1.5;
-    --theme-line-height-relaxed: 1.6;
-
-    /* ============================================
-     SPACING
-     ============================================ */
-
-    --theme-spacing-xs: 0.25rem;
-    /* 4px */
-    --theme-spacing-sm: 0.5rem;
-    /* 8px */
-    --theme-spacing-md: 1rem;
-    /* 16px */
-    --theme-spacing-lg: 1.5rem;
-    /* 24px */
-    --theme-spacing-xl: 2rem;
-    /* 32px */
-    --theme-spacing-2xl: 3rem;
-    /* 48px */
-    --theme-spacing-3xl: 4rem;
-    /* 64px */
-
-    /* ============================================
-     BORDER RADIUS
-     ============================================ */
-
-    --theme-radius-sm: 4px;
-    --theme-radius-md: 8px;
-    --theme-radius-lg: 12px;
-    --theme-radius-xl: 16px;
-    --theme-radius-full: 9999px;
-
-    /* ============================================
-     SHADOWS
-     ============================================ */
-
-    --theme-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-    --theme-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --theme-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-    --theme-shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.3);
-
-    /* Colored shadows for buttons */
-    --theme-shadow-primary: 0 4px 15px rgba(var(--theme-primary-rgb), 0.3);
-    --theme-shadow-secondary: 0 4px 15px rgba(var(--theme-secondary-rgb), 0.3);
-
-    /* Text shadows for better readability on gradients */
-    --theme-text-shadow-sm: 1px 2px 4px rgba(0, 0, 0, 0.3);
-    --theme-text-shadow-md: 2px 4px 8px rgba(0, 0, 0, 0.4);
-    --theme-text-shadow-lg: 2px 4px 12px rgba(0, 0, 0, 0.5);
-
-    /* ============================================
-     TRANSITIONS
-     ============================================ */
-
-    --theme-transition-fast: 0.15s ease-in-out;
-    --theme-transition-normal: 0.25s ease-in-out;
-    --theme-transition-slow: 0.35s ease-in-out;
-    --theme-transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-
-    /* ============================================
-     Z-INDEX LAYERS
-     ============================================ */
-
-    --theme-z-dropdown: 1000;
-    --theme-z-sticky: 1020;
-    --theme-z-fixed: 1030;
-    --theme-z-modal-backdrop: 1040;
-    --theme-z-modal: 1050;
-    --theme-z-popover: 1060;
-    --theme-z-tooltip: 1070;
-
-    /* ============================================
-     COMPONENT-SPECIFIC VALUES
-     ============================================ */
-
-    /* Buttons */
-    --theme-button-padding-sm: var(--theme-spacing-sm) var(--theme-spacing-md);
-    --theme-button-padding-md: var(--theme-spacing-md) var(--theme-spacing-lg);
-    --theme-button-padding-lg: var(--theme-spacing-lg) var(--theme-spacing-xl);
-    --theme-button-min-width: 100px;
-    --theme-button-min-height: 44px;
-
-    /* Cards */
-    --theme-card-padding: var(--theme-spacing-xl);
-    --theme-card-bg: var(--theme-bg-primary);
-    --theme-card-border: 1px solid var(--theme-border-color);
-    --theme-card-radius: var(--theme-radius-lg);
-    --theme-card-shadow: var(--theme-shadow-md);
-
-    /* Glassmorphic Cards */
-    --theme-glass-padding: var(--theme-spacing-md);
-    --theme-glass-bg: var(--theme-glass-white-light);
-    --theme-glass-border: 1px solid rgba(255, 255, 255, 0.3);
-    --theme-glass-blur: blur(10px);
-
-    /* Forms */
-    --theme-input-height: 44px;
-    --theme-input-padding: var(--theme-spacing-md);
-    --theme-input-border: 2px solid var(--theme-border-color);
-    --theme-input-border-focus: 2px solid var(--theme-primary);
-    --theme-input-radius: var(--theme-radius-md);
-    --theme-input-bg: var(--theme-bg-primary);
-
-    /* Container Widths */
-    --theme-container-sm: 640px;
-    --theme-container-md: 768px;
-    --theme-container-lg: 1024px;
-    --theme-container-xl: 1200px;
-    --theme-container-2xl: 1440px;
-
-    /* ============================================
-     BREAKPOINTS (for reference in JS)
-     ============================================ */
-
-    --theme-breakpoint-xs: 320px;
-    --theme-breakpoint-sm: 480px;
-    --theme-breakpoint-md: 768px;
-    --theme-breakpoint-lg: 1024px;
-    --theme-breakpoint-xl: 1200px;
-    --theme-breakpoint-2xl: 1440px;
+    --theme-font-primary:     var(--ds-font-family);
+    --theme-font-heading:     var(--ds-font-family);
+    --theme-gradient-primary: var(--ds-gradient-primary);
+    --theme-gradient-button-primary: var(--ds-gradient-primary);
+    --theme-gradient-button-secondary: var(--ds-gradient-amber);
+    --theme-radius-sm:        var(--ds-radius-sm);
+    --theme-radius-md:        var(--ds-radius-md);
+    --theme-radius-lg:        var(--ds-radius-lg);
+    --theme-radius-xl:        var(--ds-radius-xl);
+    --theme-radius-full:      var(--ds-radius-full);
+    --theme-shadow-sm:        var(--ds-shadow-sm);
+    --theme-shadow-md:        var(--ds-shadow-md);
+    --theme-shadow-lg:        var(--ds-shadow-lg);
+    --theme-shadow-xl:        var(--ds-shadow-xl);
+    --theme-shadow-primary:   var(--ds-shadow-primary);
+    --theme-transition-fast:  var(--ds-transition-fast);
+    --theme-transition-normal:var(--ds-transition-normal);
+    --theme-transition-slow:  var(--ds-transition-slow);
+    --theme-transition-smooth:0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --theme-z-dropdown:       var(--ds-z-dropdown);
+    --theme-z-sticky:         var(--ds-z-sticky);
+    --theme-z-fixed:          var(--ds-z-fixed);
+    --theme-z-modal-backdrop: var(--ds-z-modal-backdrop);
+    --theme-z-modal:          var(--ds-z-modal);
+    --theme-z-popover:        var(--ds-z-popover);
+    --theme-z-tooltip:        var(--ds-z-tooltip);
+    --theme-glass-white:      rgba(248, 249, 255, 0.92);
+    --theme-glass-white-light:rgba(248, 249, 255, 0.20);
+    --theme-glass-white-medium:rgba(248, 249, 255, 0.30);
+    --theme-glass-blur:       blur(20px);
+    --theme-card-padding:     var(--ds-space-8);
+    --theme-card-bg:          var(--ds-surface-container-lowest);
+    --theme-card-border:      1px solid var(--ds-outline-variant);
+    --theme-card-radius:      var(--ds-radius-3xl);
+    --theme-card-shadow:      var(--ds-shadow-card);
+    --theme-input-height:     44px;
+    --theme-input-padding:    var(--ds-space-4);
+    --theme-input-border:     2px solid var(--ds-outline-variant);
+    --theme-input-border-focus: 2px solid var(--ds-primary);
+    --theme-input-radius:     var(--ds-radius-md);
+    --theme-input-bg:         var(--ds-surface-container-low);
+    --theme-container-sm:     640px;
+    --theme-container-md:     768px;
+    --theme-container-lg:     1024px;
+    --theme-container-xl:     1200px;
+    --theme-container-2xl:    1440px;
+    --theme-breakpoint-xs:    320px;
+    --theme-breakpoint-sm:    480px;
+    --theme-breakpoint-md:    768px;
+    --theme-breakpoint-lg:    1024px;
+    --theme-breakpoint-xl:    1200px;
+    --theme-breakpoint-2xl:   1440px;
+    --spacing-xs:   var(--ds-space-1);
+    --spacing-sm:   var(--ds-space-2);
+    --spacing-md:   var(--ds-space-4);
+    --spacing-lg:   var(--ds-space-6);
+    --spacing-xl:   var(--ds-space-8);
+    --spacing-xxl:  var(--ds-space-12);
+    --border-radius-sm: var(--ds-radius-sm);
+    --border-radius-md: var(--ds-radius-md);
+    --border-radius-lg: var(--ds-radius-lg);
+    --shadow-sm:    var(--ds-shadow-sm);
+    --shadow-md:    var(--ds-shadow-md);
+    --shadow-lg:    var(--ds-shadow-lg);
+    --transition-fast:   var(--ds-transition-fast);
+    --transition-normal: var(--ds-transition-normal);
+    --transition-slow:   var(--ds-transition-slow);
 }
 
 /* ============================================
    UTILITY CLASSES
    ============================================ */
 
-/* Glassmorphism Effect */
-.glass {
-    background: var(--theme-glass-bg);
-    backdrop-filter: var(--theme-glass-blur);
-    border: var(--theme-glass-border);
+/* Glassmorphism */
+.glass-nav {
+    background: rgba(248, 249, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(195, 198, 215, 0.15);
 }
 
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(195, 198, 215, 0.2);
+}
+
+/* Legacy compatibility */
+.glass {
+    background: var(--theme-glass-white-light);
+    backdrop-filter: var(--theme-glass-blur);
+    border: 1px solid rgba(195, 198, 215, 0.15);
+}
 .glass-white {
     background: var(--theme-glass-white);
     backdrop-filter: var(--theme-glass-blur);
 }
 
-/* Text Shadows for Readability on Gradients */
-.text-shadow-sm {
-    text-shadow: var(--theme-text-shadow-sm);
+/* Gradient buttons */
+.btn-gradient-primary {
+    background: var(--ds-gradient-primary);
+    color: var(--ds-on-primary);
+    border: none;
+}
+.btn-gradient-primary:hover {
+    background: var(--ds-gradient-primary-hover);
 }
 
-.text-shadow-md {
-    text-shadow: var(--theme-text-shadow-md);
-}
+/* Surface containers */
+.surface-lowest  { background: var(--ds-surface-container-lowest); }
+.surface-low     { background: var(--ds-surface-container-low); }
+.surface-default { background: var(--ds-surface-container); }
+.surface-high    { background: var(--ds-surface-container-high); }
+.surface-highest { background: var(--ds-surface-container-highest); }
 
-.text-shadow-lg {
-    text-shadow: var(--theme-text-shadow-lg);
-}
+/* Text shadows */
+.text-shadow-sm { text-shadow: 1px 2px 4px rgba(0,0,0,0.25); }
+.text-shadow-md { text-shadow: 2px 4px 8px rgba(0,0,0,0.35); }
+.text-shadow-lg { text-shadow: 2px 4px 12px rgba(0,0,0,0.5); }
 
-/* Gradient Backgrounds */
-.bg-gradient-primary {
-    background: var(--theme-gradient-primary);
-}
+/* Gradient backgrounds (legacy) */
+.bg-gradient-primary { background: var(--ds-gradient-primary); }
+.bg-gradient-button-primary { background: var(--ds-gradient-primary); }
+.bg-gradient-button-secondary { background: var(--ds-gradient-amber); }
 
-.bg-gradient-button-primary {
-    background: var(--theme-gradient-button-primary);
-}
-
-.bg-gradient-button-secondary {
-    background: var(--theme-gradient-button-secondary);
-}
-
-/* Container Utilities */
+/* Container utilities */
 .container {
     width: 100%;
-    max-width: var(--theme-container-xl);
+    max-width: var(--ds-container-max);
     margin: 0 auto;
-    padding: 0 var(--theme-spacing-md);
+    padding: 0 var(--ds-container-padding);
 }
+.container-sm { max-width: var(--theme-container-sm); }
+.container-lg { max-width: var(--theme-container-lg); }
+.container-2xl { max-width: var(--theme-container-2xl); }
 
-.container-sm {
-    max-width: var(--theme-container-sm);
-}
+/* Pill shape */
+.pill { border-radius: var(--ds-radius-full); }
 
-.container-lg {
-    max-width: var(--theme-container-lg);
-}
-
-.container-2xl {
-    max-width: var(--theme-container-2xl);
-}
+/* L'Atelier card shape */
+.card-rounded { border-radius: var(--ds-radius-3xl); }

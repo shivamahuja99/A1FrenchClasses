@@ -3,7 +3,7 @@ import styles from './CourseCard.module.css';
 import LazyImage from '../LazyImage/LazyImage';
 import { generateOptimizedImagePaths } from '../../utils/imageUtils';
 
-const CourseCard = ({ course }) => {
+const CourseCard = ({ course, isEnrolled }) => {
   const navigate = useNavigate();
 
   if (!course) {
@@ -145,22 +145,29 @@ const CourseCard = ({ course }) => {
 
         {/* Pricing Section */}
         <div className={styles.pricingSection} role="group" aria-label="Pricing information">
-          <div id={`course-price-${id}`} className={styles.priceContainer}>
-            <span
-              className={styles.currentPrice}
-              aria-label={`Current price: $${discountedPrice}`}
-            >
-              ${discountedPrice}
-            </span>
-            {hasDiscount && (
+          {isEnrolled ? (
+            <div className={styles.startLearningBadge}>
+              <span className={styles.enrolledIcon}>🎓</span>
+              <span>Start Learning</span>
+            </div>
+          ) : (
+            <div id={`course-price-${id}`} className={styles.priceContainer}>
               <span
-                className={styles.originalPrice}
-                aria-label={`Original price: $${price}`}
+                className={styles.currentPrice}
+                aria-label={`Current price: $${discountedPrice}`}
               >
-                ${price}
+                ${discountedPrice}
               </span>
-            )}
-          </div>
+              {hasDiscount && (
+                <span
+                  className={styles.originalPrice}
+                  aria-label={`Original price: $${price}`}
+                >
+                  ${price}
+                </span>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </article>
