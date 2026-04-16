@@ -22,7 +22,10 @@ const CoursesPage = () => {
     if (loading) {
         return (
             <div className={styles.coursesPage}>
-                <Header logo={navigationConfig.logo} navigationItems={navigationConfig.items} authComponent={<ProfileDropdown />}
+                <Header 
+                    logo={navigationConfig.logo} 
+                    navigationItems={navigationConfig.items} 
+                    authComponent={isAuthenticated ? <ProfileDropdown /> : null}
                 />
                 <main className={styles.main} role="main">
                     <div className={styles.container}>

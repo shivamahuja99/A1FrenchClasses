@@ -7,7 +7,7 @@ import CheckoutCancel from './views/CheckoutPage/CheckoutCancel';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoadingSkeleton from './components/LoadingSkeleton/LoadingSkeleton';
 import { useGetCurrentUserQuery } from './store/api/apiSlice';
-import { setCredentials } from './store/slices/authSlice';
+import { setCredentials, logout } from './store/slices/authSlice';
 import './App.css';
 
 // Component to initialize auth state
@@ -30,16 +30,13 @@ const AuthInitializer = ({ children }) => {
     }
   }, [userData, accessToken, dispatch]);
 
-  // Handle error - if getCurrentUser fails after refresh attempts, clear tokens
+  // Handle error - if getCurrentUser fails after refresh attempts, clear tokens and state
   useEffect(() => {
     if (error && accessToken) {
       console.error('Failed to get current user:', error);
-      // Clear invalid tokens
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('refresh_token');
-      localStorage.removeItem('user');
+      dispatch(logout());
     }
-  }, [error, accessToken]);
+  }, [error, accessToken, dispatch]);
 
   if (isLoading) {
     return <LoadingSkeleton variant="screen" />;

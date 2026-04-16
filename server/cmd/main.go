@@ -88,6 +88,11 @@ func main() {
 	router.HandleFunc("/api/refresh", userHandler.RefreshToken).Methods("POST")
 	router.HandleFunc("/api/logout", userHandler.Logout).Methods("POST")
 
+	// Public course and review routes
+	router.HandleFunc("/api/courses", courseHandler.ListCourses).Methods("GET")
+	router.HandleFunc("/api/courses/{id}", courseHandler.GetCourse).Methods("GET")
+	router.HandleFunc("/api/reviews", reviewHandler.ListReviews).Methods("GET")
+
 	// General public routes
 	router.HandleFunc("/api/accepted", func(w http.ResponseWriter, r *http.Request) {
 		api.RespondWithJSON(w, http.StatusOK, map[string]string{"message": "api accepted"})
@@ -104,8 +109,6 @@ func main() {
 
 	// Course routes (protected)
 	protected.HandleFunc("/courses", courseHandler.CreateCourse).Methods("POST")
-	protected.HandleFunc("/courses", courseHandler.ListCourses).Methods("GET")
-	protected.HandleFunc("/courses/{id}", courseHandler.GetCourse).Methods("GET")
 	protected.HandleFunc("/courses/{id}", courseHandler.UpdateCourse).Methods("PUT")
 	protected.HandleFunc("/courses/{id}", courseHandler.DeleteCourse).Methods("DELETE")
 
@@ -118,7 +121,6 @@ func main() {
 
 	// Review routes (protected)
 	protected.HandleFunc("/reviews", reviewHandler.CreateReview).Methods("POST")
-	protected.HandleFunc("/reviews", reviewHandler.ListReviews).Methods("GET")
 	protected.HandleFunc("/reviews/{id}", reviewHandler.GetReview).Methods("GET")
 	protected.HandleFunc("/reviews/{id}", reviewHandler.UpdateReview).Methods("PUT")
 	protected.HandleFunc("/reviews/{id}", reviewHandler.DeleteReview).Methods("DELETE")
