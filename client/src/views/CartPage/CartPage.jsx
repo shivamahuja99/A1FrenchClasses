@@ -119,9 +119,9 @@ const CartPage = () => {
                         <div className={styles.emptyIcon}>🛒</div>
                         <h2>Your cart is empty</h2>
                         <p>Looks like you haven't added any courses yet.</p>
-                        <button onClick={() => navigate('/courses')} className="btn btn-primary">
+                        <a href="/#courses" className="btn btn-primary">
                             Browse Courses
-                        </button>
+                        </a>
                     </div>
                 </div>
                 <Footer
