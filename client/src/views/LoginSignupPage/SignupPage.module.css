@@ -9,7 +9,7 @@
 
 /* ---- Left: brand identity panel ---- */
 .brandSection {
-  background: var(--ds-gradient-primary);
+  background: linear-gradient(135deg, var(--ds-primary), var(--ds-primary-container));
   padding: 4rem 3.5rem;
   display: flex;
   flex-direction: column;

@@ -1,101 +1,56 @@
-import { useState } from 'react';
-import { useFeaturedTestimonials } from '../../controllers/useTestimonials';
-import TestimonialCard from '../TestimonialCard/TestimonialCard';
-import LoadingSkeleton from '../LoadingSkeleton/LoadingSkeleton';
+import { useGetReviewsQuery } from '../../store/api/apiSlice';
 import styles from './CustomerTestimonials.module.css';
 
-const CustomerTestimonials = ({ limit = 3, showNavigation = true }) => {
-  const { testimonials, loading, error } = useFeaturedTestimonials(limit);
-  const [currentIndex, setCurrentIndex] = useState(0);
+const CustomerTestimonials = () => {
+  const { data: reviews = [], isLoading, error } = useGetReviewsQuery();
+  const testimonials = Array.isArray(reviews) ? reviews.slice(0, 6) : [];
 
-  const handlePrevious = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
-    );
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  if (loading) {
-    return (
-      <section className={styles.customerTestimonials}>
-        <div className={styles.container}>
-          <div className={styles.header}>
-            <h2 className={styles.title}>Student Voices</h2>
-            <div className={styles.testimonialsGrid}>
-              <LoadingSkeleton variant="testimonial" count={limit} />
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  if (error || !testimonials || testimonials.length === 0) return null;
+  const starsFromRating = (rating = 0) => '★'.repeat(Math.max(0, Math.min(5, rating)));
+  const initialsFromName = (name = '') =>
+    name
+      .split(' ')
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase() || '')
+      .join('') || 'U';
 
   return (
-    <section className={styles.customerTestimonials} aria-labelledby="testimonials-title">
+    <section id="results" className={styles.testimonials}>
       <div className={styles.container}>
-        <div className={styles.header}>
-          <h2 id="testimonials-title" className={styles.title}>Student Voices</h2>
-          <p className={styles.subtitle}>Real stories of fluency and cultural discovery from our global community.</p>
+        <div className={styles.sectionHead}>
+          <span className="eyebrow">Real Student Results</span>
+          <h2>Student success stories from our latest batches</h2>
         </div>
 
-        <div className={styles.testimonialsWrapper}>
-          {/* Desktop view */}
-          <div className={styles.testimonialsGrid} role="list">
-            {testimonials.map((testimonial, index) => (
-              <div 
-                key={testimonial.id} 
-                className={`${styles.testimonialItem} animate-fade-in-up`}
-                style={{ animationDelay: `${index * 0.1}s` }}
-                role="listitem"
-              >
-                <TestimonialCard testimonial={testimonial} />
-              </div>
-            ))}
-          </div>
+        {isLoading && <p>Loading testimonials...</p>}
+        {error && <p>Unable to load testimonials right now.</p>}
 
-          {/* Mobile Carousel view - logic managed via CSS display and currentIndex */}
-          <div className={styles.testimonialsCarousel}>
-            <div 
-              className={styles.carouselTrack}
-              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-            >
-              {testimonials.map((testimonial) => (
-                <div key={testimonial.id} className={styles.carouselSlide}>
-                  <TestimonialCard testimonial={testimonial} />
+        {!isLoading && !error && (
+          <div className={styles.testGrid}>
+            {testimonials.length > 0 ? (
+              testimonials.map((review) => (
+                <div key={review.id} className={`${styles.test} reveal`}>
+                  <div>
+                    <div className={styles.stars}>{starsFromRating(review.rating)}</div>
+                    <span className={styles.scoreTag}>{review.testimonial_tag || 'Student Review'}</span>
+                  </div>
+                  <blockquote>"{review.comment}"</blockquote>
+                  <div className={styles.person}>
+                    <div className={styles.avatar} style={{ background: review.testimonial_avatar_bg }}>
+                      {initialsFromName(review.user?.name)}
+                    </div>
+                    <div>
+                      <div className={styles.name}>{review.user?.name || 'Anonymous Student'}</div>
+                      <div className={styles.role}>{review.testimonial_role || 'Student'}</div>
+                    </div>
+                  </div>
                 </div>
-              ))}
-            </div>
-
-            {showNavigation && testimonials.length > 1 && (
-              <>
-                <button className={styles.navPrevious} onClick={handlePrevious} aria-label="Previous">
-                  <span className={styles.navArrow}>‹</span>
-                </button>
-                <button className={styles.navNext} onClick={handleNext} aria-label="Next">
-                  <span className={styles.navArrow}>›</span>
-                </button>
-                
-                <div className={styles.dotIndicators}>
-                  {testimonials.map((_, index) => (
-                    <button
-                      key={index}
-                      className={`${styles.dot} ${index === currentIndex ? styles.dotActive : ''}`}
-                      onClick={() => setCurrentIndex(index)}
-                      aria-label={`Slide ${index + 1}`}
-                    />
-                  ))}
-                </div>
-              </>
+              ))
+            ) : (
+              <p>No testimonials available right now.</p>
             )}
           </div>
-        </div>
+        )}
       </div>
     </section>
   );

@@ -24,6 +24,7 @@ type Course struct {
 	StartDate    *time.Time `json:"start_date,omitempty" db:"start_date"`
 	EndDate      *time.Time `json:"end_date,omitempty" db:"end_date"`
 	ClassTiming  string     `json:"class_timing" db:"class_timing"`
+	ThisIncludes []string   `json:"this_includes" db:"this_includes" gorm:"column:this_includes;type:jsonb;serializer:json"`
 	Reviews      []Review   `json:"reviews,omitempty" gorm:"foreignKey:CourseID"`
 	CreatedAt    time.Time  `json:"created_at" db:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt    time.Time  `json:"updated_at" db:"updated_at" gorm:"autoUpdateTime"`

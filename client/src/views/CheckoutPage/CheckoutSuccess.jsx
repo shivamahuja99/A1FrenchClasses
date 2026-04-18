@@ -56,14 +56,14 @@ const CheckoutSuccess = () => {
                     <div className={styles.card}>
                         <h2>Payment Successful! 🎉</h2>
                         <p>Thank you for your purchase. Your new courses are now available in your account.</p>
-                        <Link to="/profile" className={styles.primaryButton}>Go to My Courses</Link>
+                        <Link to="/profile" className="btn btn-primary" style={{ width: '100%' }}>Go to My Courses</Link>
                     </div>
                 )}
                 {status === 'error' && (
                     <div className={styles.card}>
                         <h2>Payment Processing Failed</h2>
                         <p>We could not verify your payment. If you were charged, please contact support.</p>
-                        <Link to="/cart" className={styles.primaryButton}>Return to Cart</Link>
+                        <Link to="/cart" className="btn btn-primary" style={{ width: '100%' }}>Return to Cart</Link>
                     </div>
                 )}
             </div>

@@ -1,14 +1,14 @@
-/* Header — L'Atelier glassmorphic nav */
+/* Header — Premium Academy glassmorphic nav */
 
 .header {
   position: sticky;
   top: 0;
-  z-index: var(--ds-z-sticky, 1020);
+  z-index: 50;
   width: 100%;
-  background: rgba(248, 249, 255, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(195, 198, 215, 0.15);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--ds-outline-variant);
 }
 
 .container {
@@ -16,30 +16,40 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: var(--ds-container-max, 88rem);
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 0 2rem;
-  height: 6rem;
+  padding: 14px 24px;
 }
 
 /* ---- Logo ---- */
 .logo { flex-shrink: 0; }
-.logo a {
+
+.logoLink {
   text-decoration: none;
   display: flex;
   align-items: center;
+  gap: 10px;
+  color: var(--ds-primary);
 }
-.logoImage {
-  height: 5rem;
-  width: auto;
-  object-fit: contain;
+
+.logoMark {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--ds-secondary), var(--ds-accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-family: var(--ds-font-family-heading);
+  font-size: 0.95rem;
 }
+
 .logoText {
-  font-size: 1.75rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: var(--ds-primary);
-  letter-spacing: -0.04em;
-  font-family: var(--ds-font-family-heading);
 }
 
 /* ---- Desktop Nav ---- */
@@ -48,21 +58,18 @@
 .navList {
   display: flex;
   list-style: none;
-  gap: 2.25rem;
+  gap: 28px;
+  align-items: center;
 }
 
 .navItem { margin: 0; }
 
 .navLink {
   text-decoration: none;
-  color: var(--ds-on-surface-variant);
+  color: var(--ds-tertiary);
   font-weight: 500;
-  font-size: 0.9375rem;
-  padding: 0.25rem 0;
-  position: relative;
-  transition: color var(--ds-transition-fast);
-  border-bottom: 2px solid transparent;
-  padding-bottom: 0.25rem;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
 }
 
 .navLink:hover,
@@ -74,36 +81,34 @@
 .navLink[aria-current='page'] {
   color: var(--ds-primary);
   font-weight: 700;
-  border-bottom-color: var(--ds-primary);
 }
 
 /* ---- Auth section ---- */
 .authSection {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 10px;
 }
 
 .authButtons {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 10px;
 }
 
 .loginButton {
   text-decoration: none;
   font-weight: 600;
   font-size: 0.9rem;
-  color: var(--ds-primary);
-  padding: 0.5rem 1rem;
-  border-radius: var(--ds-radius-lg);
-  transition: all var(--ds-transition-fast);
+  color: var(--ds-tertiary);
+  padding: 10px 18px;
+  border-radius: var(--ds-radius-full);
+  transition: color 0.2s ease;
   min-height: auto;
   display: inline-flex;
   align-items: center;
 }
 .loginButton:hover {
-  background: var(--ds-surface-container-low);
   color: var(--ds-primary);
 }
 
@@ -111,21 +116,20 @@
   text-decoration: none;
   font-weight: 700;
   font-size: 0.9rem;
-  color: var(--ds-on-primary);
-  background: var(--ds-gradient-primary);
-  padding: 0.5rem 1.25rem;
-  border-radius: var(--ds-radius-lg);
-  transition: all var(--ds-transition-fast);
+  color: #fff;
+  background: var(--ds-accent);
+  padding: 10px 20px;
+  border-radius: var(--ds-radius-full);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
   min-height: auto;
   display: inline-flex;
   align-items: center;
-  box-shadow: var(--ds-shadow-primary-sm);
+  box-shadow: var(--ds-shadow-primary);
 }
 .signupButton:hover {
-  opacity: 0.9;
-  transform: scale(1.02);
-  box-shadow: var(--ds-shadow-primary);
-  color: var(--ds-on-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--ds-shadow-primary-hover);
+  color: #fff;
 }
 
 /* ---- Mobile menu button ---- */
@@ -138,7 +142,7 @@
   cursor: pointer;
   padding: 0.5rem;
   border-radius: var(--ds-radius-md);
-  transition: background-color var(--ds-transition-fast);
+  transition: background 0.15s;
   min-height: auto;
   min-width: auto;
   box-shadow: none;
@@ -148,8 +152,6 @@
   background: var(--ds-surface-container-low);
   transform: none;
   box-shadow: none;
-  outline: 2px solid var(--ds-primary);
-  outline-offset: 2px;
 }
 
 .hamburger {
@@ -164,7 +166,7 @@
   height: 2px;
   background: var(--ds-on-surface);
   border-radius: 2px;
-  transition: all var(--ds-transition-fast);
+  transition: all 0.15s;
 }
 
 /* ---- Mobile Nav ---- */
@@ -173,14 +175,14 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: rgba(248, 249, 255, 0.97);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   box-shadow: var(--ds-shadow-lg);
   transform: translateY(-8px);
   opacity: 0;
   visibility: hidden;
-  transition: all var(--ds-transition-normal);
+  transition: all 0.25s ease;
   border-bottom: 1px solid var(--ds-outline-variant);
 }
 
@@ -199,11 +201,11 @@
 .mobileNavLink {
   display: block;
   text-decoration: none;
-  color: var(--ds-on-surface-variant);
+  color: var(--ds-tertiary);
   font-weight: 500;
   font-size: 1rem;
   padding: 0.75rem 1.5rem;
-  transition: background-color var(--ds-transition-fast), color var(--ds-transition-fast);
+  transition: background 0.15s, color 0.15s;
 }
 .mobileNavLink:hover,
 .mobileNavLink:focus {
@@ -214,7 +216,6 @@
 .mobileNavLink[aria-current='page'] {
   color: var(--ds-primary);
   font-weight: 700;
-  background: var(--ds-primary-fixed);
 }
 
 /* ---- Mobile auth ---- */
@@ -233,74 +234,58 @@
   display: block;
   text-align: center;
   text-decoration: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--ds-radius-lg);
+  padding: 14px 26px;
+  border-radius: var(--ds-radius-full);
   font-weight: 700;
   font-size: 1rem;
-  transition: all var(--ds-transition-fast);
+  transition: all 0.15s;
   min-height: auto;
 }
 
 .mobileLoginButton {
   color: var(--ds-primary);
-  background: var(--ds-surface-container-low);
-  border: 2px solid var(--ds-primary);
+  background: #fff;
+  border: 1.5px solid var(--ds-outline-variant);
 }
-.mobileLoginButton:hover,
-.mobileLoginButton:focus {
-  background: var(--ds-primary);
-  color: var(--ds-on-primary);
-  outline: none;
+.mobileLoginButton:hover {
+  border-color: var(--ds-primary);
 }
 
 .mobileSignupButton {
-  color: var(--ds-on-primary);
-  background: var(--ds-gradient-primary);
-  box-shadow: var(--ds-shadow-primary-sm);
+  color: #fff;
+  background: var(--ds-accent);
+  box-shadow: var(--ds-shadow-primary);
 }
-.mobileSignupButton:hover,
-.mobileSignupButton:focus {
-  opacity: 0.9;
-  outline: none;
+.mobileSignupButton:hover {
+  box-shadow: var(--ds-shadow-primary-hover);
 }
 
 /* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 480px) {
-  .container {
-    padding: 0 1rem;
-    height: 4.5rem;
-  }
-  .logoImage { height: 3.5rem; }
-  .logoText { font-size: 1.125rem; }
+  .container { padding: 10px 18px; }
+  .logoText { font-size: 1rem; }
+  .logoMark { width: 32px; height: 32px; font-size: 0.9rem; }
   .authButtons { display: none; }
 }
 
 @media (min-width: 481px) and (max-width: 767px) {
-  .container { padding: 0 1.5rem; }
+  .container { padding: 10px 18px; }
   .authButtons { display: none; }
 }
 
 @media (min-width: 768px) {
-  .container { padding: 0 2rem; height: 6rem; }
   .desktopNav { display: block; }
   .mobileMenuButton { display: none; }
   .mobileNav { display: none; }
 }
 
 @media (min-width: 1024px) {
-  .container { padding: 0 2.5rem; }
-  .navList { gap: 2.5rem; }
+  .navList { gap: 28px; }
 }
 
-/* High contrast */
-@media (prefers-contrast: high) {
-  .header { border-bottom: 2px solid #000; }
-  .navLink:focus, .mobileNavLink:focus { outline: 3px solid #000; outline-offset: 2px; }
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .navLink, .mobileMenuButton, .hamburgerLine, .mobileNav { transition: none; }
+@media (max-width: 420px) {
+  .logoText { display: none; }
+  .signupButton { padding: 9px 14px; font-size: 0.82rem; }
 }

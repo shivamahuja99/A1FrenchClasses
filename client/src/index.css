@@ -4,9 +4,9 @@
 @import './styles/animations.css';
 
 /* ============================================
-   GOOGLE FONTS — Inter
+   GOOGLE FONTS — Inter & Playfair Display
    ============================================ */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap');
 
 /* ============================================
    RESET & BASE
@@ -42,24 +42,43 @@ body {
 /* ============================================
    TYPOGRAPHY
    ============================================ */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--ds-font-family);
-  line-height: var(--ds-line-height-snug);
-  color: var(--ds-on-surface);
-  font-weight: var(--ds-font-weight-extrabold);
+h1, h2, h3 {
+  font-family: var(--ds-font-family-heading);
+  line-height: var(--ds-line-height-tight);
+  color: var(--ds-primary);
   letter-spacing: var(--ds-letter-spacing-tight);
 }
 
-h1 { font-size: var(--ds-font-size-hero);   font-weight: var(--ds-font-weight-black); }
-h2 { font-size: var(--ds-font-size-4xl);   }
-h3 { font-size: var(--ds-font-size-2xl);   }
-h4 { font-size: var(--ds-font-size-xl);    font-weight: var(--ds-font-weight-bold); }
-h5 { font-size: var(--ds-font-size-lg);    font-weight: var(--ds-font-weight-bold); }
-h6 { font-size: var(--ds-font-size-base);  font-weight: var(--ds-font-weight-bold); }
+h4, h5, h6 {
+  font-family: var(--ds-font-family);
+  line-height: var(--ds-line-height-snug);
+  color: var(--ds-on-surface);
+  font-weight: var(--ds-font-weight-bold);
+}
+
+h1 { font-size: var(--ds-font-size-hero); font-weight: var(--ds-font-weight-extrabold); }
+h2 { font-size: var(--ds-font-size-3xl); font-weight: var(--ds-font-weight-extrabold); }
+h3 { font-size: var(--ds-font-size-xl);  font-weight: var(--ds-font-weight-bold); font-family: var(--ds-font-family); }
+h4 { font-size: var(--ds-font-size-lg); }
+h5 { font-size: var(--ds-font-size-base); }
+h6 { font-size: var(--ds-font-size-xs); }
 
 p {
   color: var(--ds-tertiary);
   line-height: var(--ds-line-height-relaxed);
+}
+
+.eyebrow {
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: var(--ds-letter-spacing-widest);
+  font-weight: var(--ds-font-weight-bold);
+  font-size: var(--ds-font-size-xs);
+  color: var(--ds-secondary);
+  background: var(--ds-secondary-fixed);
+  padding: 6px 12px;
+  border-radius: var(--ds-radius-full);
+  margin-bottom: 14px;
 }
 
 a {
@@ -70,65 +89,60 @@ a {
 a:hover { color: var(--ds-on-primary-fixed-variant); }
 
 /* ============================================
-   BUTTONS — L'Atelier style
+   BUTTONS — Premium Academy style
    ============================================ */
-button {
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
+button, .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 26px;
+  border-radius: var(--ds-radius-full);
   font-weight: var(--ds-font-weight-bold);
-  border-radius: var(--ds-radius-lg);
-  padding: 0.75rem 1.5rem;
   font-size: var(--ds-font-size-base);
-  transition: all var(--ds-transition-normal);
-  background: var(--ds-gradient-primary);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+}
+
+button:hover, .btn:hover {
+  transform: translateY(-2px);
+}
+
+button:active, .btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: var(--ds-accent);
   color: var(--ds-on-primary);
-  box-shadow: var(--ds-shadow-primary-sm);
-}
-
-button:hover {
   box-shadow: var(--ds-shadow-primary);
-  transform: scale(1.02);
 }
 
-button:active {
-  transform: scale(0.97);
+.btn-primary:hover {
+  background: var(--ds-accent-hover);
+  box-shadow: var(--ds-shadow-primary-hover);
 }
 
-button:focus,
-button:focus-visible {
-  outline: 2px solid var(--ds-primary);
-  outline-offset: 2px;
-}
-
-button:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-/* Button variants */
 .btn-secondary {
-  background: var(--ds-surface-container-high);
+  background: #ffffff;
   color: var(--ds-primary);
-  box-shadow: none;
-}
-.btn-secondary:hover {
-  background: var(--ds-surface-container-highest);
-  box-shadow: none;
-  transform: scale(1.02);
+  border: 1.5px solid var(--ds-outline-variant);
 }
 
-.btn-outline {
-  background: transparent;
-  color: var(--ds-primary);
-  border: 2px solid var(--ds-primary);
-  box-shadow: none;
+.btn-secondary:hover {
+  border-color: var(--ds-primary);
 }
-.btn-outline:hover {
+
+.btn-dark {
   background: var(--ds-primary);
   color: var(--ds-on-primary);
+}
+
+.btn-lg {
+  padding: 18px 34px;
+  font-size: var(--ds-font-size-md);
 }
 
 .btn-ghost {
@@ -138,7 +152,7 @@ button:disabled {
 }
 .btn-ghost:hover {
   background: var(--ds-surface-container-low);
-  box-shadow: none;
+  transform: none;
 }
 
 .btn-error {

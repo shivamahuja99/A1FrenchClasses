@@ -37,11 +37,11 @@ const CheckoutCancel = () => {
                     <p>It looks like you cancelled the PayPal checkout process.</p>
                     <div className={styles.actions}>
                         {orderId && (
-                            <button onClick={handleRetry} disabled={isLoading} className={styles.primaryButton}>
+                            <button onClick={handleRetry} disabled={isLoading} className="btn btn-primary" style={{ width: '100%' }}>
                                 {isLoading ? 'Generating Link...' : 'Retry Payment'}
                             </button>
                         )}
-                        <Link to="/cart" className={styles.secondaryButton}>Return to Cart</Link>
+                        <Link to="/cart" className="btn btn-secondary" style={{ width: '100%' }}>Return to Cart</Link>
                     </div>
                 </div>
             </div>

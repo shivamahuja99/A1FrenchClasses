@@ -12,9 +12,10 @@ import (
 
 	"services/cmd/services/cart"
 	"services/cmd/services/courses"
+	"services/cmd/services/home"
+	"services/cmd/services/leads"
 	paymentplans "services/cmd/services/payment_plans"
 	"services/cmd/services/payments"
-	"services/cmd/services/leads"
 	"services/cmd/services/reviews"
 	user "services/cmd/services/users"
 	"services/internal/api"
@@ -67,6 +68,7 @@ func main() {
 	paymentHandler := payments.NewPaymentHandler(logger, db.DB_client)
 	cartHandler := cart.NewCartHandler(logger, db.DB_client)
 	leadHandler := leads.NewLeadHandler(logger, db.DB_client)
+	homeHandler := home.NewHomeHandler(logger, db.DB_client)
 
 	// Initialize auth middleware
 	sessionRepo := repository.NewPostgresSessionRepository(db.DB_client)
@@ -95,6 +97,7 @@ func main() {
 	router.HandleFunc("/api/courses/{id}", courseHandler.GetCourse).Methods("GET")
 	router.HandleFunc("/api/reviews", reviewHandler.ListReviews).Methods("GET")
 	router.HandleFunc("/api/leads", leadHandler.CreateLead).Methods("POST")
+	router.HandleFunc("/api/home-content", homeHandler.GetHomeContent).Methods("GET")
 
 	// General public routes
 	router.HandleFunc("/api/accepted", func(w http.ResponseWriter, r *http.Request) {

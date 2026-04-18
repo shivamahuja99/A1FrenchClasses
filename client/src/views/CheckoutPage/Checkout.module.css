@@ -48,54 +48,6 @@
   gap: 1rem;
 }
 
-.primaryButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--ds-gradient-primary);
-  color: var(--ds-on-primary);
-  padding: 1rem 1.5rem;
-  border-radius: var(--ds-radius-full);
-  text-decoration: none;
-  font-weight: 800;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  transition: all var(--ds-transition-normal);
-  width: 100%;
-  box-shadow: var(--ds-shadow-primary);
-}
-
-.primaryButton:hover:not(:disabled) {
-  opacity: 0.9;
-  transform: scale(1.02);
-  box-shadow: 0 8px 28px rgba(0, 74, 198, 0.3);
-}
-
-.primaryButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.secondaryButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  color: var(--ds-primary);
-  padding: 1rem 1.5rem;
-  border-radius: var(--ds-radius-full);
-  text-decoration: none;
-  font-weight: 700;
-  border: 1px solid var(--ds-outline-variant);
-  transition: all var(--ds-transition-fast);
-  width: 100%;
-}
-
-.secondaryButton:hover {
-  background: var(--ds-surface-container-high);
-}
-
 @media (max-width: 480px) {
   .card { padding: 2.5rem 1.5rem; border-radius: var(--ds-radius-2xl); }
   .card h2 { font-size: 1.5rem; }

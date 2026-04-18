@@ -6,90 +6,100 @@
 
 :root {
     /* ============================================
-       PRIMARY BRAND — Cobalt Blue
+       PRIMARY BRAND — A1 Navy
        ============================================ */
-    --ds-primary:                   #004ac6;
-    --ds-primary-container:         #2563eb;   /* gradient pair */
+    --ds-primary:                   #0A2540;
+    --ds-primary-container:         #122E54;
     --ds-primary-fixed:             #dbe1ff;
     --ds-primary-fixed-dim:         #b4c5ff;
     --ds-on-primary:                #ffffff;
     --ds-on-primary-container:      #eeefff;
     --ds-on-primary-fixed:          #00174b;
-    --ds-on-primary-fixed-variant:  #003ea8;
+    --ds-on-primary-fixed-variant:  #2563EB;
     --ds-inverse-primary:           #b4c5ff;
-    --ds-surface-tint:              #0053db;
+    --ds-surface-tint:              #2563EB;
 
     /* ============================================
-       SECONDARY — Amber / Warm orange
+       SECONDARY — A1 Blue
        ============================================ */
-    --ds-secondary:                 #8a5100;
-    --ds-secondary-container:       #fe9800;   /* vivid amber badge */
-    --ds-secondary-fixed:           #ffdcbd;
-    --ds-secondary-fixed-dim:       #ffb86f;
+    --ds-secondary:                 #2563EB;
+    --ds-secondary-container:       #1D4ED8;
+    --ds-secondary-fixed:           #EFF4FF;
+    --ds-secondary-fixed-dim:       #DBEAFE;
     --ds-on-secondary:              #ffffff;
-    --ds-on-secondary-container:    #643900;
-    --ds-on-secondary-fixed:        #2c1600;
-    --ds-on-secondary-fixed-variant:#693c00;
+    --ds-on-secondary-container:    #ffffff;
+    --ds-on-secondary-fixed:        #1E3A8A;
+    --ds-on-secondary-fixed-variant:#2563EB;
+
+    /* ============================================
+       ACCENT — French Red
+       ============================================ */
+    --ds-accent:                    #E11D48;
+    --ds-accent-hover:              #BE123C;
 
     /* ============================================
        TERTIARY — Slate / Blue-grey
        ============================================ */
-    --ds-tertiary:                  #4c5665;
-    --ds-tertiary-container:        #646e7e;
-    --ds-tertiary-fixed:            #d9e3f6;
-    --ds-tertiary-fixed-dim:        #bdc7d9;
+    --ds-tertiary:                  #475569;
+    --ds-tertiary-container:        #64748B;
+    --ds-tertiary-fixed:            #F1F5F9;
+    --ds-tertiary-fixed-dim:        #E2E8F0;
     --ds-on-tertiary:               #ffffff;
-    --ds-on-tertiary-container:     #eaf1ff;
-    --ds-on-tertiary-fixed:         #121c2a;
-    --ds-on-tertiary-fixed-variant: #3d4756;
+    --ds-on-tertiary-container:     #F8FAFC;
+    --ds-on-tertiary-fixed:         #0F172A;
+    --ds-on-tertiary-fixed-variant: #334155;
 
     /* ============================================
-       SURFACE HIERARCHY  (light mode)
+       SURFACE HIERARCHY  (Premium Academy)
        ============================================ */
-    --ds-background:                #f8f9ff;
-    --ds-surface:                   #f8f9ff;
-    --ds-surface-bright:            #f8f9ff;
-    --ds-surface-dim:               #d0dbed;
-    --ds-surface-variant:           #d9e3f6;
+    --ds-background:                #FFFFFF;
+    --ds-surface:                   #FAFAFB;
+    --ds-surface-bright:            #FFFFFF;
+    --ds-surface-dim:               #F1F5F9;
+    --ds-surface-cream:             #FFF8F1;
+    --ds-surface-variant:           #F7F9FC;
     --ds-surface-container-lowest:  #ffffff;
-    --ds-surface-container-low:     #eff4ff;
-    --ds-surface-container:         #e6eeff;
-    --ds-surface-container-high:    #dee9fc;
-    --ds-surface-container-highest: #d9e3f6;
-    --ds-inverse-surface:           #27313f;
-    --ds-inverse-on-surface:        #eaf1ff;
+    --ds-surface-container-low:     #F7F9FC;
+    --ds-surface-container:         #EFF4FF;
+    --ds-surface-container-high:    #E5E7EB;
+    --ds-surface-container-highest: #CBD5E1;
+    --ds-inverse-surface:           #0A2540;
+    --ds-inverse-on-surface:        #F8FAFC;
 
     /* ============================================
        TEXT / ON-SURFACE
        ============================================ */
-    --ds-on-background:             #121c2a;
-    --ds-on-surface:                #121c2a;
-    --ds-on-surface-variant:        #434655;
-    --ds-outline:                   #737686;
-    --ds-outline-variant:           #c3c6d7;
+    --ds-on-background:             #0F172A;
+    --ds-on-surface:                #0F172A;
+    --ds-on-surface-variant:        #334155;
+    --ds-outline:                   #94A3B8;
+    --ds-outline-variant:           #E5E7EB;
 
     /* ============================================
-       ERROR
+       ERROR & SUCCESS
        ============================================ */
-    --ds-error:                     #ba1a1a;
-    --ds-error-container:           #ffdad6;
+    --ds-error:                     #E11D48;
+    --ds-error-container:           #FFF1F2;
     --ds-on-error:                  #ffffff;
-    --ds-on-error-container:        #93000a;
+    --ds-on-error-container:        #9F1239;
+    --ds-ok:                        #10B981;
+    --ds-ok-container:              #D1FAE5;
 
     /* ============================================
        TYPOGRAPHY
        ============================================ */
-    --ds-font-family:               'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --ds-font-size-xs:              0.75rem;    /* 12px */
-    --ds-font-size-sm:              0.875rem;   /* 14px */
-    --ds-font-size-base:            1rem;       /* 16px */
-    --ds-font-size-md:              1.125rem;   /* 18px */
-    --ds-font-size-lg:              1.25rem;    /* 20px */
-    --ds-font-size-xl:              1.5rem;     /* 24px */
-    --ds-font-size-2xl:             2rem;       /* 32px */
-    --ds-font-size-3xl:             2.5rem;     /* 40px */
-    --ds-font-size-4xl:             3.5rem;     /* 56px */
-    --ds-font-size-hero:            4.5rem;     /* 72px — big hero headline */
+    --ds-font-family:               'Inter', system-ui, -apple-system, sans-serif;
+    --ds-font-family-heading:       'Playfair Display', Georgia, serif;
+    --ds-font-size-xs:              0.78rem;    
+    --ds-font-size-sm:              0.85rem;   
+    --ds-font-size-base:            1rem;       
+    --ds-font-size-md:              1.15rem;   
+    --ds-font-size-lg:              1.25rem;    
+    --ds-font-size-xl:              1.6rem;    
+    --ds-font-size-2xl:             2.3rem;      
+    --ds-font-size-3xl:             2.6rem;    
+    --ds-font-size-4xl:             3.8rem;    
+    --ds-font-size-hero:            clamp(2.2rem, 5vw, 3.8rem);
 
     --ds-font-weight-regular:       400;
     --ds-font-weight-medium:        500;
@@ -98,7 +108,7 @@
     --ds-font-weight-extrabold:     800;
     --ds-font-weight-black:         900;
 
-    --ds-line-height-tight:         0.95;
+    --ds-line-height-tight:         1.15;
     --ds-line-height-snug:          1.2;
     --ds-line-height-normal:        1.5;
     --ds-line-height-relaxed:       1.6;
@@ -107,39 +117,37 @@
     --ds-letter-spacing-tight:      -0.02em;
     --ds-letter-spacing-wide:       0.05em;
     --ds-letter-spacing-wider:      0.1em;
-    --ds-letter-spacing-widest:     0.2em;
+    --ds-letter-spacing-widest:     0.14em;
 
     /* ============================================
-       BORDER RADIUS  (L'Atelier shape language)
+       BORDER RADIUS  (French Academy scale)
        ============================================ */
-    --ds-radius-xs:                 0.125rem;   /* 2px  — subtle */
-    --ds-radius-sm:                 0.25rem;    /* 4px */
-    --ds-radius-md:                 0.5rem;     /* 8px */
-    --ds-radius-lg:                 0.75rem;    /* 12px — button */
-    --ds-radius-xl:                 1rem;       /* 16px */
-    --ds-radius-2xl:                1.5rem;     /* 24px */
-    --ds-radius-3xl:                2rem;       /* 32px — cards */
-    --ds-radius-4xl:                3rem;       /* 48px — CTA sections */
-    --ds-radius-full:               9999px;     /* pill */
+    --ds-radius-xs:                 4px;
+    --ds-radius-sm:                 8px;
+    --ds-radius-md:                 12px;
+    --ds-radius-lg:                 14px;
+    --ds-radius-xl:                 18px;
+    --ds-radius-2xl:                22px;
+    --ds-radius-3xl:                24px;
+    --ds-radius-full:               999px;
 
     /* ============================================
        SHADOWS
        ============================================ */
-    --ds-shadow-sm:     0 1px 3px rgba(18, 28, 42, 0.06);
-    --ds-shadow-md:     0 4px 12px rgba(18, 28, 42, 0.08);
-    --ds-shadow-lg:     0 12px 32px rgba(18, 28, 42, 0.10);
-    --ds-shadow-xl:     0 24px 64px rgba(18, 28, 42, 0.15);
-    --ds-shadow-primary:0 4px 20px rgba(0, 74, 198, 0.20);
-    --ds-shadow-primary-sm: 0 4px 12px rgba(0, 74, 198, 0.12);
-    --ds-shadow-card:   0px 12px 32px rgba(18, 28, 42, 0.06);
+    --ds-shadow-sm:     0 2px 8px rgba(0, 0, 0, 0.04);
+    --ds-shadow-md:     0 10px 30px rgba(10, 37, 64, 0.08);
+    --ds-shadow-lg:     0 20px 50px rgba(10, 37, 64, 0.14);
+    --ds-shadow-primary: 0 8px 20px rgba(225, 29, 72, 0.35);
+    --ds-shadow-primary-hover: 0 12px 26px rgba(225, 29, 72, 0.45);
 
     /* ============================================
        GRADIENTS
        ============================================ */
-    --ds-gradient-primary:         linear-gradient(135deg, #004ac6, #2563eb);
-    --ds-gradient-primary-hover:   linear-gradient(135deg, #003ea8, #1d4ed8);
-    --ds-gradient-hero:            linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
-    --ds-gradient-amber:           linear-gradient(135deg, #8a5100, #fe9800);
+    --ds-gradient-primary:         linear-gradient(135deg, var(--ds-secondary), var(--ds-accent));
+    --ds-gradient-nav:             linear-gradient(135deg, var(--ds-secondary), var(--ds-accent));
+    --ds-gradient-hero:            linear-gradient(180deg, #FFFFFF, #F7F9FC);
+    --ds-gradient-final-cta:       linear-gradient(135deg, var(--ds-primary), #0B1E3B);
+    --ds-gradient-teacher:         linear-gradient(135deg, #FEF3C7, #FED7AA);
 
     /* ============================================
        TRANSITIONS  (L'Atelier micro-animations)

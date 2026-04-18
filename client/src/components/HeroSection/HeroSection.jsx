@@ -1,100 +1,87 @@
-import { Link } from 'react-router-dom';
 import styles from './HeroSection.module.css';
 
-const HeroSection = ({
-  title,
-  subtitle,
-  ctaText,
-  backgroundImage,
-  onCtaClick
-}) => {
-  const handleCtaClick = () => {
-    if (onCtaClick) {
-      onCtaClick();
-    } else {
-      const coursesSection = document.getElementById('featured-courses');
-      if (coursesSection) {
-        coursesSection.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        window.location.href = '/courses';
-      }
-    }
-  };
-
+const HeroSection = () => {
   return (
-    <section
-      className={styles.heroSection}
-      role="banner"
-      aria-labelledby="hero-title"
-      aria-describedby="hero-subtitle"
-    >
-      <div className={styles.grid}>
-        {/* ---- Left: text content ---- */}
-        <div className={styles.textContent}>
-          <span className={styles.overline}>Élégance et Éducation</span>
+    <section className={styles.hero} role="banner" aria-labelledby="hero-title">
+      <div className={styles.container}>
+        <div className={styles.heroGrid}>
+          {/* Left: text content */}
+          <div>
+            <span className="eyebrow">TEF Canada · TCF Canada · CLB 7+</span>
+            <h1 id="hero-title">
+              French is your shortcut to staying in Canada — and getting PR.
+            </h1>
+            <p className={styles.lede}>
+              Live online small-batch French classes built specifically for Canadians on a work permit or PR journey.{' '}
+              <strong>CLB 5 in 4–5 months</strong> unlocks a work permit extension via the Francophone Mobility Program.{' '}
+              <strong>CLB 7 in 9 months</strong> unlocks +50 CRS points for Express Entry. 5 live classes a week. 98% pass rate.
+            </p>
 
-          <h1 id="hero-title" className={styles.title}>
-            {title
-              ? title
-              : <>Master the Art of <span className={styles.titleAccent}>French.</span></>
-            }
-          </h1>
+            <div className={styles.heroCta}>
+              <a href="/#courses" className={`btn-primary ${styles.btnLg}`}>
+                Enroll in Next Batch →
+              </a>
+              <a href="#results" className={`btn-secondary ${styles.btnLg}`}>
+                See Student Results
+              </a>
+            </div>
 
-          <p id="hero-subtitle" className={styles.subtitle}>
-            {subtitle ||
-              "Experience a curated approach to language learning. From the streets of Paris to global boardrooms, we refine your voice with academic rigour and cultural soul."
-            }
-          </p>
-
-          <div className={styles.ctaGroup}>
-            <button
-              className={styles.ctaButton}
-              onClick={handleCtaClick}
-              type="button"
-              aria-describedby="hero-title hero-subtitle"
-            >
-              {ctaText || 'View Programs'}
-              <span className="sr-only"> - Navigate to featured courses section</span>
-            </button>
-
-            <Link to="/courses" className={styles.ctaSecondary}>
-              Browse All Courses
-            </Link>
-          </div>
-        </div>
-
-        {/* ---- Right: image card ---- */}
-        <div className={styles.imageContent}>
-          <div className={styles.imageWrapper}>
-            {backgroundImage ? (
-              <img
-                src={backgroundImage}
-                alt="Students learning French in an elegant academic setting"
-                className={styles.heroImage}
-                loading="eager"
-              />
-            ) : (
-              /* Gradient placeholder card when no image is provided */
-              <div
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  background: 'linear-gradient(135deg, #004ac6 0%, #2563eb 60%, #fe9800 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  minHeight: '28rem',
-                }}
-              >
-                <span style={{ fontSize: '5rem', filter: 'brightness(0) invert(1)', opacity: 0.6 }}>
-                  🎓
-                </span>
+            <div className={styles.heroMeta}>
+              <div className={styles.avatars}>
+                <span style={{ background: '#3B82F6' }}>A</span>
+                <span style={{ background: '#E11D48' }}>R</span>
+                <span style={{ background: '#F59E0B' }}>S</span>
+                <span style={{ background: '#10B981' }}>+</span>
               </div>
-            )}
+              <div>
+                <div className={styles.stars}>★★★★★</div>
+                <div className={styles.ratingText}>
+                  <strong>4.9/5</strong> from 500+ Canada PR students
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Decorative amber blob */}
-          <div className={styles.blob} aria-hidden="true" />
+          {/* Right: transformation visual */}
+          <div className={styles.heroVisual}>
+            <div className={styles.visualLabel}>Your TEF/TCF Transformation</div>
+
+            <div className={styles.scoreCard}>
+              <div className={styles.scoreRow}>
+                <span className={styles.scoreLabel}>Month 1 · Beginner</span>
+                <span className={styles.scoreVal} style={{ color: '#FCA5A5' }}>A1</span>
+              </div>
+              <div className={styles.bar}><div style={{ width: '18%' }} /></div>
+            </div>
+
+            <div className={styles.scoreCard}>
+              <div className={styles.scoreRow}>
+                <span className={styles.scoreLabel}>Month 4–5 · Working proficiency</span>
+                <span className={styles.scoreVal} style={{ color: '#FDE68A' }}>CLB 5</span>
+              </div>
+              <div className={styles.bar}><div style={{ width: '55%' }} /></div>
+            </div>
+
+            <div className={styles.scoreCard}>
+              <div className={styles.scoreRow}>
+                <span className={styles.scoreLabel}>Month 9 · PR-ready</span>
+                <span className={styles.scoreVal} style={{ color: '#86EFAC' }}>CLB 7 · B2</span>
+              </div>
+              <div className={styles.bar}><div style={{ width: '85%' }} /></div>
+            </div>
+
+            <div className={`${styles.scoreCard} ${styles.scoreCardHighlight}`}>
+              <div className={styles.scoreRow}>
+                <span className={styles.scoreLabelGreen}>Canada PR bonus points</span>
+                <span className={styles.scoreVal} style={{ color: '#fff' }}>+50</span>
+              </div>
+              <div className={styles.scoreSubtext}>Unlocked via French proficiency</div>
+            </div>
+
+            <div className={styles.badgeFloat}>
+              <span className={styles.dot} /> 98% Pass Rate
+            </div>
+          </div>
         </div>
       </div>
     </section>

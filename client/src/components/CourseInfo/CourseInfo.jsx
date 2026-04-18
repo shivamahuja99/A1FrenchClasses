@@ -7,41 +7,51 @@ const CourseInfo = ({ course }) => {
         return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     };
 
+    const detailItems = [
+        {
+            icon: '📚',
+            title: 'Number of Lectures',
+            value: `${course.num_lectures || 'TBA'} lectures`
+        },
+        {
+            icon: '📅',
+            title: 'Start Date',
+            value: formatDate(course.start_date)
+        },
+        {
+            icon: '🏁',
+            title: 'End Date',
+            value: formatDate(course.end_date)
+        },
+        {
+            icon: '🕐',
+            title: 'Class Timing',
+            value: course.class_timing || 'TBA'
+        }
+    ];
+
     return (
         <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Course Details</h2>
+            <div className={styles.sectionHead}>
+                <span className="eyebrow">Course Snapshot</span>
+                <h2 className={styles.sectionTitle}>Everything You Need to Plan Your Learning</h2>
+                <p className={styles.sectionCopy}>
+                    Clear schedule, structure, and outcomes so you can commit with confidence.
+                </p>
+            </div>
+
             <div className={styles.detailsGrid}>
-                <div className={styles.detailItem}>
-                    <div className={styles.detailIcon}>📚</div>
-                    <div className={styles.detailContent}>
-                        <h3 className={styles.detailTitle}>Number of Lectures</h3>
-                        <p className={styles.detailValue}>{course.num_lectures || 'TBA'} lectures</p>
+                {detailItems.map((item) => (
+                    <div key={item.title} className={styles.detailItem}>
+                        <div className={styles.detailIconWrap}>
+                            <div className={styles.detailIcon}>{item.icon}</div>
+                        </div>
+                        <div className={styles.detailContent}>
+                            <h3 className={styles.detailTitle}>{item.title}</h3>
+                            <p className={styles.detailValue}>{item.value}</p>
+                        </div>
                     </div>
-                </div>
-
-                <div className={styles.detailItem}>
-                    <div className={styles.detailIcon}>📅</div>
-                    <div className={styles.detailContent}>
-                        <h3 className={styles.detailTitle}>Start Date</h3>
-                        <p className={styles.detailValue}>{formatDate(course.start_date)}</p>
-                    </div>
-                </div>
-
-                <div className={styles.detailItem}>
-                    <div className={styles.detailIcon}>🏁</div>
-                    <div className={styles.detailContent}>
-                        <h3 className={styles.detailTitle}>End Date</h3>
-                        <p className={styles.detailValue}>{formatDate(course.end_date)}</p>
-                    </div>
-                </div>
-
-                <div className={styles.detailItem}>
-                    <div className={styles.detailIcon}>🕐</div>
-                    <div className={styles.detailContent}>
-                        <h3 className={styles.detailTitle}>Class Timing</h3>
-                        <p className={styles.detailValue}>{course.class_timing || 'TBA'}</p>
-                    </div>
-                </div>
+                ))}
             </div>
         </section>
     );

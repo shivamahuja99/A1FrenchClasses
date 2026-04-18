@@ -66,6 +66,20 @@ const CourseDetailsPage = () => {
         }
     };
 
+    const handleStartLearning = () => {
+        if (!course?.course_url) {
+            navigate('/profile');
+            return;
+        }
+
+        if (course.course_url.startsWith('http://') || course.course_url.startsWith('https://')) {
+            window.open(course.course_url, '_blank', 'noopener,noreferrer');
+            return;
+        }
+
+        navigate(course.course_url);
+    };
+
     if (isLoading) {
         return (
             <div className={styles.courseDetailsPage}>
@@ -100,7 +114,7 @@ const CourseDetailsPage = () => {
                     <div className={styles.errorContainer}>
                         <h2>Error Loading Course</h2>
                         <p>Unable to load course details. Please try again later.</p>
-                        <button onClick={() => navigate('/courses')} className={styles.backButton}>
+                        <button onClick={() => navigate('/courses')} className="btn btn-secondary">
                             Back to Courses
                         </button>
                     </div>
@@ -128,7 +142,7 @@ const CourseDetailsPage = () => {
                     <div className={styles.errorContainer}>
                         <h2>Course Not Found</h2>
                         <p>The course you're looking for doesn't exist.</p>
-                        <button onClick={() => navigate('/courses')} className={styles.backButton}>
+                        <button onClick={() => navigate('/courses')} className="btn btn-secondary">
                             Back to Courses
                         </button>
                     </div>
@@ -193,6 +207,7 @@ const CourseDetailsPage = () => {
                             addedToCart={addedToCart}
                             isInCart={isInCart}
                             isEnrolled={isEnrolled}
+                            onStartLearning={handleStartLearning}
                             onBuyNow={handleBuyNow}
                             onAddToCart={handleAddToCart}
                         />
@@ -216,6 +231,7 @@ const CourseDetailsPage = () => {
                 addedToCart={addedToCart}
                 isInCart={isInCart}
                 isEnrolled={isEnrolled}
+                onStartLearning={handleStartLearning}
                 onBuyNow={handleBuyNow}
                 onAddToCart={handleAddToCart}
             />
