@@ -46,7 +46,7 @@ const PurchasedCoursesList = () => {
                     </svg>
                     <h3>No courses yet</h3>
                     <p>Start learning by enrolling in a course</p>
-                    <a href="/courses" className="btn btn-primary">
+                    <a href="/#courses" className="btn btn-primary">
                         Browse Courses
                     </a>
                 </div>
