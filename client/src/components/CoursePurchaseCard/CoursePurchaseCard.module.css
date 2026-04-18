@@ -116,28 +116,6 @@
   transform: none;
 }
 
-.startLearningButton {
-  width: 100%;
-  padding: 1rem;
-  border: none;
-  border-radius: var(--ds-radius-full);
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  background: var(--ds-gradient-primary);
-  color: var(--ds-on-primary);
-  box-shadow: var(--ds-shadow-primary);
-  transition: all var(--ds-transition-normal);
-  text-align: center;
-  text-decoration: none;
-}
-
-.startLearningButton:hover {
-  opacity: 0.9;
-  transform: scale(1.015);
-  box-shadow: 0 8px 28px rgba(0, 74, 198, 0.30);
-}
-
 .buyNowButton:disabled,
 .addToCartButton:disabled {
   opacity: 0.55;
@@ -148,34 +126,41 @@
 
 /* Includes list */
 .courseIncludes {
-  padding-top: 1.75rem;
-  border-top: 1px solid var(--ds-outline-variant);
+  margin-top: 0.5rem;
+  padding: 1.1rem;
+  border-radius: var(--ds-radius-2xl);
+  background: rgba(239, 244, 255, 0.55);
+  border: 1px solid var(--ds-outline-variant);
 }
 
 .includesTitle {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--ds-outline);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  margin: 0 0 1rem;
+  margin: 0 0 0.7rem;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--ds-on-surface);
 }
 
 .includesList {
-  list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.625rem;
+  gap: 0.5rem;
 }
 
 .includesList li {
-  color: var(--ds-on-surface-variant);
-  font-size: 0.9rem;
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  align-items: flex-start;
+  gap: 0.55rem;
+  color: var(--ds-on-surface-variant);
+  font-size: 0.92rem;
+}
+
+.includesList li::before {
+  content: "✓";
+  color: var(--ds-ok);
+  font-weight: 900;
 }
 
 @media (max-width: 480px) {

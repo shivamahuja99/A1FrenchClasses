@@ -1,102 +1,92 @@
-/* InstructorInfo — L'Atelier profiles */
+.section { padding: 90px 0; }
+.container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
 
-.instructorInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.header {
-  display: flex;
-  gap: 2rem;
+.teacherGrid {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 48px;
   align-items: center;
 }
 
-.avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 4px solid #fff;
-  box-shadow: var(--ds-shadow-lg);
-  flex-shrink: 0;
-  transition: transform var(--ds-transition-normal);
-}
-.avatar:hover { transform: scale(1.05); }
-
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.avatarPlaceholder {
-  width: 100%;
-  height: 100%;
-  background: var(--ds-gradient-primary);
-  color: #fff;
+.teacherImg {
+  background: linear-gradient(135deg, #FEF3C7, #FED7AA);
+  border-radius: 22px;
+  aspect-ratio: 4/5;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
-  font-weight: 900;
+  position: relative;
+  overflow: hidden;
 }
 
-.details { flex: 1; }
-
-.name {
-  font-size: 1.75rem;
-  font-weight: 900;
-  color: var(--ds-on-surface);
-  letter-spacing: -0.03em;
-  margin: 0 0 0.25rem;
-}
-
-.role {
+.initials {
+  font-family: var(--ds-font-family-heading);
+  font-size: 7rem;
   color: var(--ds-primary);
-  font-size: 1rem;
-  font-weight: 700;
-  margin: 0 0 1.25rem;
-}
-
-.stats {
-  display: flex;
-  gap: 2.5rem;
-}
-
-.statItem {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.statValue {
-  font-weight: 900;
-  color: var(--ds-on-surface);
-  font-size: 1.25rem;
-  letter-spacing: -0.02em;
-}
-
-.statLabel {
-  font-size: 0.75rem;
   font-weight: 800;
-  color: var(--ds-outline);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  opacity: 0.3;
 }
 
-.bio {
-  color: var(--ds-on-surface-variant);
-  line-height: 1.7;
-  font-size: 1rem;
-  padding-top: 1.75rem;
-  border-top: 1px solid var(--ds-outline-variant);
+.credentials {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background: #fff;
+  padding: 16px 20px;
+  border-radius: var(--ds-radius-md);
+  box-shadow: var(--ds-shadow-sm);
 }
 
-.bio p { margin: 0; }
+.credentials strong {
+  display: block;
+  color: var(--ds-primary);
+  font-size: 1.05rem;
+}
 
-@media (max-width: 600px) {
-  .header { flex-direction: column; text-align: center; }
-  .stats { justify-content: center; gap: 1.5rem; }
-  .statItem { align-items: center; }
+.credentials span {
+  color: var(--ds-tertiary);
+  font-size: 0.85rem;
+}
+
+.bioFirst {
+  font-size: 1.05rem;
+  margin-top: 16px;
+  line-height: 1.6;
+}
+
+.bioSecond {
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+.credList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.credList span {
+  background: var(--ds-secondary-fixed);
+  color: var(--ds-secondary);
+  padding: 8px 14px;
+  border-radius: var(--ds-radius-full);
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.ctaWrap {
+  margin-top: 30px;
+}
+
+@media (max-width: 860px) {
+  .teacherGrid { grid-template-columns: 1fr; text-align: center; }
+  .teacherImg { aspect-ratio: 1/1; max-width: 400px; margin: 0 auto; }
+  .initials { font-size: 5rem; }
+  .credList { justify-content: center; }
+}
+
+@media (max-width: 760px) {
+  .section { padding: 56px 0; }
 }

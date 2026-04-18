@@ -68,7 +68,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: baseQueryWithReauth,
-    tagTypes: ['User', 'Courses', 'Reviews', 'Cart'],
+    tagTypes: ['User', 'Courses', 'Reviews', 'Cart', 'HomeContent'],
     endpoints: (builder) => ({
         // ============ Authentication Endpoints ============
 
@@ -217,6 +217,15 @@ export const apiSlice = createApi({
             providesTags: (result, error, courseId) => [{ type: 'Courses', id: courseId }],
         }),
 
+        // Homepage content blocks
+        getHomeContent: builder.query({
+            query: () => ({
+                url: '/api/home-content',
+                method: 'GET',
+            }),
+            providesTags: ['HomeContent'],
+        }),
+
         // ============ Review Endpoints (Protected) ============
 
         // Get Reviews for a Course
@@ -228,6 +237,14 @@ export const apiSlice = createApi({
             providesTags: (result, error, courseId) => [
                 { type: 'Reviews', id: courseId },
             ],
+        }),
+
+        getReviews: builder.query({
+            query: () => ({
+                url: '/api/reviews',
+                method: 'GET',
+            }),
+            providesTags: ['Reviews'],
         }),
 
         // Create Review
@@ -363,8 +380,10 @@ export const {
     // Course hooks
     useGetCoursesQuery,
     useGetCourseQuery,
+    useGetHomeContentQuery,
 
     // Review hooks
+    useGetReviewsQuery,
     useGetCourseReviewsQuery,
     useCreateReviewMutation,
     useUpdateReviewMutation,

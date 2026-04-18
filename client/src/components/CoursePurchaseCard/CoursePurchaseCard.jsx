@@ -8,9 +8,12 @@ const CoursePurchaseCard = ({
     addedToCart,
     isInCart,
     isEnrolled,
+    onStartLearning,
     onBuyNow,
     onAddToCart
 }) => {
+    const thisIncludes = Array.isArray(course?.this_includes) ? course.this_includes : [];
+
     return (
         <div className={styles.purchaseCard}>
             <div className={styles.priceSection}>
@@ -35,8 +38,9 @@ const CoursePurchaseCard = ({
             <div className={styles.purchaseActions}>
                 {isEnrolled ? (
                     <button
-                        className={styles.startLearningButton}
-                        onClick={() => window.location.href = '/profile'} // Since no lessons page yet
+                        className="btn btn-primary"
+                        onClick={onStartLearning}
+                        style={{ width: '100%' }}
                     >
                         Start Learning
                     </button>
@@ -44,16 +48,18 @@ const CoursePurchaseCard = ({
                     <>
                         <button
                             onClick={onBuyNow}
-                            className={styles.buyNowButton}
+                            className="btn btn-primary"
                             disabled={isAddingToCart || isInCart}
+                            style={{ width: '100%' }}
                         >
-                            {isAddingToCart ? 'Processing...' : (isInCart ? 'In Cart' : 'buy now')}
+                            {isAddingToCart ? 'Processing...' : (isInCart ? 'In Cart' : 'Buy Now')}
                         </button>
 
                         <button
                             onClick={onAddToCart}
-                            className={styles.addToCartButton}
+                            className="btn btn-secondary"
                             disabled={isAddingToCart || (addedToCart && !isInCart)}
+                            style={{ width: '100%' }}
                         >
                             {addedToCart ? '✓ Added to Cart' : (isInCart ? 'Go to Cart' : 'Add to Cart')}
                         </button>
@@ -64,11 +70,11 @@ const CoursePurchaseCard = ({
             <div className={styles.courseIncludes}>
                 <h3 className={styles.includesTitle}>This course includes:</h3>
                 <ul className={styles.includesList}>
-                    <li>✓ {course.num_lectures || 'Multiple'} video lectures</li>
-                    <li>✓ Live online classes</li>
-                    <li>✓ Certificate of completion</li>
-                    <li>✓ Lifetime access</li>
-                    <li>✓ Interactive exercises</li>
+                    {thisIncludes.length > 0 ? (
+                        thisIncludes.map((item) => <li key={item}>{item}</li>)
+                    ) : (
+                        <li>Course inclusions will be updated soon</li>
+                    )}
                 </ul>
             </div>
         </div>

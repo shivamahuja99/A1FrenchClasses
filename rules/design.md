@@ -1,54 +1,63 @@
-Design System Strategy: The Academic Atelier
-1. Overview & Creative North Star
-The Creative North Star for this design system is "The Digital Atelier." 
-Education—specifically the study of the French language—is a blend of rigorous structure and artistic expression. This system moves away from the "generic corporate portal" look. Instead, it adopts a high-end editorial aesthetic that mirrors the experience of a premium boutique school in Paris. 
-We break the "template" mold by leveraging Intentional Asymmetry and Tonal Depth. By utilizing white space as a functional element rather than a void, we create a layout that feels curated. This design system prioritizes a "Quiet Authority"—it is professional and clear, yet possesses a soul through sophisticated layering and a rejection of harsh, traditional UI boundaries.
-***2. Colors & Surface Philosophy
-The palette is rooted in the academic blue and the vibrant "L'Orange" accent, but it is executed through a Material 3 lens to provide depth and nuance.
-The "No-Line" Rule
-To achieve a premium feel, 1px solid borders for sectioning are strictly prohibited. Structural boundaries must be defined solely through background color shifts. For instance, a surface-container-low section should sit directly against a surface background. This creates a modern, seamless flow that feels architectural rather than "boxed in."
-Surface Hierarchy & Nesting
-Treat the UI as a series of stacked, physical layers. 
-Use surface (#f8f9ff) for the primary page background.
-Use surface-container-lowest (#ffffff) for primary content cards to create a subtle "lift."
-Use surface-container-high (#dee9fc) for interactive sidebar elements or secondary utility areas.
-The "Glass & Gradient" Rule
-To avoid a flat, "out-of-the-box" appearance:
-Floating Elements: Use Glassmorphism for navigation bars and modal overlays. Use semi-transparent surface colors with a backdrop-filter: blur(20px).
-Signature Textures: For Hero sections and primary CTAs, utilize a subtle linear gradient from primary (#004ac6) to primary-container (#2563eb). This adds a "visual pulse" and depth that flat hex codes cannot provide.
-***3. Typography: The Editorial Scale
-We use Inter exclusively, but we treat it with editorial intent. The contrast between massive display sizes and utilitarian labels creates a sophisticated hierarchy.
-Display (LG/MD/SM): Reserved for hero titles and major section headers. Use on-surface (#121c2a) with a -0.02em letter-spacing for a tight, high-end feel.
-Headline & Title: Used to guide the user through course categories. These should feel authoritative and clear.
-Body: Standardized at body-lg (16px) for high legibility. Ensure a line-height of at least 1.6 for long-form educational content.
-Labels: Use label-md for metadata (e.g., "Level: B1") in uppercase with 0.05em letter-spacing to provide a modern, "tagged" look.
-***4. Elevation & Depth
-Depth is achieved through Tonal Layering, not structural lines.
-The Layering Principle: Place a surface-container-lowest card on a surface-container-low section. This creates a natural, soft lift that mimics fine paper layering.
-Ambient Shadows: Shadows are a last resort. When used, they must be ultra-diffused. 
-Formula: 0px 12px 32px rgba(18, 28, 42, 0.06). The shadow uses a tint of on-surface to feel like natural light, never pure black.
-The "Ghost Border" Fallback: If a container requires a border for accessibility (e.g., input fields), use the outline-variant (#c3c6d7) at 20% opacity. 100% opaque borders are forbidden.
-Glassmorphism: Apply a subtle outline-variant (10% opacity) to the edge of glass containers to simulate the "catch-light" on the edge of a pane of glass.
-***5. Components
-Buttons
-Primary: Gradient fill (primary to primary-container), on-primary text, xl (12px) roundedness. No shadow.
-Secondary: surface-container-high background with primary text. This provides a tactile feel without the visual weight of a solid button.
-Tertiary: Pure text with an underline that appears on hover, utilizing the primary color.
-Input Fields
-Avoid the "box" look. Use a surface-container-low background with a bottom-border only, or a very light ghost border. 
-Focused states transition the background to surface-container-highest with a primary 2px bottom-bar indicator.
-Cards & Lists
-The No-Divider Rule: Never use horizontal lines to separate list items. Use vertical padding (from the spacing scale) and subtle surface shifts.
-Cards: Use surface-container-lowest for the card body. On hover, the card should transition to surface-container-high with a slight 2px vertical lift.
-Signature Component: The "Leçon" Card
-For course listings, use an asymmetrical layout. Place the course level (A1, B2) as a display-sm element overlapping the edge of a surface-container-lowest card. This break in the grid signifies a modern, premium educational brand.
-***6. Do's and Don'ts
-Do:
-Use generous white space to let the French language "breathe."
-Use asymmetric layouts for images and text blocks to create a high-end magazine feel.
-Use the secondary orange (secondary-container #fe9800) sparingly as a "call-to-attention" (e.g., "Live Class Now" indicators).
-Don't:
-Don't use 1px solid dividers. Use tonal shifts or whitespace.
-Don't use pure black text. Always use on-surface (#121c2a) for a softer, more professional contrast.
-Don't use sharp corners. Adhere strictly to the xl (0.75rem) and lg (0.5rem) roundedness scale to maintain an approachable, modern "Atelier" vibe.
-Don't clutter. If a screen feels busy, increase the background-color contrast between sections instead of adding lines.
+# Design System Strategy: French Premium Academy
+
+## 1. Overview & Creative North Star
+The Creative North Star for this design system is **"The Elite French Academy."** 
+
+We move away from the asymmetrical "Digital Atelier" look towards a more structured, premium, and authoritative aesthetic. The design reflects the prestige of scoring high on Canadian official language exams (TEF/TCF) while maintaining a warm, welcoming "French" feel.
+
+## 2. Colors & Surface Philosophy
+The palette is rooted in a deep academic Navy and a vibrant French Red accent.
+
+### Color Tokens
+- **Navy (#0A2540)**: Used for primary headings, navigation, and deep backgrounds. Represents authority and structure.
+- **French Red (#E11D48)**: Used for primary actions, badges, and high-impact accents.
+- **A1 Blue (#2563EB)**: Used for secondary callouts and trust indicators.
+- **Gold (#F59E0B)**: Used for premium tiers, ratings, and critical highlights.
+- **Cream (#FFF8F1)**: Used for student testimonials and social proof sections to provide warmth.
+
+### Structural Logic
+- **Borders**: Unlike the previous "No-Line" rule, we use structural 1px borders (#E5E7EB) for card definition to maintain a clean, organized hierarchy.
+- **Gradients**: Use high-contrast gradients for major visual elements (e.g., HeroTransformation card) and deep navy radial gradients for section backgrounds.
+
+## 3. Typography: The Academic Duo
+We use a sophisticated font pair to balance prestige with modern legibility.
+
+- **Headings (Playfair Display)**: Used for H1, H2, and major titles. ExtraBold (800) for a commanding presence.
+- **Body (Inter)**: Used for all prose, UI labels, and lists. Highly legible and modern.
+
+### Specific Scales
+- **Hero Title**: 3.8rem (Playfair Display)
+- **Section Headers**: 2.6rem (Playfair Display)
+- **Eyebrows**: 0.78rem (Inter Bold, All-Caps, Wider Letter Spacing)
+
+## 4. Components & Symbols
+
+### Navigation (Glassmorphism)
+The navigation bar utilizes a white background with 85% opacity and a 20px blur to maintain context while scrolling.
+
+### The Transformation Visual (Hero)
+A signature component showing the student's journey. Uses:
+- Progress bars (`A1` -> `CLB 5` -> `CLB 7`).
+- Floating badges ("98% Pass Rate").
+- High-contrast value cards ("+50 CRS Points").
+
+### Course Cards (The Ribbon Rule)
+Courses are presented as distinct "Paths" rather than generic listings. 
+- Use **Ribbons** to denote specific outcomes (e.g., "Work Permit Path," "PR Mastery").
+- Use checklists with green checkmarks for feature lists.
+- Featured cards get the `French Red` border and a subtle scale lift.
+
+### Trust Indicators
+- Clean, vertical stacks showing: Count (Playfair) + Label (Muted Inter).
+
+## 5. Do's and Don'ts
+
+### Do:
+- Use **French Red** for the most important "Enroll" actions.
+- Use **Playfair Display** to create a sense of history and prestige.
+- Use **Radial Gradients** in section backgrounds to create a "Visual Pulse."
+
+### Don't:
+- Don't use generic rounded blocks; adhere to the `radius-lg` (14px) and `pill` scale.
+- Don't use flat colors for large backgrounds; add subtle gradients or cream tints.
+- Don't use thin weights for headings; the Academy aesthetic requires bold, authoritative strokes.

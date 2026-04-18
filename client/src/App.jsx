@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { HomePage, CoursesPage, LoginPage, SignupPage, ProfilePage, CourseDetailsPage, CartPage, ContactPage } from './views';
+import { HomePage, LoginPage, SignupPage, ProfilePage, CourseDetailsPage, CartPage, ContactPage } from './views';
 import CheckoutSuccess from './views/CheckoutPage/CheckoutSuccess';
 import CheckoutCancel from './views/CheckoutPage/CheckoutCancel';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -54,14 +54,17 @@ const ScrollToTop = () => {
   return null;
 };
 
+import { AnnouncementBar, WhatsAppFAB } from './components';
+
 function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <AnnouncementBar />
       <AuthInitializer>
+        <WhatsAppFAB />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/courses" element={<CoursesPage />} />
           <Route path="/contact-us" element={<ContactPage />} />
           <Route path="/courses/:id" element={<CourseDetailsPage />} />
           <Route path="/login" element={<LoginPage />} />

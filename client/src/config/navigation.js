@@ -16,7 +16,7 @@ const navigationConfig = {
         },
         {
             label: "Courses",
-            href: "/courses"
+            href: "/#courses"
         },
         {
             label: "Testimonials",

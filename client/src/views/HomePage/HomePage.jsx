@@ -9,9 +9,13 @@ import {
   Footer,
   HeroSection,
   TrustIndicators,
-  CompanyStory,
   FeaturedCourses,
   CustomerTestimonials,
+  WhyUs,
+  HowItWorks,
+  BonusOffer,
+  FAQ,
+  FinalCTA,
   ErrorBoundary
 } from '../../components';
 import ProfileDropdown from '../../components/ProfileDropdown/ProfileDropdown';
@@ -109,16 +113,10 @@ const HomePage = () => {
           </ErrorBoundary>
         </div>
 
-        {/* Company Story Section */}
-        <div id="aboutus" className={styles.sectionSpacing}>
+        {/* Why Us Section */}
+        <div className={styles.sectionSpacing}>
           <ErrorBoundary>
-            <CompanyStory
-              title={companyStoryData.title}
-              mission={companyStoryData.mission}
-              story={companyStoryData.story}
-              teamImage={companyStoryData.teamImage}
-              statistics={companyStoryData.statistics}
-            />
+            <WhyUs />
           </ErrorBoundary>
         </div>
 
@@ -129,10 +127,38 @@ const HomePage = () => {
           </ErrorBoundary>
         </div>
 
+        {/* Bonus Offer Section */}
+        <div className={styles.sectionSpacing}>
+          <ErrorBoundary>
+            <BonusOffer />
+          </ErrorBoundary>
+        </div>
+
         {/* Customer Testimonials Section */}
         <div id="testimonials" className={styles.sectionSpacing}>
           <ErrorBoundary>
             <CustomerTestimonials />
+          </ErrorBoundary>
+        </div>
+
+        {/* How It Works Section */}
+        <div className={styles.sectionSpacing}>
+          <ErrorBoundary>
+            <HowItWorks />
+          </ErrorBoundary>
+        </div>
+
+        {/* FAQ Section */}
+        <div className={styles.sectionSpacing}>
+          <ErrorBoundary>
+            <FAQ />
+          </ErrorBoundary>
+        </div>
+
+        {/* Final CTA Section */}
+        <div className={styles.sectionSpacing}>
+          <ErrorBoundary>
+            <FinalCTA />
           </ErrorBoundary>
         </div>
       </main>

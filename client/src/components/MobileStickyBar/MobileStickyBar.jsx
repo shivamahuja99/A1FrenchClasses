@@ -8,6 +8,7 @@ const MobileStickyBar = ({
     addedToCart,
     isInCart,
     isEnrolled,
+    onStartLearning,
     onBuyNow,
     onAddToCart
 }) => {
@@ -16,8 +17,9 @@ const MobileStickyBar = ({
             {isEnrolled ? (
                 <div className={styles.enrolledActions}>
                     <button
-                        className={styles.startLearningButton}
-                        onClick={() => window.location.href = '/profile'}
+                        className="btn btn-primary"
+                        onClick={onStartLearning}
+                        style={{ width: '100%', padding: '12px 20px' }}
                     >
                         Start Learning
                     </button>
@@ -34,16 +36,18 @@ const MobileStickyBar = ({
                     <div className={styles.actions}>
                         <button
                             onClick={onAddToCart}
-                            className={styles.addToCartButton}
+                            className="btn btn-secondary"
                             disabled={isAddingToCart || (addedToCart && !isInCart)}
                             aria-label={isInCart ? "Go to cart" : "Add to cart"}
+                            style={{ padding: '12px', minWidth: '48px', flexShrink: 0 }}
                         >
                             {addedToCart ? '✓' : (isInCart ? '→' : '+')}
                         </button>
                         <button
                             onClick={onBuyNow}
-                            className={styles.buyNowButton}
+                            className="btn btn-primary"
                             disabled={isAddingToCart || isInCart}
+                            style={{ flex: 1, padding: '12px 20px' }}
                         >
                             {isAddingToCart ? '...' : (isInCart ? 'In Cart' : 'Buy Now')}
                         </button>

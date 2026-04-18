@@ -46,7 +46,7 @@ const PurchasedCoursesList = () => {
                     </svg>
                     <h3>No courses yet</h3>
                     <p>Start learning by enrolling in a course</p>
-                    <a href="/courses" className={styles.browseButton}>
+                    <a href="/courses" className="btn btn-primary">
                         Browse Courses
                     </a>
                 </div>
@@ -92,7 +92,7 @@ const PurchasedCoursesList = () => {
                                 <span className={styles.enrolledDate}>
                                     Enrolled: {new Date(course.enrolled_at || course.created_at).toLocaleDateString()}
                                 </span>
-                                <a href={`/courses/${course.id}`} className={styles.continueButton}>
+                                <a href={`/courses/${course.id}`} className={`btn btn-secondary ${styles.continueButton}`}>
                                     Continue Learning →
                                 </a>
                             </div>

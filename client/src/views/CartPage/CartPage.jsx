@@ -89,7 +89,7 @@ const CartPage = () => {
                     <div className={styles.errorContainer}>
                         <h2>Error Loading Cart</h2>
                         <p>Unable to load your cart. Please try again later.</p>
-                        <button onClick={() => window.location.reload()} className={styles.retryButton}>
+                        <button onClick={() => window.location.reload()} className="btn btn-primary">
                             Try Again
                         </button>
                     </div>
@@ -119,7 +119,7 @@ const CartPage = () => {
                         <div className={styles.emptyIcon}>🛒</div>
                         <h2>Your cart is empty</h2>
                         <p>Looks like you haven't added any courses yet.</p>
-                        <button onClick={() => navigate('/courses')} className={styles.browseButton}>
+                        <button onClick={() => navigate('/courses')} className="btn btn-primary">
                             Browse Courses
                         </button>
                     </div>
@@ -195,7 +195,7 @@ const CartPage = () => {
                         <div className={styles.cartActions}>
                             <button
                                 onClick={handleClearCart}
-                                className={styles.clearButton}
+                                className="btn btn-secondary"
                                 disabled={isClearing}
                             >
                                 Clear Cart
@@ -222,7 +222,11 @@ const CartPage = () => {
                             <span>${total.toFixed(2)}</span>
                         </div>
 
-                        <button onClick={handleCheckout} className={styles.checkoutButton} disabled={isCheckingOut}>
+                        <button
+                            onClick={handleCheckout}
+                            className={`btn btn-primary ${styles.checkoutButton}`}
+                            disabled={isCheckingOut}
+                        >
                             {isCheckingOut ? 'Processing...' : 'Proceed to Checkout'}
                         </button>
 

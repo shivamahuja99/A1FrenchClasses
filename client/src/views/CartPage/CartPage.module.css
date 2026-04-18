@@ -44,24 +44,6 @@
   margin-bottom: 2rem;
 }
 
-.browseButton {
-  padding: 0.875rem 2rem;
-  background: var(--ds-gradient-primary);
-  color: var(--ds-on-primary);
-  border: none;
-  border-radius: var(--ds-radius-lg);
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all var(--ds-transition-normal);
-  box-shadow: var(--ds-shadow-primary-sm);
-  min-height: auto;
-}
-.browseButton:hover {
-  opacity: 0.9;
-  transform: scale(1.02);
-  box-shadow: var(--ds-shadow-primary);
-}
 
 /* Cart Layout */
 .cartLayout {
@@ -192,27 +174,6 @@
   justify-content: flex-end;
 }
 
-.clearButton {
-  background: none;
-  border: 1px solid var(--ds-outline-variant);
-  color: var(--ds-on-surface-variant);
-  padding: 0.625rem 1.25rem;
-  border-radius: var(--ds-radius-full);
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.875rem;
-  transition: all var(--ds-transition-fast);
-  min-height: auto;
-  box-shadow: none;
-}
-.clearButton:hover {
-  background: var(--ds-error-container);
-  color: var(--ds-error);
-  border-color: var(--ds-error);
-  transform: none;
-  box-shadow: none;
-}
-
 /* Order Summary sidebar */
 .orderSummary {
   background: var(--ds-surface-container-lowest);
@@ -252,28 +213,7 @@
 
 .checkoutButton {
   width: 100%;
-  padding: 1rem;
-  background: var(--ds-gradient-primary);
-  color: var(--ds-on-primary);
-  border: none;
-  border-radius: var(--ds-radius-full);
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
   margin-top: 1.5rem;
-  transition: all var(--ds-transition-normal);
-  box-shadow: var(--ds-shadow-primary);
-  min-height: auto;
-}
-.checkoutButton:hover {
-  opacity: 0.9;
-  box-shadow: 0 8px 28px rgba(0, 74, 198, 0.30);
-  transform: scale(1.015);
-}
-.checkoutButton:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-  transform: none;
 }
 
 .secureCheckout {

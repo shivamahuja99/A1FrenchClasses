@@ -1,108 +1,52 @@
-import styles from './Footer.module.css';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import styles from './Footer.module.css';
 
-const Footer = ({
-  logo,
-  companyInfo = {},
-  navigationLinks = [],
-  socialLinks = [],
-  contactInfo = {}
-}) => {
-  const currentYear = new Date().getFullYear();
-
-  // Fallback links if none provided
-  const links = navigationLinks.length > 0 ? navigationLinks : [
-    { label: 'Programs', href: '/courses' },
-    { label: 'About Us', href: '/about' },
-    { label: 'Contact', href: '/contact-us' }
-  ];
-
-  return (
-    <footer id="footer" className={styles.footer} role="contentinfo">
-      <div className={styles.container}>
-        <div className={styles.footerContent}>
-          {/* Company Section */}
-          <div className={styles.companySection}>
-            <div className={styles.logo}>
-              {logo ? (
-                <img src={logo} alt="A1 French Classes logo" className={styles.logoImage} />
-              ) : (
-                <span className={styles.logoText}>A1 FRENCH CLASSES</span>
-              )}
+const Footer = () => {
+    return (
+        <footer className={styles.footer}>
+            <div className={styles.container}>
+                <div className={styles.footGrid}>
+                    <div>
+                        <Link to="/" className={styles.logo}>
+                            <span className={styles.logoMark}>A1</span>
+                            <span>A1 French Classes</span>
+                        </Link>
+                        <p className={styles.desc}>Canada's trusted online French coaching for PR aspirants. 5 live classes a week. 98% TEF/TCF pass rate.</p>
+                        <div className={styles.socials}>
+                            <a href="#" aria-label="Instagram">📷</a>
+                            <a href="#" aria-label="YouTube">▶</a>
+                            <a href="#" aria-label="Facebook">f</a>
+                            <a href="#" aria-label="LinkedIn">in</a>
+                        </div>
+                    </div>
+                    <div>
+                        <h4>Courses</h4>
+                        <Link to="/courses/9577b728-e64b-43a9-b822-7ae5e8eebbba">CLB 5 Foundation</Link>
+                        <Link to="/courses/3ac37cc0-dc58-499b-934e-349b7b59ea22">CLB 7 PR Mastery</Link>
+                        <a href="#">Free Placement Test</a>
+                    </div>
+                    <div>
+                        <h4>Resources</h4>
+                        <a href="#">TEF vs TCF Guide</a>
+                        <a href="#">CRS Points Calculator</a>
+                        <a href="#">Sample Mock Exam</a>
+                        <a href="#faq">FAQ</a>
+                    </div>
+                    <div>
+                        <h4>Contact</h4>
+                        <a href="mailto:hello@a1frenchclasses.ca">hello@a1frenchclasses.ca</a>
+                        <a href="#">+1 (XXX) XXX-XXXX</a>
+                        <a href="#">WhatsApp us</a>
+                        <a href="#">Book a free call</a>
+                    </div>
+                </div>
+                <div className={styles.footBottom}>
+                    © 2026 A1 French Classes · All rights reserved · Made with ❤️ for future Canadians
+                </div>
             </div>
-            <p className={styles.companyDescription}>
-              {companyInfo.description || 'Learn French with confidence through our expert-led courses and proven methodology.'}
-            </p>
-            
-            <div className={styles.socialLinks}>
-              <h3 className={styles.sectionTitle}>Connect</h3>
-              <ul className={styles.socialList} role="list">
-                {socialLinks.map((social, index) => (
-                  <li key={index} className={styles.socialItem}>
-                    <a href={social.url} className={styles.socialLink} target="_blank" rel="noopener noreferrer">
-                      <span className="sr-only">{social.platform}</span>
-                      {/* Using platform name as placeholder for icons */}
-                      <span style={{fontSize: '0.8rem', fontWeight: 800}}>{social.platform.substring(0, 2).toUpperCase()}</span>
-                    </a>
-                  </li>
-                ))}
-                {socialLinks.length === 0 && (
-                  <>
-                    <li className={styles.socialItem}><a href="#" className={styles.socialLink}>FB</a></li>
-                    <li className={styles.socialItem}><a href="#" className={styles.socialLink}>TW</a></li>
-                  </>
-                )}
-              </ul>
-            </div>
-          </div>
-
-          {/* Quick Links Section */}
-          <div className={styles.linksSection}>
-            <h3 className={styles.sectionTitle}>Programs</h3>
-            <nav role="navigation">
-              <ul className={styles.linksList} role="list">
-                {links.map((link, index) => (
-                  <li key={index} className={styles.linkItem}>
-                    <Link to={link.href} className={styles.footerLink}>
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
-
-          {/* Contact Information Section */}
-          <div className={styles.contactSection}>
-            <h3 className={styles.sectionTitle}>Toronto Studio</h3>
-            <address className={styles.contactInfo}>
-              <div className={styles.contactItem}>
-                <span className={styles.contactLabel}>Email</span>
-                <a href={`mailto:${contactInfo.email || 'hello@a1frenchclasses.ca'}`} className={styles.contactLink}>
-                  {contactInfo.email || 'hello@a1frenchclasses.ca'}
-                </a>
-              </div>
-              <div className={styles.contactItem}>
-                <span className={styles.contactLabel}>Location</span>
-                <span className={styles.contactText}>{contactInfo.address || 'Toronto, ON Canada'}</span>
-              </div>
-            </address>
-          </div>
-        </div>
-
-        {/* Footer Bottom */}
-        <div className={styles.footerBottom}>
-          <div className={styles.copyright}>
-            <p>© {currentYear} A1 FRENCH CLASSES. All rights reserved.</p>
-          </div>
-          <nav className={styles.legalLinks} aria-label="Legal">
-            <Link to="/privacy" className={styles.legalLink}>Privacy</Link>
-            <Link to="/terms" className={styles.legalLink}>Terms</Link>
-          </nav>
-        </div>
-      </div>
-    </footer>
-  );
+        </footer>
+    );
 };
 
 export default Footer;

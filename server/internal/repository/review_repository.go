@@ -38,7 +38,7 @@ func (r *PostgresReviewRepository) Create(ctx context.Context, review *models.Re
 
 func (r *PostgresReviewRepository) FindByID(ctx context.Context, id string) (*models.Review, error) {
 	var review models.Review
-	if err := r.db.WithContext(ctx).First(&review, "id = ?", id).Error; err != nil {
+	if err := r.db.WithContext(ctx).Preload("User").First(&review, "id = ?", id).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, ErrReviewNotFound
 		}
@@ -49,7 +49,10 @@ func (r *PostgresReviewRepository) FindByID(ctx context.Context, id string) (*mo
 
 func (r *PostgresReviewRepository) FindAll(ctx context.Context) ([]*models.Review, error) {
 	var reviews []*models.Review
-	if err := r.db.WithContext(ctx).Find(&reviews).Error; err != nil {
+	if err := r.db.WithContext(ctx).
+		Preload("User").
+		Order("id ASC").
+		Find(&reviews).Error; err != nil {
 		return nil, fmt.Errorf("failed to list reviews: %w", err)
 	}
 	return reviews, nil
