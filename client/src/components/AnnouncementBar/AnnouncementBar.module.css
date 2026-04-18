@@ -1,0 +1,21 @@
+.banner {
+    background: var(--ds-primary);
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    z-index: 100;
+}
+
+.banner strong {
+    color: var(--ds-warning);
+}
+
+@media (max-width: 760px) {
+    .banner {
+        font-size: 0.82rem;
+        padding: 9px 14px;
+        line-height: 1.35;
+    }
+}
